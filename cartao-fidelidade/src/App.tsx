@@ -22,7 +22,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.tsx</code> teste alguma coisa
+          Edit <code>src/App.tsx</code> teste segundo commit
         </p>
       </div>
       <p className="read-the-docs">
