@@ -87,8 +87,8 @@
 @media (max-width: 400px) {
   .cartao {
     padding: 0.5rem;
-    min-width: 18rem;
-    max-height: 8.75rem;
+    min-width: 21rem;
+    max-height: 10rem;
     min-height: auto; 
     border-radius: 0.75rem;
   }
@@ -105,7 +105,7 @@
   .cliente{
     padding-top: 0.5rem;
     padding-left: 0.5rem;
-    padding-bottom: 0.2rem ;
+    padding-bottom: 0.8rem ;
   }
   .ponto {
     font-size: 2.5rem; 

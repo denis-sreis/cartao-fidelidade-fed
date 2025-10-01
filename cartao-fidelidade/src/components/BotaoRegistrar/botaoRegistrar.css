@@ -20,7 +20,7 @@
     font-family: 'Poppins', sans-serif;
 
 }
-@media (max-width: 320px) {
+@media (max-width: 400px) {
     .botao{
         padding-left: 0.5rem;
         padding-right: 0.5rem;

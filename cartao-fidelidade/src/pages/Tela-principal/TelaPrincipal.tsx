@@ -23,8 +23,11 @@ function TelaPrincipal() {
           <h1 className='headerPremios'>Prêmios</h1>
           <h2 className='headerPremios'>Recomendados para você</h2>
         </div>
+        <div className='listaPremios'>
+            <ListaPremios/>
+        </div>
+      
       </main>
-      <ListaPremios/>
       <footer className='rodapeTP'>
         <Navegacao/>
       </footer>
