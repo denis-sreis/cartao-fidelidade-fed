@@ -1,0 +1,68 @@
+.telaPrincipal{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;
+}
+.cabecalhoTP{
+    width: 100%;
+    margin: 0;
+    padding-bottom: 1.5rem;
+}
+.principalTP{
+  flex-grow: 1; 
+  padding: 0 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.premiosTP{
+    margin: 0;
+}
+.premiosTP h1{
+    color: white;
+    margin: 0;
+    font-size: 2.5rem;
+    padding-left: 0.5rem;
+}
+.premiosTP h2{
+    color:#BCC1CD;
+    margin: 0;
+    font-size: 1.5rem;
+}
+.botaoRegistrarTP{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.rodapeTP{
+  width: 100%;
+}
+
+.textoPontoTP{
+    font-size: 1.5rem;;
+    color: white;
+    align-self: flex-start;
+    margin:0;
+}
+.cartaoPontosTP{
+    align-self: center;
+}
+.botaoRegistrarTP{
+    justify-content: flex-end;
+}
+@media (max-width: 320px){
+    .textoTituloTP{
+        font-size: 0.5rem;
+    }
+    .premiosTP h1{
+    font-size: 1.5rem;
+    padding-left: 0.5rem;
+    }
+    .premiosTP h2{
+        font-size: 1rem;
+    }
+}
