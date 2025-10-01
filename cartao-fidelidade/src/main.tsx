@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import Home from './pages/Home/Index.tsx'
+import TelaPrincipal from './pages/Tela-principal/TelaPrincipal'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Home />
+    <TelaPrincipal />
   </StrictMode>
 )

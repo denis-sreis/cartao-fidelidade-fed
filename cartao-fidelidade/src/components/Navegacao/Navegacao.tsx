@@ -1,15 +1,15 @@
 import './navegacao.css';
-import  HomeIcon from './homeSelecionada.svg?react'; 
-import  UserIcon from './usuarioNSelecionado.svg?react'; 
+import  HomeIcon from './homeSelecionada.png'; 
+import  UserIcon from './usuarioNSelecionado.png'; 
 
 function Navegacao() {
   return (
     <div className={'rodape'}>
         <button className={'botaoHome'}>
-            <HomeIcon className="iconeHome" />
+            <img src={HomeIcon} className="iconeHome" />
         </button>
         <button className={'botaoUsuario'}>
-            <UserIcon className="iconeUsuario" />
+            <img src={UserIcon} className="iconeUsuario" />
         </button>
         
     </div>

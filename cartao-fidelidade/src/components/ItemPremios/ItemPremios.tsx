@@ -1,5 +1,5 @@
 import './itemPremios.css';
-import  Canto from './corner.svg?react'; 
+import  Canto from './corner.png'; 
 
 interface ItemPremiosProps {
   nome: string;
@@ -11,7 +11,7 @@ function ItemPremios({ nome, pontos, imagemUrl }: ItemPremiosProps) {
   return (
     <div className={'itemPremio'}>
         <div className='premio'>
-            <Canto className='canto'/>
+            <img src={Canto} className='canto'/>
             <h1 className='num'>{pontosFormatados}</h1>
             <h1 className='pontosLabel'>pontos</h1>
             <img src={imagemUrl} alt={nome} className="comida" />

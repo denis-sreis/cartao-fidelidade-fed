@@ -58,7 +58,7 @@
     height: auto;
     z-index: 1;
 }
-@media (max-width: 321px){
+@media (max-width: 320px){
     .itemPremio{
         padding: 0;
     }

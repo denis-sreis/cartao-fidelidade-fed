@@ -1,6 +1,6 @@
 import './cartaoPontos.css'
 import logo from './logoGorduchinhosII.jpg'
-import  Elipse from './Ellipse.svg?react'; 
+import ellipse from './Ellipse.png'
 
 interface DadosUsuario {
   nome: string;
@@ -13,7 +13,7 @@ function CartaoPontos({ nome, nivel, pontosAtuais, tempoExpirar }: DadosUsuario)
   return (
     <>
     <div className={'cartao'}>
-    <Elipse className={'elipse'}/>
+    <img src={ellipse} className={'elipse'}/>
     <img src={logo} className={'logo'} />
     <div className={'cliente'}>
         <h1 className={'nome'}>{nome}</h1>

@@ -84,7 +84,7 @@
   height: auto;
   z-index: 1;
 }
-@media (max-width: 320px) {
+@media (max-width: 400px) {
   .cartao {
     padding: 0.5rem;
     min-width: 18rem;

@@ -3,6 +3,7 @@ import ItemPremio from '../../components/ItemPremios/ItemPremios';
 import './listaPremios.css';
 
 function ListaPremios() {
+  console.log(premios);
   return (
     <section className="listaPremios">
       <div className="premiosGrid">
