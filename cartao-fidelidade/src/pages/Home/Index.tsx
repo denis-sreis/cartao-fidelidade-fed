@@ -1,10 +1,9 @@
-import React from 'react';
+// src/pages/Home/Index.tsx --- SUBSTITUA TUDO POR ISTO ---
 
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Home.css';
 
 function Home() {
-
   const navigate = useNavigate();
 
   const handleLogin = (event: React.FormEvent) => {
@@ -13,34 +12,40 @@ function Home() {
   };
 
   return (
-    <div className="layout-login">
-      <div className="borda_login">
-        <center>
-          <form className="form-login" onSubmit={handleLogin}>
-            <div className="tituloLogin">
-              <span className="title-login"><h2>Entrar</h2></span>
-            </div>
-            <div className="div-CPF-CNPJ">
-              <input type="text" placeholder="Entre com CPF ou CNPJ" className="Input-login" required />
-            </div>
-            <div className="div-Senha">
-              <input type="password" placeholder="Senha" className="Input-login" required />
-            </div>
-            <center>
-              
-              <Link to="/esqueci-senha" className="link-Esqueci">Esqueci minha senha</Link>
-            </center>
-            <div className="Botão-Entrar">
-              
-              <button type="submit" className="Button-login">Entrar</button>
-            </div>
-            <div className="div-Primeira_vez">
-              <span className="Primeiravez">Primeira vez Aqui? &nbsp;</span>
-              
-              <Link to="/cadastro" className="Cadastre-se">Cadastre-se</Link>
-            </div>
-          </form>
-        </center>
+    <div className="container">
+      <div className="card">
+        <h2 className="card__title">Entrar</h2>
+
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <input 
+              type="text" 
+              placeholder="Entre com seu CPF ou CNPJ" 
+              className="form-input" 
+              required 
+            />
+          </div>
+          
+          <div className="form-group">
+            <input 
+              type="password" 
+              placeholder="Senha" 
+              className="form-input" 
+              required 
+            />
+          </div>
+          
+          <div className="form-group">
+            <button type="submit" className="btn btn-primary">
+              Entrar
+            </button>
+          </div>
+          
+          <div className="form-footer-text">
+            <span>Primeira vez aqui? </span>
+            <Link to="/cadastro" className="link">Cadastre-se</Link>
+          </div>
+        </form>
       </div>
     </div>
   );

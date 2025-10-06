@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Index';
 import Cadastro from './pages/Cadastro/Index';
 import TelaPrincipal from './pages/Tela-principal/Index';
-import EsqueciSenha from './pages/EsqueciSenha/Index';
+import EsqueciSenha from './pages/EsqueciSenha';
 
 
 import './index.css';
