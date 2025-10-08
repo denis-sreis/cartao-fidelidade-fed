@@ -1,5 +1,6 @@
 import './cabecalho.css';
 import menu from './Menu.png'
+import { Link } from 'react-router-dom';
 
 function Cabecalho() {
   return (
@@ -7,10 +8,9 @@ function Cabecalho() {
         <button className={'botaoMenu'}>
             <img src={menu} className="icone" />
         </button>
-        <button className={'botaoPerfil'}>
-            <img src={"https://thispersondoesnotexist.com/"} className={'fotoPerfil'} />
-        </button>
-        
+        <Link to="/perfil" className={'botaoPerfil'}>
+          <img src={"https://thispersondoesnotexist.com/"} className={'fotoPerfil'} />
+        </Link>
     </div>
   );
 }

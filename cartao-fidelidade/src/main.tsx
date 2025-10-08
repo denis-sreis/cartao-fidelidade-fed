@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
@@ -10,7 +9,6 @@ import TelaPrincipal from './pages/Tela-principal/Index';
 import EsqueciSenha from './pages/EsqueciSenha/Index';
 import PerfilCliente from './pages/PerfilCliente/Index';
 import EditarDados from './pages/EditarDados/Index';
-
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
