@@ -1,5 +1,3 @@
-// src/pages/Home/Index.tsx --- SUBSTITUA TUDO POR ISTO ---
-
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
