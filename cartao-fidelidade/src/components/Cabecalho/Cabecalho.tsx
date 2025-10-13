@@ -1,11 +1,13 @@
 import './cabecalho.css';
 import menu from './Menu.png'
 import { Link } from 'react-router-dom';
-
-function Cabecalho() {
+interface CabecalhoProps {
+  onAbrirMenu: () => void;
+}
+function Cabecalho({ onAbrirMenu }: CabecalhoProps) {
   return (
     <div className={'cabecalho'}>
-        <button className={'botaoMenu'}>
+        <button className={'botaoMenu'} onClick={onAbrirMenu}>
             <img src={menu} className="icone" />
         </button>
         <Link to="/perfil" className={'botaoPerfil'}>
