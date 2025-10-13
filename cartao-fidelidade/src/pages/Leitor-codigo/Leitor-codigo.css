@@ -1,0 +1,153 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; 
+  -webkit-tap-highlight-color: transparent; 
+}
+
+
+
+.qrcode-reader-element {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent; 
+  position: relative; 
+}
+
+
+#reader video,
+#reader canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; 
+}
+
+
+
+/*  ESTILOS GERAIS */
+
+
+.leitor-codigo-container {
+  background-color: #000000; 
+  min-height: 100vh; 
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; 
+  padding: 1rem; 
+  box-sizing: border-box; 
+  font-family: 'Poppins', sans-serif; 
+  color: #FFFFFF; 
+}
+
+
+.leitor-codigo-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  padding: 1rem 0.5rem; 
+}
+
+.menu-icon {
+  width: 1.5rem; 
+  height: auto;
+}
+
+.profile-image {
+  width: 3rem; 
+  height: 3rem;
+  border-radius: 50%; 
+}
+
+/* Conteúdo Principal (Central) */
+.leitor-codigo-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  text-align: center;
+  gap: 2rem; 
+  margin-top: -4rem; 
+}
+
+.main-title {
+  font-weight: bold;
+  font-size: 2rem; 
+  color: #f9ecec; 
+}
+
+/* Container Visual da Câmera/QR Code */
+.qrcode-camera-container {
+  width: 251px; 
+  height: 282px; 
+  border-radius: 14px; 
+  overflow: hidden; 
+  background-color: #2D3748; 
+  
+}
+
+/* Botão "Registrar presença" */
+.register-button {
+  background-color: #C7541B; 
+  color: #FFFFFF; 
+  font-weight: 600; 
+  padding: 0.5rem 3rem; 
+  border-radius: 0.5rem; 
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); 
+  border: none; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #A94616; 
+}
+
+/* Texto de Instrução */
+.instruction-text {
+  max-width: 320px; 
+  text-align: center;
+  font-size: 0.875rem; 
+  font-weight: 500; 
+  color: #BCC1CD; 
+  line-height: 1.5; 
+}
+
+/* Display do Resultado da Leitura */
+.result-display {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #2D3748; 
+  border-radius: 0.375rem;
+  width: 100%;
+  max-width: 320px;
+}
+
+.result-text {
+  color: #48BB78; 
+  font-size: 0.75rem; 
+  word-break: break-all; 
+}
+
+/* Footer (Barra de Navegação Inferior) */
+.leitor-codigo-footer {
+  width: 100%;
+  max-width: 24rem; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.tabbar-image {
+  width: 100%;
+  height: auto;
+}

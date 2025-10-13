@@ -1,59 +1,89 @@
+// src/pages/Leitor-codigo/Index.tsx
+
 import { useState, useEffect } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
-import './Leitor-codigo.css';
+import { Html5Qrcode } from 'html5-qrcode';
+import './Leitor-codigo.css'; 
+
+
+import menuIcon from './menu.png';
+import profileImage from './ellipse-3.png';
+import tabbarImage from './tabbar.png';
 
 const LeitorCodigo = () => {
   const [data, setData] = useState('Aguardando leitura...');
 
   useEffect(() => {
+    let html5QrCode: Html5Qrcode; 
 
-    const scanner = new Html5QrcodeScanner(
-      'reader',
-      {
-        qrbox: { width: 250, height: 250 }, 
-        fps: 5, 
-      },
-      false
-    );
-
-    function onScanSuccess(decodedText: string) {
+    const qrCodeSuccessCallback = (decodedText: string) => {
       setData(decodedText);
-      scanner.clear(); 
-    }
+      if (html5QrCode && html5QrCode.isScanning) {
+        html5QrCode.stop().catch(err => console.error("Falha ao parar o scanner.", err));
+      }
+    };
 
-    function onScanFailure(_error: any) {
-      
-    }
+    const startScanner = () => {
+      const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+      html5QrCode = new Html5Qrcode('reader'); 
 
-    scanner.render(onScanSuccess, onScanFailure);
+      html5QrCode.start(
+        { facingMode: "environment" }, 
+        config,
+        qrCodeSuccessCallback,
+        undefined
+      ).catch(err => {
+        console.error("Não foi possível iniciar o scanner", err);
+      });
+    };
+
+    const timeoutId = setTimeout(() => {
+        startScanner();
+    }, 100); 
 
     return () => {
-      scanner.clear();
+      clearTimeout(timeoutId);
+      if (html5QrCode && html5QrCode.isScanning) {
+        html5QrCode.stop().catch(err => console.error("Falha ao parar o scanner na limpeza.", err));
+      }
     };
   }, []);
 
   return (
-    <div className="bg-black min-h-screen w-full flex flex-col items-center justify-center p-4 font-['Poppins',_sans-serif] text-white">
-      <main className="w-full flex flex-col items-center text-center gap-8">
-        <h1 className="font-bold text-3xl text-[#f9ecec]">
+    
+    <div className="leitor-codigo-container">
+      
+      <header className="leitor-codigo-header">
+        <img src={menuIcon} alt="Menu" className="menu-icon" />
+        <img src={profileImage} alt="Perfil" className="profile-image" />
+      </header>
+
+      <main className="leitor-codigo-main">
+        
+        <h1 className="main-title">
           Leitor de QR Code
         </h1>
 
-        {}
-        <div id="reader" className="w-full max-w-xs"></div>
+        <div className="qrcode-camera-container">
+          <div id="reader" className="qrcode-reader-element"></div>
+        </div>
 
-        <button className="bg-[#4A90E2] font-semibold text-white py-2 px-8 rounded-lg shadow-lg">
+        <button className="register-button">
           Registrar presença
         </button>
 
-        <p className="text-sm text-[#bcc1cd] max-w-xs">
-          Peça ao garçom para gerar o QR Code da sua presença.
+        <p className="instruction-text">
+          Peça ao garçom que está atendendo a sua mesa para gerar o QR Code da sua presença.
         </p>
         
-        <div className="mt-4 p-2 bg-gray-900 rounded-md w-full max-w-xs">
-          <p className="text-green-400 text-xs break-all">Resultado: {data}</p>
+        <div className="result-display">
+          <p className="result-text">Resultado: {data}</p>
         </div>
+
       </main>
+      
+      <footer className="leitor-codigo-footer">
+        <img src={tabbarImage} alt="Barra de navegação" className="tabbar-image" />
+      </footer>
     </div>
   );
 };
