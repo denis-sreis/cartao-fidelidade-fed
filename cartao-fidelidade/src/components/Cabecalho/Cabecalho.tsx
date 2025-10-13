@@ -1,16 +1,18 @@
 import './cabecalho.css';
 import menu from './Menu.png'
-import { Link } from 'react-router-dom';
-
-function Cabecalho() {
+interface CabecalhoProps {
+  onProfileClick: () => void;
+}
+function Cabecalho({ onProfileClick }: CabecalhoProps) {
   return (
     <div className={'cabecalho'}>
         <button className={'botaoMenu'}>
             <img src={menu} className="icone" />
         </button>
-        <Link to="/perfil" className={'botaoPerfil'}>
+        {/* Ao clicar, ele vai executar a função que a TelaPrincipal nos enviou de abrir o perfil cliente*/}
+        <button className={'botaoPerfil'} onClick={onProfileClick}>
           <img src={"https://thispersondoesnotexist.com/"} className={'fotoPerfil'} />
-        </Link>
+        </button>
     </div>
   );
 }
