@@ -1,0 +1,20 @@
+import './cabecalho.css';
+import menu from './Menu.png'
+interface CabecalhoProps {
+  onProfileClick: () => void;
+}
+function Cabecalho({ onProfileClick }: CabecalhoProps) {
+  return (
+    <div className={'cabecalho'}>
+        <button className={'botaoMenu'}>
+            <img src={menu} className="icone" />
+        </button>
+        {/* Ao clicar, ele vai executar a função que a TelaPrincipal nos enviou de abrir o perfil cliente*/}
+        <button className={'botaoPerfil'} onClick={onProfileClick}>
+          <img src={"https://thispersondoesnotexist.com/"} className={'fotoPerfil'} />
+        </button>
+    </div>
+  );
+}
+
+export default Cabecalho;

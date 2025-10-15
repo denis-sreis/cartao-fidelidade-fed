@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-
 import Home from './pages/Home/Index';
-import Cadastro from './pages/Cadastro/Index';
 import TelaPrincipal from './pages/Tela-principal/Index';
 import EsqueciSenha from './pages/EsqueciSenha/Index';
 import LeitorCodigo from './pages/Leitor-codigo/Index';
@@ -18,7 +15,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter> 
       <Routes> 
         <Route path="/" element={<Home />} /> 
-        <Route path="/cadastro" element={<Cadastro />} /> 
         <Route path="/principal" element={<TelaPrincipal />} /> 
         <Route path="/esqueci-senha" element={<EsqueciSenha />} /> 
         <Route path="/leitor-qrcode" element={<LeitorCodigo />} />

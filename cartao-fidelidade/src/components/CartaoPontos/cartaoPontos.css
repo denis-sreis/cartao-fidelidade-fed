@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+.cartao {
+    position: relative;
+    background-color: #F96922;
+    color: white;
+    max-width: 30rem;
+    min-width: 24rem;
+    margin: 0;
+    max-height: 13.75rem;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    font-size: xx-small;
+    box-sizing: border-box;
+}
+
+.elipse{
+    position: absolute;
+    top: 0rem; 
+    right: 0rem;
+    width: 7.25rem;
+    height:auto;
+    z-index: 0;
+}
+.nome, .nivel, .pontoInfo {
+    z-index: 1;
+    position: relative;
+}
+.nome {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+.cliente{
+    font-family: 'Poppins', sans-serif;
+    padding-bottom: 2rem;
+    font-weight:bold;
+}
+.nivel {
+  font-size: 1rem;
+  font-weight: 400;
+  font-size: 0.9375rem;
+  padding-left: 0.625rem;
+  margin: 0;
+}
+
+.pontos {
+  display: flex;
+  align-items: center; 
+  gap: 1rem; 
+}
+
+.ponto {
+  font-size: 3rem; 
+  font-weight: 300; 
+  line-height: 1; 
+}
+.pontoInfo{
+  margin: 0; 
+  line-height: 1.4;
+}
+.textoPontos {
+  margin: 0;
+  font-size: 1rem; 
+  font-weight: 700;
+}
+
+.tempoExpirar {
+  margin: 0;
+  font-size: 0.875rem; 
+  font-weight: 400;
+}
+.logo{
+  position: absolute;
+  top: 0.875rem;
+  right: 1.5rem;
+  width: 100%;
+  width: 3rem;
+  height: auto;
+  z-index: 1;
+}
+@media (max-width: 400px) {
+  .cartao {
+    padding: 0.5rem;
+    min-width: 21rem;
+    max-height: 10rem;
+    min-height: auto; 
+    border-radius: 0.75rem;
+  }
+  .elipse{
+    width: 5rem;
+    right: 0.6rem;
+}
+  .nome{
+    font-size: 0.9rem;  
+  }
+  .nivel{
+    font-size: 0.7rem
+  }
+  .cliente{
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.8rem ;
+  }
+  .ponto {
+    font-size: 2.5rem; 
+  }
+  
+  .textoPontos {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+  .tempoExpirar{
+    margin: 0;
+    font-size: 0.6rem;
+  }
+  .pontos {
+    gap: 0.35rem;
+  }
+
+  .logo {
+    width: 2rem;
+  }
+}

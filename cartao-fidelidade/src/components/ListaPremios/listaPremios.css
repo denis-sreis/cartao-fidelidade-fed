@@ -1,0 +1,16 @@
+.premiosGrid {
+  display: flex;          
+  flex-direction: row;   
+  gap: 2rem;              
+  overflow-x: auto;       
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.premiosGrid::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 768px) {
+  .premiosGrid{
+    gap:1rem;
+  }   
+}
