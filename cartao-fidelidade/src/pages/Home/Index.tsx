@@ -12,8 +12,9 @@ import {
 
 import './Home.css';
 
-const Link_olho_aberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png'
 const Link_olho_fechado = 'https://cdn-icons-png.flaticon.com/128/3178/3178377.png'
+const Link_olho_aberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png'
+
 
 function Home() {
   const navigate = useNavigate();
@@ -116,7 +117,7 @@ function Home() {
               onClick={() => setShowPassword(!showPassword)}
             >
               <img
-                src={showPassword ? Link_olho_fechado : Link_olho_aberto}
+                src={showPassword ? Link_olho_aberto : Link_olho_fechado}
                 alt="Mostrar/Ocultar Senha"
                 width="20"
                 height="20"
