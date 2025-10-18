@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "cpf-cnpj-validator": "^1.0.3",
+    "joi": "^18.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-imask": "^7.6.1",
