@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IMaskInput } from 'react-imask';
@@ -12,9 +13,9 @@ import {
 
 import './Home.css';
 
-const Link_olho_fechado = 'https://cdn-icons-png.flaticon.com/128/3178/3178377.png'
-const Link_olho_aberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png'
 
+const urlOlhoFechado = 'https://cdn-icons-png.flaticon.com/128/3178/3178377.png';
+const urlOlhoAberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png';
 
 function Home() {
   const navigate = useNavigate();
@@ -62,11 +63,12 @@ function Home() {
     console.log('Dados VÁLIDOS. Prosseguindo...');
     const docApenasNumeros = documento.replace(/[^\d]/g, '');
     if (docApenasNumeros.length === 11) {
-      navigate('/principal');
+      navigate('/principal'); 
     } else if (docApenasNumeros.length === 14) {
-      navigate('/admin');
+      navigate('/admin'); 
     }
   };
+
   const getPasswordStrength = () => {
     let strength = 0;
     if (reqLowercase) strength++;
@@ -116,11 +118,11 @@ function Home() {
               className="password-toggle-icon"
               onClick={() => setShowPassword(!showPassword)}
             >
+              
               <img
-                src={showPassword ? Link_olho_aberto : Link_olho_fechado}
+                src={showPassword ? urlOlhoAberto : urlOlhoFechado}
                 alt="Mostrar/Ocultar Senha"
-                width="20"
-                height="20"
+                className="eye-icon"
               />
             </span>
           </div>
