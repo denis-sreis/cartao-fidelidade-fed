@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+.cartao {
+    position: relative;
+    background-color: #F96922;
+    color: white;
+    max-width: 30rem;
+    min-width: 24rem;
+    margin: 0;
+    max-height: 13.75rem;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    font-size: xx-small;
+    box-sizing: border-box;
+}
+
+.elipse{
+    position: absolute;
+    top: 0.6rem; 
+    right: 0.9rem;
+    width: 4.25rem;
+    height:auto;
+    z-index: 0;
+}
+.textoPrincipal {
+    z-index: 1;
+    position: relative;
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight:bold;
+}
+
+.logo{
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  width: 100%;
+  width: 2rem;
+  height: auto;
+  z-index: 1;
+}

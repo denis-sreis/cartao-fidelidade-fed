@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import './telaPrincipal.css'
-import Cabecalho from '../../components/Cabecalho/Cabecalho'
-import CartaoPontos from '../../components/CartaoPontosDados/CartaoPontosDados'
-import BotaoRegistrar from '../../components/BotaoRegistrar/BotaoRegistrar'
-import Navegacao from '../../components/Navegacao/Navegacao'
-import ListaPremios from '../../components/ListaPremios/ListaPremios'
-import MenuLateral from '../../components/MenuLateral/MenuLateral'
+import Cabecalho from '../../../components/Cabecalho/Cabecalho'
+import CartaoPontos from '../../../components/CartaoPontosDados/CartaoPontosDados'
+import BotaoRegistrar from '../../../components/BotaoRegistrar/BotaoRegistrar'
+import Navegacao from '../../../components/Navegacao/Navegacao'
+import ListaPremios from '../../../components/ListaPremios/ListaPremios'
+import MenuLateral from '../../../components/MenuLateral/MenuLateral'
 
 function TelaPrincipal() {
   const [menuAberto, setMenuAberto]=useState(false);

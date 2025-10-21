@@ -6,7 +6,7 @@ function Home() {
 
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault(); 
-    navigate('/principal');
+    navigate('/principalCliente');
   };
 
   return (
