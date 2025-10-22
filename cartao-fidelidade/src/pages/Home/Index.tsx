@@ -49,7 +49,7 @@ function Home() {
       </div>
 
       {isCadastroVisible && (
-        <Cadastro onClose={() => setCadastroVisible(false)} />
+        <Cadastro onClose={() => setCadastroVisible(false)} /> 
       )}
     </>
   );

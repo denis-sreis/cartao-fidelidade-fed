@@ -118,3 +118,134 @@ body {
 
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+.btn-secondary {
+  background-color: #8E44AD; 
+  color: var(--color-surface);
+}
+
+.btn-secondary {
+  background-color: #8A3D54;
+  color: var(--color-surface);
+}
+
+/* --- Estilos para o input de data nativo --- */
+input[type="date"] {
+  padding: var(--spacing-md);
+  font-size: var(--font-size-base);
+  background-color: var(--color-input-background);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  text-align: left;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.file-input-wrapper {
+  margin-bottom: var(--spacing-md);
+}
+
+.date-select-field {
+  width: 30%;
+  padding: var(--spacing-sm);
+  font-size: 0.9rem; 
+  text-align: center;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: white; 
+  color: var(--color-text-primary);
+}
+
+/* Escondemos o input de arquivo padrão, que é feio */
+.file-input-hidden {
+  display: none;
+}
+
+.file-input-label {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-md);
+  font-size: var(--font-size-base);
+  background-color: var(--color-input-background);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-secondary); 
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.file-input-label:hover {
+  border-color: var(--color-primary);
+}
+
+/* Texto que mostra o nome do arquivo selecionado */
+.file-name-display {
+  margin-top: var(--spacing-sm);
+  font-size: 0.875rem; 
+  color: var(--color-text-secondary);
+  text-align: left;
+}
+
+.modal-sheet-large {
+  height: 90vh; /* Ocupa 90% da altura da tela */
+  max-width: 100%; /* Permite ocupar a tela toda em mobile */
+}
+
+/* --- Estilos para a lista de clientes --- */
+.client-list {
+  margin-top: var(--spacing-lg);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm); /* Espaço entre os itens da lista */
+}
+
+/* Estilo para cada item clicável da lista */
+.client-list-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.client-list-item:hover {
+  background-color: var(--color-input-background);
+}
+
+/* Estilo para a foto do cliente (circulo) */
+.client-photo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover; 
+  margin-right: var(--spacing-md);
+}
+
+/* Container para as informações (Nome e Telefone) */
+.client-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.client-info__name {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.client-info__phone {
+  font-size: 0.875rem; 
+  color: var(--color-text-secondary);
+}
