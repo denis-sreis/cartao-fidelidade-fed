@@ -1,18 +1,22 @@
 import './navegacao.css';
 import  HomeIcon from './homeSelecionada.png'; 
 import  UserIcon from './usuarioNSelecionado.png'; 
-import { Link } from 'react-router-dom';
 
-function Navegacao() {
+interface CabecalhoProps {
+  onProfileClick: () => void;
+}
+
+function Navegacao({ onProfileClick }: CabecalhoProps) {
   return (
     <div className={'rodape'}>
         <button className={'botaoHome'}>
             <img src={HomeIcon} className="iconeHome" />
         </button>
         
-        <Link to="/perfil" className={'botaoUsuario'}>
+        <button className={'botaoPerfil'} onClick={onProfileClick}>
             <img src={UserIcon} className="iconeUsuario" />
-        </Link>
+        </button>
+        
     </div>
   );
 }
