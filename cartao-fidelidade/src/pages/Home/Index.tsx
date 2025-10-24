@@ -171,3 +171,69 @@ function Home() {
 }
 
 export default Home;
+
+//Esse é o formulário de trodas as regras que validador.tsx possa ser usadas na página de login
+
+/*import {
+  loginSchema,
+  hasLowercase,
+  hasUppercase,
+  hasNumber,
+  hasSpecialChar,
+} from './validador';*/
+
+
+//É a memória do componente para saber se cada requisito da senha foi atendido ou não
+
+/*const [senha, setSenha] = useState(''); // Guarda o texto da senha
+const [showPasswordRequirements, setShowPasswordRequirements] = useState(false); // Sabe se deve mostrar a caixa de requisitos
+const [reqLowercase, setReqLowercase] = useState(false); // Guarda true/false para a regra de letras
+const [reqNumber, setReqNumber] = useState(false);       // Guarda true/false para a regra de número
+const [reqSpecialChar, setReqSpecialChar] = useState(false); // Guarda true/false para a regra de caractere especial
+const [reqMinLength, setReqMinLength] = useState(false);   // Guarda true/false para a regra de tamanho mínimo*/
+
+// Essa função é chamdas toda vez que o usuário digita na senha
+
+/*const updatePasswordRequirements = (currentPassword: string) => {
+  // Usa as ferramentas importadas para verificar cada regra e atualizar a "memória" (os estados do Código 4)
+  setReqLowercase(hasLowercase(currentPassword) && hasUppercase(currentPassword));
+  setReqNumber(hasNumber(currentPassword));
+  setReqSpecialChar(hasSpecialChar(currentPassword));
+  setReqMinLength(currentPassword.length >= 8);
+};*/
+
+//Essa função é excutado quando o usuário clica em entrar e faz a validação oficial da senha
+
+
+/*const handleLogin = (event: React.FormEvent) => {
+  // ...
+  const { error } = loginSchema.validate( // Usa a regra principal (Código 2)
+    { documento, senha },
+    { abortEarly: false }
+  );
+
+  if (error) { // Se o loginSchema encontrar um problema na senha (ou documento)
+    setErro(error.details[0].message); // Mostra a mensagem de erro traduzida
+    return;
+  }
+  // ... (continua para o login se não houver erro)
+};*/ 
+
+//Essa função, lê os estados da memória para que possa decidir o que mostrar na tela
+
+/*{showPasswordRequirements && (
+  <div className="password-requirements-box">
+    <p>Sua senha deve incluir:</p>
+    <ul>
+      <li className={reqLowercase ? 'checked' : ''}>
+        {reqLowercase ? '✅' : '❌'} Letras minúsculas e maiúsculas
+      </li>
+      <li className={reqNumber ? 'checked' : ''}>
+        {reqNumber ? '✅' : '❌'} Um número (0-9)
+      </li>
+      {/* ... e assim por diante para os outros requisitos ... }
+    </ul>
+
+  </div>
+)}
+ */ 
