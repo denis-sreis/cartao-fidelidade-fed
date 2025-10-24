@@ -11,85 +11,99 @@
     margin: 0;
     padding-bottom: 1.5rem;
 }
-.principalTP{
+.principalADMTP{
   flex-grow: 1; 
   padding: 0;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-.premiosTP{
+.ADMTP{
     padding-left: 1.5rem;
     margin: 0;
 }
-.premiosTP h1{
+.ADMTP h1{
     color: white;
     margin: 0;
-    font-size: 2em;
+    font-size: 1.5em;
     padding-left: 0.5rem;
 }
-.premiosTP h2{
+.ADMTP h2{
     color:#BCC1CD;
     margin: 0;
     font-size: 1rem;
 }
-.botaoRegistrarTP{
-    padding-right: 1.5rem;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
 
-.rodapeTP{
+.rodapeADMTP{
   width: 100%;
 }
 
-.textoPontoTP{
+.textoPontoADMTP{
     padding-left: 1.5rem;
-    font-size: 1.5rem;;
+    font-size: 2rem;;
     color: white;
     align-self: flex-start;
     margin:0;
 }
-.cartaoPontosTP{
+.cartaoADMTP{
     align-self: center;
 }
-.botaoRegistrarTP{
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    cursor: pointer;
+}
+.botaoQRADMTP{
+    padding-right: 1.5rem;
+    margin: 0;
+    display: flex;
     justify-content: flex-end;
 }
 
-@media(max-width:500px){
-    .listaPremios{
-        margin-top: 0.5rem;
-    }
+.telaPrincipal.menu-aberto .principalADMTP, .telaPrincipal.menu-aberto .rodapeADMTP {
+    pointer-events: none;
+    user-select: none;
+}
+.premiosADMTP{
+    padding-left: 1.5rem;
+    margin: 0;
+}
+.premiosADMTP h1{
+    color: white;
+    margin: 0;
+    font-size: 1.5em;
+    padding-left: 0.5rem;
+}
+.premiosADMTP h2{
+    color:#BCC1CD;
+    margin: 0;
+    font-size: 1rem;
 }
 
 @media (max-width: 320px){
     .textoTituloTP{
         font-size: 0.5rem;
     }
-    .premiosTP h1{
+    .ADMTP h1{
     font-size: 1.5rem;
     padding-left: 0.5rem;
     }
-    .premiosTP h2{
+    .ADMTP h2{
         font-size: 1rem;
     }
 }
 @media(min-width:768px){
-    .listaPremios{
-        margin-top: 2rem;
-    }
-    .premiosTP h1{
+    .ADMTP h1{
         font-size: 3rem;
     }
-    .premiosTP h2{
+    .ADMTP h2{
         font-size: 2rem;
     }
 }
-@media(min-height:700px) and(max-width:400px){
-    .listaPremios{
-        margin-top:1rem;
 
-    }
-}

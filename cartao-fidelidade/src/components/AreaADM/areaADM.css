@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+.secaoADM {
+    display: flex;
+    flex-direction:row; 
+    align-items: center; 
+    gap: 1rem; 
+    padding: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.secaoADM > div {
+    position: relative;
+    background-color: #F96922; 
+    color: white;
+    width: 18rem; 
+    height: 6rem;
+    border-radius: 1.5rem;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+
+.secaoADM > div h1 {
+    color: white;
+    font-size: 1.4rem;
+    margin: 0;
+}

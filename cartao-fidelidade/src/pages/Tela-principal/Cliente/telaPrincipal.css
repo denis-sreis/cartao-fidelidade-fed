@@ -1,0 +1,110 @@
+.telaPrincipal{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;
+}
+.cabecalhoTP{
+    width: 100%;
+    margin: 0;
+    padding-bottom: 1.5rem;
+}
+.principalTP{
+  flex-grow: 1; 
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.premiosTP{
+    padding-left: 1.5rem;
+    margin: 0;
+    padding-bottom: 2rem;
+}
+.premiosTP h1{
+    color: white;
+    margin: 0;
+    font-size: 2em;
+    padding-left: 0.5rem;
+}
+.premiosTP h2{
+    color:#BCC1CD;
+    margin: 0;
+    font-size: 1rem;
+}
+.botaoRegistrarTP{
+    padding-right: 1.5rem;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.rodapeTP{
+  width: 100%;
+}
+
+.textoPontoTP{
+    padding-left: 1.5rem;
+    font-size: 1.5rem;;
+    color: white;
+    align-self: flex-start;
+    margin:0;
+}
+.cartaoPontosTP{
+    align-self: center;
+}
+.botaoRegistrarTP{
+    justify-content: flex-end;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    cursor: pointer;
+}
+
+.telaPrincipal.menu-aberto .principalTP, .telaPrincipal.menu-aberto .rodapeTP {
+    pointer-events: none;
+    user-select: none;
+}
+@media(max-width:500px){
+    .listaPremios{
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 320px){
+    .textoTituloTP{
+        font-size: 0.5rem;
+    }
+    .premiosTP h1{
+    font-size: 1.5rem;
+    padding-left: 0.5rem;
+    }
+    .premiosTP h2{
+        font-size: 1rem;
+    }
+}
+@media(min-width:768px){
+    .listaPremios{
+        margin-top: 2rem;
+    }
+    .premiosTP h1{
+        font-size: 3rem;
+    }
+    .premiosTP h2{
+        font-size: 2rem;
+    }
+}
+@media(min-height:700px) and(max-width:400px){
+    .listaPremios{
+        margin-top:1rem;
+
+    }
+}

@@ -6,7 +6,7 @@ interface CabecalhoProps {
 function Cabecalho({ onProfileClick }: CabecalhoProps) {
   return (
     <div className={'cabecalho'}>
-        <button className={'botaoMenu'}>
+        <button className={'botaoMenu'} onClick={onAbrirMenu}>
             <img src={menu} className="icone" />
         </button>
         {/* Ao clicar, ele vai executar a função que a TelaPrincipal nos enviou de abrir o perfil cliente*/}
