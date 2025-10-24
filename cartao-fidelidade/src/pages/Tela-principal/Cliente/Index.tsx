@@ -9,19 +9,32 @@ import MenuLateral from '../../../components/MenuLateral/MenuLateral'
 
 function TelaPrincipal() {
   const [menuAberto, setMenuAberto]=useState(false);
+ 
   const abrirMenu = () => {
     setMenuAberto(true);
   };
   const fecharMenu = () => {
     setMenuAberto(false);
   };
+
+  const [perfilAberto, setPerfilAberto]=useState(false);
+ 
+  const abrirPerfil = () => {
+    setPerfilAberto(true);
+  };
+  const fecharPerfil = () => {
+    setPerfilAberto(false);
+  };
+
   return (
     <div className={`telaPrincipal ${menuAberto ? 'menu-aberto' : ''}`}>
       {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
       <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
+
       <header className='cabecalhoTP'>
-        <Cabecalho onAbrirMenu={abrirMenu} />
+        <Cabecalho onProfileClick={abrirPerfil} onAbrirMenu={abrirMenu} />
       </header>
+
       <main className='principalTP'>
         <h1 className='textoPontoTP'>Seus Pontos</h1>
         <div className='cartaoPontosTP'>
@@ -40,7 +53,7 @@ function TelaPrincipal() {
       
       </main>
       <footer className='rodapeTP'>
-        <Navegacao/>
+        <Navegacao onProfileClick={abrirPerfil}/>
       </footer>
     </div>
   )

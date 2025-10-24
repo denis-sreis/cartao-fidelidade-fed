@@ -1,9 +1,12 @@
 import './cabecalho.css';
 import menu from './Menu.png'
+
 interface CabecalhoProps {
   onProfileClick: () => void;
+  onAbrirMenu: () => void;
 }
-function Cabecalho({ onProfileClick }: CabecalhoProps) {
+
+function Cabecalho({ onProfileClick, onAbrirMenu }: CabecalhoProps) {
   return (
     <div className={'cabecalho'}>
         <button className={'botaoMenu'} onClick={onAbrirMenu}>

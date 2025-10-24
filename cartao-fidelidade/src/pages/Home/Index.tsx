@@ -66,9 +66,9 @@ function Home() {
     const docApenasNumeros = documento.replace(/[^\d]/g, '');
 
     if (docApenasNumeros.length === 11) {
-      navigate('/principal');
+      navigate('/principalCliente');
     } else if (docApenasNumeros.length === 14) {
-      navigate('/admin');
+      navigate('/principalADM');
     }
     // Aqui você adicionaria a chamada de API de login real
   };
