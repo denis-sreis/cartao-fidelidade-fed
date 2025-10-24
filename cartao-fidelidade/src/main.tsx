@@ -4,17 +4,17 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home/Index';
 import TelaPrincipal from './pages/Tela-principal/Index';
+import Admin from './pages/Admin/Index'; 
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter> 
-      <Routes> 
-        <Route path="/" element={<Home />} /> 
-        <Route path="/principal" element={<TelaPrincipal />} /> 
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/principal" element={<TelaPrincipal />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
-
-

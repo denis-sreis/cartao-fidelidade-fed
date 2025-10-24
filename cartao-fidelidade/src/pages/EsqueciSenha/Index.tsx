@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-
+// 1. Mude a importação. Não usamos mais 'react-input-mask'
+import { IMaskInput } from 'react-imask';
 
 interface EsqueciProps {
   onClose: () => void;
@@ -8,11 +9,13 @@ interface EsqueciProps {
 }
 
 const EsqueciSenha: React.FC<EsqueciProps> = ({ onClose, onEnviarCodigoClick }) => {
-  
+  const [telefone, setTelefone] = useState('');
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault(); 
-
-    // (Aqui entra a lógica real de enviar o código)
+    
+    // (Lógica para enviar o 'telefone' para a API)
+    console.log('Enviando código para:', telefone);
 
     onEnviarCodigoClick();
   };
@@ -22,15 +25,19 @@ const EsqueciSenha: React.FC<EsqueciProps> = ({ onClose, onEnviarCodigoClick }) 
       <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
         <div className="modal-grabber"></div>
         <h2 className="card__title" style={{ marginTop: 0 }}>
-          Cadastre sua senha nova
+          Recuperar Senha
         </h2>
         
         <form onSubmit={handleFormSubmit}>
           <div className="form-group">
-            <input
-              type="tel"
-              placeholder="Digite seu Telefone"
+            {/* 2. Substitua pelo <IMaskInput> (o mesmo do seu Home) */}
+            <IMaskInput
+              mask="(00) 00000-0000" // Máscara para celular
+              value={telefone}
+              // 3. A prop correta para 'react-imask' é 'onAccept'
+              onAccept={(value: string) => setTelefone(value)}
               className="form-input"
+              placeholder="Digite seu Telefone"
               required
             />
           </div>

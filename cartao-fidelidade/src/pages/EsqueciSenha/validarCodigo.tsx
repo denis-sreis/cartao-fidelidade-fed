@@ -1,4 +1,3 @@
-// 1. CORREÇÃO: Os 'types' foram separados da importação principal.
 import React, { useState, useRef } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import ReactDOM from 'react-dom';
@@ -50,12 +49,13 @@ const ValidarCodigo: React.FC<ValidarProps> = ({ onClose, onValidadoClick }) => 
           gap: 10px;
         }
         .codigo-input {
-          width: 40px;
+          width: 45px;      /* CORREÇÃO: Aumentei um pouco de 40px para 45px */
           height: 50px;
           text-align: center;
           font-size: 1.5rem;
           border-radius: 8px;
           border: 1px solid #ccc;
+          padding: 0;       /* CORREÇÃO: Remove o padding vindo do .form-input global */
         }
       `}</style>
       
@@ -80,7 +80,6 @@ const ValidarCodigo: React.FC<ValidarProps> = ({ onClose, onValidadoClick }) => 
                   value={digito}
                   onChange={(e) => handleChange(e, index)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
-                  // 2. CORREÇÃO: Trocado ( ) por { }
                   ref={(el) => { inputRefs.current[index] = el; }}
                   required
                 />

@@ -89,6 +89,9 @@ body {
 .form-group {
   width: 100%;
   margin-bottom: var(--spacing-md);
+  /* Adicionando position:relative que vem do Gustavo, 
+     necessário para o ícone do olho */
+  position: relative; 
 }
 
 .form-input {
@@ -349,3 +352,123 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 0.875rem; 
   color: var(--color-text-secondary);
 }
+
+/* ================================================= */
+/* --- Classes Adicionais (do CSS do Gustavo) --- */
+/* ================================================= */
+
+/* Nota: A classe .password-group não é necessária 
+  pois seu .form-group já tem position: relative 
+*/
+
+.password-toggle-icon {
+  position: absolute;
+  /* Ajustado para usar suas variáveis de espaçamento */
+  right: var(--spacing-md); 
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  /* Adicionado para centralizar o ícone 
+     dentro do span (melhor alinhamento) */
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+}
+
+.eye-icon {
+  width: 22px;
+  height: auto;
+  vertical-align: middle;
+}
+
+/* Estilo para mensagem de erro. 
+  (Opcional, pois o TSX está usando estilo inline)
+*/
+p.error-message {
+  color: #dc3545; /* Mantida cor vermelha padrão de erro */
+  text-align: center;
+  margin-top: calc(var(--spacing-md) * -0.5); /* -8px */
+  margin-bottom: var(--spacing-md);
+  font-size: 0.875rem; /* 14px */
+}
+
+/* Classes de Requisitos de Senha 
+  (Mantidas do CSS do Gustavo, caso sejam usadas) 
+*/
+.password-requirements-box {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #555;
+}
+
+.password-requirements-box p {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.password-requirements-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px 0;
+}
+
+.password-requirements-box li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #dc3545;
+  transition: color 0.3s ease;
+}
+
+.password-requirements-box li.checked {
+  color: #28a745;
+}
+
+.password-strength {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.password-strength span:first-child {
+  color: #555;
+}
+
+.password-requirements-box {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  font-size: 0.9em;
+}
+
+.password-requirements-box ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.password-requirements-box li {
+  margin-top: 5px;
+  color: #666;
+}
+
+.password-requirements-box li.checked {
+  color: #28a745; /* Um tom de verde */
+  font-weight: 500;
+}
+
+.codigo-inputs {
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+        }
