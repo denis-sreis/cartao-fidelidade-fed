@@ -1,31 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
-.botao{
-    position: relative;
+
+.botao {
+    /* Cor e Fonte */
     background-color: #F96922;
     color: white;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    width: 50%;
-    height: 20%;
-    font-size: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem; 
+
+    /* Sombra e Borda */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
     border-radius: 1.5rem;
+    border: none; 
+    cursor: pointer;
+    padding: 0.7rem 1.5rem; 
+
+    align-self: flex-end;
+    
+    margin-bottom: 1rem;
+    margin-top: 1rem; 
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    font-weight: 700;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-
-}
-@media (max-width: 400px) {
-    .botao{
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        width: 60%;
-        height: 10%;
-        font-size: 0.4rem;
-    }
 }

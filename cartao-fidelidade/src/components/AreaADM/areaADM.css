@@ -12,7 +12,13 @@
     position: relative;
     background-color: #F96922; 
     color: white;
-    width: 18rem; 
+
+    /* REMOVA a largura fixa */
+    /* width: 18rem;  */
+    
+    /* ADICIONE flex: 1 para que ocupem espaço igual */
+    flex: 1; 
+
     height: 6rem;
     border-radius: 1.5rem;
     display: flex; 
@@ -22,6 +28,10 @@
     overflow: hidden;
     box-sizing: border-box;
     cursor: pointer;
+
+    /* Adicionando estilos para bater com a foto */
+    font-weight: 700; /* Deixa o texto em negrito */
+    font-size: 1.1rem; /* Ajuste se necessário */
 }
 
 
