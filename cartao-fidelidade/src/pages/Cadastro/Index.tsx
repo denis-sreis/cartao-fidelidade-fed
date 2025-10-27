@@ -26,15 +26,15 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
   const [erroSenha, setErroSenha] = useState('');
   
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
-  const [reqCase, setReqCase] = useState(false); // Minúscula e Maiúscula
+  const [reqCase, setReqCase] = useState(false); 
   const [reqNumber, setReqNumber] = useState(false);
   const [reqSpecialChar, setReqSpecialChar] = useState(false);
   const [reqMinLength, setReqMinLength] = useState(false);
 
   const mascaraTelefone = { mask: '(00) 00000-0000' };
   const mascaraDocumento = [
-    { mask: '000.000.000-00' },  // CPF
-    { mask: '00.000.000/0000-00' } // CNPJ
+    { mask: '000.000.000-00' }, 
+    { mask: '00.000.000/0000-00' } 
   ];
 
   const updatePasswordRequirements = (currentPassword: string) => {
@@ -63,13 +63,11 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
     event.preventDefault();
     setErroSenha(''); 
 
-    // 1. Verifica se as senhas coincidem
     if (senha !== confirmarSenha) {
       setErroSenha('As senhas não coincidem.');
       return;
     }
 
-    // 2. Verifica se a senha atende aos requisitos
     const allReqsMet = reqCase && reqNumber && reqSpecialChar && reqMinLength;
     if (!allReqsMet) {
       setErroSenha('A senha não atende a todos os requisitos.');
@@ -77,7 +75,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
     }
     
     // Aqui você faremos a chamada de API
-      
+
     navigate('/principal'); 
   };
 

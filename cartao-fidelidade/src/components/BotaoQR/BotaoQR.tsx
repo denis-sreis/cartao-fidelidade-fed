@@ -1,12 +1,11 @@
 import './botaoQR.css'
 
 interface BotaoQRProps {
-  onClick: () => void; // A função que passamos (abrirPontuacoes)
+  onClick: () => void; 
 }
 
 function BotaoQR({ onClick }: BotaoQRProps) {
   return (
-    // Adicione o onClick ao seu botão principal
     <button className={'botao'} onClick={onClick}>
       Gerar QR Code
     </button>

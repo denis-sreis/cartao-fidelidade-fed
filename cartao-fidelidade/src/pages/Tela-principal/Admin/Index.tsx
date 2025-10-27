@@ -39,14 +39,12 @@ function TelaPrincipalADM() {
   const fecharMeusClientes = () => setMeusClientesAberto(false);
 
   return (
-    // Use <>...</> (Fragment) para envolver tudo se precisar
     <>
       <div className={`telaPrincipal ${menuAberto ? 'menu-aberto' : ''}`}>
         {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
         <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
         
         <header className='cabecalhoTP'>
-          {/* 4. Passe a função 'abrirPerfil' */}
           <Cabecalho onProfileClick={abrirPerfil} onAbrirMenu={abrirMenu} />
         </header>
 
@@ -56,7 +54,6 @@ function TelaPrincipalADM() {
               <CartaoADM/>
           </div>
           <div className='botaoQRADMTP'>
-            {/* 4. Passe a função 'abrirPontuacoes' */}
             <BotaoQR onClick={abrirPontuacoes} />
           </div>
           <div className='premiosADMTP'>
@@ -71,7 +68,6 @@ function TelaPrincipalADM() {
             <h2 className='headerADM'>Opções do Administrador</h2>
           </div>
           <div className='AreaADMTP'>
-              {/* 4. Passe as funções para o AreaADM */}
               <AreaADM
                 onCadastrarPremioClick={abrirCadastrarPremio}
                 onConsultarClientesClick={abrirMeusClientes}
@@ -80,13 +76,9 @@ function TelaPrincipalADM() {
         
         </main>
         <footer className='rodapeADMTP'>
-          {/* 4. Passe a função 'abrirPerfil' */}
           <Navegacao onProfileClick={abrirPerfil}/>
         </footer>
       </div>
-
-      {/* 5. RENDERIZE OS MODAIS CONDICIONALMENTE */}
-      {/* (Exatamente como você fez no Home.tsx)   */}
       
       {perfilAberto && (
         <PerfilCliente onClose={fecharPerfil} />

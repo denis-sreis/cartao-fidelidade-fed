@@ -1,14 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 
 .botao {
-    /* Cor e Fonte */
     background-color: #F96922;
     color: white;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 0.9rem; 
 
-    /* Sombra e Borda */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
     border-radius: 1.5rem;
     border: none; 

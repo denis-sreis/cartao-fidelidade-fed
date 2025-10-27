@@ -46,17 +46,15 @@ const mockClientes = [
 ];
 
 const MeusClientes: React.FC<MeusClientesProps> = ({ onClose }) => {
-  // Estado para controlar o texto da busca
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filtra os clientes com base no termo de busca (ignorando maiúsculas/minúsculas)
   const filteredClientes = mockClientes.filter(cliente =>
     cliente.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleClientClick = (clientId: number) => {
     console.log(`Cliente com ID ${clientId} foi clicado. Abrir tela de detalhes...`);
-    // Futuramente, aqui você pode navegar para outra página ou abrir outro modal
+    // aqui deve ter a opção de abrir o modal com detalhes dos clientes
   };
 
   return ReactDOM.createPortal(

@@ -1,9 +1,8 @@
 :root {
-  /* Paleta de Cores */
   --color-primary: #EA7B36;
-  --color-primary-variant: #D46F31;  /* NOVO: Cor mais escura para hover */
-  --color-secondary: #8A3D54;        /* NOVO: Unificado do btn-secondary */
-  --color-secondary-variant: #703144; /* NOVO: Hover para btn-secondary */
+  --color-primary-variant: #D46F31;  
+  --color-secondary: #8A3D54;        
+  --color-secondary-variant: #703144; 
   --color-background: #000405;
   --color-surface: #FFFFFF;
   --color-link: #007AFF;
@@ -12,21 +11,19 @@
   --color-input-background: #F2F2F7;
   --color-border: #E0E0E0;
 
-  /* Tipografia */
   --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-size-base: 1rem;      /* 16px */
-  --font-size-large: 1.75rem;  /* 28px */
+  --font-size-base: 1rem;      
+  --font-size-large: 1.75rem;  
   --font-weight-bold: 700;
 
-  /* Espaçamentos (em REM para responsividade) */
-  --spacing-sm: 0.5rem;     /* 8px */
-  --spacing-md: 1rem;       /* 16px */
-  --spacing-lg: 1.5rem;     /* 24px */
-  --spacing-xl: 2rem;       /* 32px */
+  --spacing-sm: 0.5rem;    
+  --spacing-md: 1rem;       
+  --spacing-lg: 1.5rem;     
+  --spacing-xl: 2rem;       
 
-  /* Bordas */
-  --border-radius-md: 0.75rem; /* 12px */
-  --border-radius-lg: 1.25rem; /* 20px */
+  
+  --border-radius-md: 0.75rem; 
+  --border-radius-lg: 1.25rem; 
 }
 
 html {
@@ -47,7 +44,7 @@ html {
 body {
   font-family: var(--font-family-base);
   font-size: var(--font-size-base);
-  background-color: var(--color-background); /* FUNDO ESCURO AQUI */
+  background-color: var(--color-background); 
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
 }
@@ -58,13 +55,12 @@ body {
   flex-direction: column;
 }
 
-/* Layout Principal */
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-grow: 1; /* Faz o container ocupar o espaço disponível */
+  flex-grow: 1; 
   width: 100%;
   padding: var(--spacing-md);
 }
@@ -84,13 +80,9 @@ body {
   margin-bottom: var(--spacing-lg);
 }
 
-/* --- Seção que estava desformatada --- */
-
 .form-group {
   width: 100%;
   margin-bottom: var(--spacing-md);
-  /* Adicionando position:relative que vem do Gustavo, 
-     necessário para o ícone do olho */
   position: relative; 
 }
 
@@ -130,16 +122,16 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: var(--color-primary-variant); /* CORRIGIDO */
+  background-color: var(--color-primary-variant); 
 }
 
 .btn-secondary {
-  background-color: var(--color-secondary); /* CORRIGIDO */
+  background-color: var(--color-secondary); 
   color: var(--color-surface);
 }
 
 .btn-secondary:hover {
-  background-color: var(--color-secondary-variant); /* NOVO */
+  background-color: var(--color-secondary-variant); 
 }
 
 .link {
@@ -189,8 +181,6 @@ body {
   margin-bottom: var(--spacing-md);
 }
 
-/* --- Fim da seção desformatada --- */
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -233,7 +223,6 @@ body {
   to { opacity: 1; } 
 }
 
-/* --- Estilos para o input de data nativo --- */
 input[type="date"] {
   padding: var(--spacing-md);
   font-size: var(--font-size-base);
@@ -265,7 +254,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: var(--color-text-primary);
 }
 
-/* Escondemos o input de arquivo padrão, que é feio */
 .file-input-hidden {
   display: none;
 }
@@ -288,7 +276,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-color: var(--color-primary);
 }
 
-/* Texto que mostra o nome do arquivo selecionado */
 .file-name-display {
   margin-top: var(--spacing-sm);
   font-size: 0.875rem; 
@@ -297,20 +284,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .modal-sheet-large {
-  height: 90vh; /* Ocupa 90% da altura da tela */
-  max-width: 100%; /* Permite ocupar a tela toda em mobile */
+  height: 90vh;
+  max-width: 100%; 
 }
 
-/* --- Estilos para a lista de clientes --- */
 .client-list {
   margin-top: var(--spacing-lg);
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm); /* Espaço entre os itens da lista */
+  gap: var(--spacing-sm); 
 }
 
-/* Estilo para cada item clicável da lista */
 .client-list-item {
   display: flex;
   align-items: center;
@@ -328,7 +313,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: var(--color-input-background);
 }
 
-/* Estilo para a foto do cliente (circulo) */
 .client-photo {
   width: 48px;
   height: 48px;
@@ -337,7 +321,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-right: var(--spacing-md);
 }
 
-/* Container para as informações (Nome e Telefone) */
 .client-info {
   display: flex;
   flex-direction: column;
@@ -353,23 +336,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: var(--color-text-secondary);
 }
 
-/* ================================================= */
-/* --- Classes Adicionais (do CSS do Gustavo) --- */
-/* ================================================= */
-
-/* Nota: A classe .password-group não é necessária 
-  pois seu .form-group já tem position: relative 
-*/
-
 .password-toggle-icon {
   position: absolute;
-  /* Ajustado para usar suas variáveis de espaçamento */
   right: var(--spacing-md); 
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  /* Adicionado para centralizar o ícone 
-     dentro do span (melhor alinhamento) */
   display: flex; 
   align-items: center;
   justify-content: center;
@@ -381,20 +353,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   vertical-align: middle;
 }
 
-/* Estilo para mensagem de erro. 
-  (Opcional, pois o TSX está usando estilo inline)
-*/
 p.error-message {
-  color: #dc3545; /* Mantida cor vermelha padrão de erro */
+  color: #dc3545; 
   text-align: center;
-  margin-top: calc(var(--spacing-md) * -0.5); /* -8px */
+  margin-top: calc(var(--spacing-md) * -0.5); 
   margin-bottom: var(--spacing-md);
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem; 
 }
 
-/* Classes de Requisitos de Senha 
-  (Mantidas do CSS do Gustavo, caso sejam usadas) 
-*/
 .password-requirements-box {
   background-color: #f9f9f9;
   border: 1px solid #eee;
@@ -463,7 +429,7 @@ p.error-message {
 }
 
 .password-requirements-box li.checked {
-  color: #28a745; /* Um tom de verde */
+  color: #28a745; 
   font-weight: 500;
 }
 

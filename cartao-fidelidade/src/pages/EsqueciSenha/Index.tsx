@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-// 1. Mude a importação. Não usamos mais 'react-input-mask'
 import { IMaskInput } from 'react-imask';
 
 interface EsqueciProps {
@@ -30,11 +29,9 @@ const EsqueciSenha: React.FC<EsqueciProps> = ({ onClose, onEnviarCodigoClick }) 
         
         <form onSubmit={handleFormSubmit}>
           <div className="form-group">
-            {/* 2. Substitua pelo <IMaskInput> (o mesmo do seu Home) */}
             <IMaskInput
-              mask="(00) 00000-0000" // Máscara para celular
+              mask="(00) 00000-0000" 
               value={telefone}
-              // 3. A prop correta para 'react-imask' é 'onAccept'
               onAccept={(value: string) => setTelefone(value)}
               className="form-input"
               placeholder="Digite seu Telefone"
