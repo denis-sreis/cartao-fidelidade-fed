@@ -15,6 +15,12 @@ const CadastrarPremio: React.FC<CadastrarPremioProps> = ({ onClose }) => {
 
   const [imagemSelecionada, setImagemSelecionada] = useState<File | null>(null);
 
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0'); 
+  const day = String(today.getDate()).padStart(2, '0');
+  const minDate = `${year}-${month}-${day}`;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -74,6 +80,7 @@ const CadastrarPremio: React.FC<CadastrarPremioProps> = ({ onClose }) => {
               onChange={handleChange}
               className="form-input" 
               required
+              min={minDate} 
             />
           </div>
 

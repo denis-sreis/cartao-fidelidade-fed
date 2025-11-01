@@ -5,11 +5,17 @@ interface ItemPremiosProps {
   nome: string;
   pontos: number;
   imagemUrl: string;
+  onClick?: () => void; // 1. Adiciona a prop onClick opcional
 }
-function ItemPremios({ nome, pontos, imagemUrl }: ItemPremiosProps) {
+function ItemPremios({ nome, pontos, imagemUrl, onClick }: ItemPremiosProps) {
     const pontosFormatados = pontos.toString().padStart(2, '0');
+    
+    // 2. Adiciona uma classe se o item for clicável
+    const itemClasses = `itemPremio ${onClick ? 'item-clicavel' : ''}`;
+
   return (
-    <div className={'itemPremio'}>
+    // 3. Aplica o onClick e as classes
+    <div className={itemClasses} onClick={onClick}> 
         <div className='premio'>
             <img src={Canto} className='canto'/>
             <h1 className='num'>{pontosFormatados}</h1>

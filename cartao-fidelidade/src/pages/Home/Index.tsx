@@ -4,9 +4,12 @@ import { IMaskInput } from 'react-imask';
 import { loginSchema } from '../Home/validador'; 
 
 import Cadastro from '../Cadastro/Index';
+// --- MODIFICAÇÃO INÍCIO ---
 import EsqueciSenha from '../EsqueciSenha/Index';
-import SalvarSenha from '../EsqueciSenha/salvarSenha';
-import ValidarCodigo from '../EsqueciSenha/validarCodigo';
+// Remove 'SalvarSenha' e 'ValidarCodigo'
+// import SalvarSenha from '../EsqueciSenha/salvarSenha';
+// import ValidarCodigo from '../EsqueciSenha/validarCodigo';
+// --- MODIFICAÇÃO FIM ---
 
 const urlOlhoFechado = 'https://cdn-icons-png.flaticon.com/128/3178/3178377.png';
 const urlOlhoAberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png';
@@ -23,9 +26,9 @@ function Home() {
   const navigate = useNavigate();
   
   const [isCadastroVisible, setCadastroVisible] = useState(false);
+  
   const [isEsqueciSenhaVisible, setEsqueciSenhaVisible] = useState(false);
-  const [isValidarCodigoVisible, setValidarCodigoVisible] = useState(false);
-  const [isSalvarSenhaVisible, setSalvarSenhaVisible] = useState(false);
+  const [resetEsqueciSenha, setResetEsqueciSenha] = useState(0);
 
   const [documento, setDocumento] = useState('');
   const [senha, setSenha] = useState('');
@@ -59,19 +62,10 @@ function Home() {
     } else if (docApenasNumeros.length === 14) {
       navigate('/principalADM');
     }
-    // Aqui adicionar a chamada de API de login real
+    
+    setResetEsqueciSenha(c => c + 1);
   };
-  
-  const handleTrocarParaValidarCodigo = () => {
-    setEsqueciSenhaVisible(false);
-    setValidarCodigoVisible(true);
-  };
-
-  const handleTrocarParaSalvarSenha = () => {
-    setValidarCodigoVisible(false);
-    setSalvarSenhaVisible(true);
-  };
-
+    
   const mascara = [
     { mask: '000.000.000-00' },
     { mask: '00.000.000/0000-00' }
@@ -85,7 +79,6 @@ function Home() {
           <h2 className="card__title">Entrar</h2>
           
           <form onSubmit={handleLogin}>
-            
             <div className="form-group">
               <IMaskInput
                 mask={mascara}
@@ -136,7 +129,7 @@ function Home() {
             <div className="form-footer-text">
               <a href="#" className="link" onClick={(e) => {
                 e.preventDefault();
-                setEsqueciSenhaVisible(true);
+                setEsqueciSenhaVisible(true); // Apenas abre o modal
               }}>
                 Esqueceu sua senha?
               </a>
@@ -149,25 +142,11 @@ function Home() {
         <Cadastro onClose={() => setCadastroVisible(false)} />
       )}
       
-      {isEsqueciSenhaVisible && (
-        <EsqueciSenha
-          onClose={() => setEsqueciSenhaVisible(false)}
-          onEnviarCodigoClick={handleTrocarParaValidarCodigo}
-        />
-      )}
-
-      {isValidarCodigoVisible && (
-        <ValidarCodigo
-          onClose={() => setValidarCodigoVisible(false)}
-          onValidadoClick={handleTrocarParaSalvarSenha}
-        />
-      )}
-
-      {isSalvarSenhaVisible && (
-        <SalvarSenha
-          onClose={() => setSalvarSenhaVisible(false)}
-        />
-      )}
+      <EsqueciSenha
+        estaAberto={isEsqueciSenhaVisible}
+        onClose={() => setEsqueciSenhaVisible(false)}
+        resetTrigger={resetEsqueciSenha}
+      />
     </>
   );
 }

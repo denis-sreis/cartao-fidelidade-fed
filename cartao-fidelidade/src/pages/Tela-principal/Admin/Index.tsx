@@ -9,6 +9,9 @@ import AreaADM from '../../../components/AreaADM/AreaADM'
 import ListaPremiosADM from '../../../components/ListaPremios/ListaPremios'
 import BotaoQR from '../../../components/BotaoQR/BotaoQR'
 
+import DetalhesPremio from '../../../components/DetalhesPremio/Index'; 
+import type { Premio } from '../../../components/ListaPremios/produtosTeste';
+import EditarPremio from '../../EditarPremio/Index'; 
 
 import PerfilCliente from '../../PerfilCliente/Index'
 import CadastrarPremio from '../../CadastrarPremio/Index'
@@ -17,6 +20,11 @@ import Pontuacoes from '../../Pontuacoes/Index'
 
 
 function TelaPrincipalADM() {
+
+  const [detalhesPremioAberto, setDetalhesPremioAberto] = useState(false);
+  const [premioSelecionado, setPremioSelecionado] = useState<Premio | null>(null);
+  const [editarPremioAberto, setEditarPremioAberto] = useState(false);
+
   const [menuAberto, setMenuAberto]=useState(false);
   const abrirMenu = () => setMenuAberto(true);
   const fecharMenu = () => setMenuAberto(false);
@@ -37,6 +45,27 @@ function TelaPrincipalADM() {
 
   const abrirMeusClientes = () => setMeusClientesAberto(true);
   const fecharMeusClientes = () => setMeusClientesAberto(false);
+
+  const abrirDetalhesPremio = (premio: Premio) => {
+    setPremioSelecionado(premio);
+    setDetalhesPremioAberto(true);
+  };
+
+  const fecharDetalhesPremio = () => {
+    setDetalhesPremioAberto(false);
+    setTimeout(() => setPremioSelecionado(null), 300); 
+  };
+
+  const abrirEditarPremio = (premio: Premio) => {
+  setDetalhesPremioAberto(false); 
+  setEditarPremioAberto(true);   
+  setPremioSelecionado(premio);   
+};
+
+const fecharEditarPremio = () => {
+  setEditarPremioAberto(false);
+  setPremioSelecionado(null);
+};
 
   return (
     <>
@@ -61,7 +90,7 @@ function TelaPrincipalADM() {
             <h2 className='headerPremios'>Todos os Prêmios</h2>
           </div>
           <div className='listaPremiosADM'>
-              <ListaPremiosADM/>
+              <ListaPremiosADM onPremioClick={abrirDetalhesPremio} />          
           </div>
           <div className='ADMTP'>
             <h1 className='headerADM'>Administração</h1>
@@ -95,6 +124,21 @@ function TelaPrincipalADM() {
       {meusClientesAberto && (
         <MeusClientes onClose={fecharMeusClientes} />
       )}
+
+      {detalhesPremioAberto && premioSelecionado && (
+  <DetalhesPremio 
+    premio={premioSelecionado} 
+    onClose={fecharDetalhesPremio} 
+    onEditarClick={abrirEditarPremio} // <-- Adicione esta linha
+  />
+)}
+
+{editarPremioAberto && premioSelecionado && (
+  <EditarPremio
+    premio={premioSelecionado}
+    onClose={fecharEditarPremio}
+  />
+)}
     </>
   )
 }

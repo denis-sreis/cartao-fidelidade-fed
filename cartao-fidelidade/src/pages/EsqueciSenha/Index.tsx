@@ -1,52 +1,286 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import type { ChangeEvent, KeyboardEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { IMaskInput } from 'react-imask';
 
-interface EsqueciProps {
+// --- INÍCIO: Lógica de senha copiada do Cadastro.tsx ---
+const hasLowercase = (password: string) => /[a-z]/.test(password);
+const hasUppercase = (password: string) => /[A-Z]/.test(password);
+const hasNumber = (password: string) => /[0-9]/.test(password);
+const hasSpecialChar = (password: string) => /[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~-]/.test(password);
+// --- FIM: Lógica de senha ---
+
+interface EsqueciSenhaProps {
+  estaAberto: boolean;
   onClose: () => void;
-  onEnviarCodigoClick: () => void;
+  resetTrigger: number;
 }
 
-const EsqueciSenha: React.FC<EsqueciProps> = ({ onClose, onEnviarCodigoClick }) => {
+type Etapa = 'telefone' | 'validar' | 'novaSenha';
+
+const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetTrigger }) => {
+  
+  const [etapa, setEtapa] = useState<Etapa>('telefone');
+
+  // Estados preservados
   const [telefone, setTelefone] = useState('');
+  const [codigo, setCodigo] = useState<string[]>(Array(6).fill(''));
+  const [senha, setSenha] = useState('');
+  const [confirmaSenha, setConfirmarSenha] = useState('');
+  
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const isMounted = useRef(false);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); 
+  // --- INÍCIO: Novos estados para validação de senha ---
+  const [erroSenha, setErroSenha] = useState('');
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+  const [reqCase, setReqCase] = useState(false); 
+  const [reqNumber, setReqNumber] = useState(false);
+  const [reqSpecialChar, setReqSpecialChar] = useState(false);
+  const [reqMinLength, setReqMinLength] = useState(false);
+  // --- FIM: Novos estados ---
+
+  // Função de reset interna
+  const internalReset = () => {
+    console.log("Resetando estado do modal 'Esqueci Senha'...");
+    setEtapa('telefone');
+    setTelefone('');
+    setCodigo(Array(6).fill(''));
+    setSenha('');
+    setConfirmarSenha('');
     
-    // (Lógica para enviar o 'telefone' para a API)
-    console.log('Enviando código para:', telefone);
-
-    onEnviarCodigoClick();
+    // --- INÍCIO: Resetar estados de senha ---
+    setErroSenha('');
+    setShowPasswordRequirements(false);
+    setReqCase(false);
+    setReqNumber(false);
+    setReqSpecialChar(false);
+    setReqMinLength(false);
+    // --- FIM: Resetar estados de senha ---
   };
 
-  return ReactDOM.createPortal(
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-grabber"></div>
-        <h2 className="card__title" style={{ marginTop: 0 }}>
-          Recuperar Senha
-        </h2>
-        
-        <form onSubmit={handleFormSubmit}>
-          <div className="form-group">
-            <IMaskInput
-              mask="(00) 00000-0000" 
-              value={telefone}
-              onAccept={(value: string) => setTelefone(value)}
-              className="form-input"
-              placeholder="Digite seu Telefone"
-              required
-            />
-          </div>
+  // useEffect que "escuta" o gatilho de reset
+  useEffect(() => {
+    if (isMounted.current) {
+      internalReset();
+    } else {
+      isMounted.current = true;
+    }
+  }, [resetTrigger]);
 
-          <div className="form-group">
-            <button type="submit" className="btn btn-primary">
-              Enviar código
-            </button>
-          </div>
-        </form>
+  
+  // --- INÍCIO: Novas funções para validação de senha ---
+  const updatePasswordRequirements = (currentPassword: string) => {
+    setReqCase(hasLowercase(currentPassword) && hasUppercase(currentPassword));
+    setReqNumber(hasNumber(currentPassword));
+    setReqSpecialChar(hasSpecialChar(currentPassword));
+    setReqMinLength(currentPassword.length >= 8);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+    setSenha(newPassword);
+    updatePasswordRequirements(newPassword);
+    if (erroSenha) {
+      setErroSenha('');
+    }
+  };
+  // --- FIM: Novas funções ---
+
+
+  // --- Handlers de Submissão ---
+
+  const handleEnviarCodigo = (e: React.FormEvent) => {
+    e.preventDefault(); 
+    
+    // --- INÍCIO: Validação de Telefone ---
+    // A máscara (00) 00000-0000 tem 15 caracteres
+    if (telefone.length < 15) {
+      alert('Por favor, digite um número de telefone completo.');
+      return;
+    }
+    // --- FIM: Validação de Telefone ---
+
+    console.log('Enviando código para:', telefone);
+    setEtapa('validar');
+  };
+
+  const handleValidarCodigo = (e: React.FormEvent) => {
+    e.preventDefault();
+    const codigoCompleto = codigo.join('');
+    console.log('Código a validar:', codigoCompleto);
+    setEtapa('novaSenha');
+  };
+
+  const handleSalvarSenha = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErroSenha('');
+
+    // --- INÍCIO: Validação de Senha ---
+    if (senha !== confirmaSenha) {
+      setErroSenha('As senhas não coincidem.');
+      return;
+    }
+
+    const allReqsMet = reqCase && reqNumber && reqSpecialChar && reqMinLength;
+    if (!allReqsMet) {
+      setErroSenha('A senha não atende a todos os requisitos.');
+      return;
+    }
+    // --- FIM: Validação de Senha ---
+
+    console.log('Salvando nova senha para o telefone:', telefone);
+    onClose(); // Apenas fecha, não reseta
+  };
+
+  // --- Handlers dos Inputs de Código (sem mudança) ---
+  const handleCodigoChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const { value } = e.target;
+    if (/^[0-9]$/.test(value) || value === '') {
+      const novoCodigo = [...codigo];
+      novoCodigo[index] = value;
+      setCodigo(novoCodigo);
+      if (value !== '' && index < 5) {
+        inputRefs.current[index + 1]?.focus();
+      }
+    }
+  };
+
+  const handleCodigoKeyDown = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === 'Backspace' && codigo[index] === '' && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  // --- Funções de Renderização ---
+
+  const renderEtapaTelefone = () => (
+    <form onSubmit={handleEnviarCodigo}>
+      <h2 className="card__title" style={{ marginTop: 0 }}>Recuperar Senha</h2>
+      <div className="form-group">
+        <IMaskInput
+          mask="(00) 00000-0000" 
+          value={telefone}
+          onAccept={(value: string) => setTelefone(value)}
+          className="form-input"
+          placeholder="Digite seu Telefone"
+          required
+        />
       </div>
-    </div>,
+      <div className="form-group">
+        <button type="submit" className="btn btn-primary">
+          Enviar código
+        </button>
+      </div>
+    </form>
+  );
+
+  const renderEtapaValidar = () => (
+    <form onSubmit={handleValidarCodigo}>
+      <h2 className="card__title" style={{ marginTop: 0 }}>Validar Código</h2>
+      <p style={{ textAlign: 'center', marginBottom: '20px' }}>
+        Insira o código de 6 dígitos enviado para {telefone}.
+      </p>
+      <div className="form-group codigo-inputs">
+        {codigo.map((digito, index) => (
+          <input
+            key={index} type="tel" maxLength={1}
+            className="form-input codigo-input"
+            value={digito}
+            onChange={(e) => handleCodigoChange(e, index)}
+            onKeyDown={(e) => handleCodigoKeyDown(e, index)}
+            ref={(el) => { inputRefs.current[index] = el; }}
+            required
+          />
+        ))}
+      </div>
+      <div className="form-group">
+        <button type="submit" className="btn btn-primary">
+          Validar Código
+        </button>
+      </div>
+    </form>
+  );
+
+  const renderEtapaNovaSenha = () => (
+    <form onSubmit={handleSalvarSenha}>
+      <h2 className="card__title" style={{ marginTop: 0 }}>Cadastre sua senha nova</h2>
+      
+      <div className="form-group">
+        <input 
+          type="password" 
+          placeholder="Crie sua senha" 
+          className="form-input" 
+          value={senha}
+          onChange={handlePasswordChange}
+          // 1. Mostra ao focar no PRIMEIRO campo
+          onFocus={() => setShowPasswordRequirements(true)}
+          // 2. REMOVEMOS o onBlur daqui
+          required 
+        />
+      </div>
+      <div className="form-group">
+        <input 
+          type="password" 
+          placeholder="Confirme sua senha" 
+          className="form-input" 
+          value={confirmaSenha}
+          onChange={(e) => setConfirmarSenha(e.target.value)}
+          // 3. Mostra ao focar no SEGUNDO campo também
+          onFocus={() => setShowPasswordRequirements(true)}
+          required 
+        />
+      </div>
+
+      {/* Agora, a caixa só aparecerá quando um dos campos for focado
+        e só desaparecerá quando o modal for resetado (após o login na Home).
+        Isso é um comportamento muito mais estável e amigável.
+      */}
+      {showPasswordRequirements && (
+        <div className="password-requirements-box">
+          <ul>
+            <li className={reqCase ? 'checked' : ''}>
+              {reqCase ? '✅' : '❌'} Letras minúsculas e maiúsculas
+            </li>
+            <li className={reqNumber ? 'checked' : ''}>
+              {reqNumber ? '✅' : '❌'} Um número (0-9)
+            </li>
+            <li className={reqSpecialChar ? 'checked' : ''}>
+              {reqSpecialChar ? '✅' : '❌'} Um caractere especial (!@#$)
+            </li>
+            <li className={reqMinLength ? 'checked' : ''}>
+              {reqMinLength ? '✅' : '❌'} Pelo menos 8 caracteres
+            </li>
+          </ul>
+        </div>
+      )}
+      {erroSenha && <p style={{ color: 'red', textAlign: 'center', marginBottom: '10px' }}>{erroSenha}</p>}
+
+      <div className="form-group">
+        <button type="submit" className="btn btn-primary">Salvar Senha</button>
+      </div>
+    </form>
+  );
+
+  // --- Renderização Principal ---
+
+  return ReactDOM.createPortal(
+    <>
+      <div 
+        className="modal-overlay" 
+        style={{ display: estaAberto ? 'flex' : 'none' }} 
+        onClick={onClose}
+      >
+        <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-grabber"></div>
+          
+          {etapa === 'telefone' && renderEtapaTelefone()}
+          {etapa === 'validar' && renderEtapaValidar()}
+          {etapa === 'novaSenha' && renderEtapaNovaSenha()}
+          
+        </div>
+      </div>
+    </>,
     document.getElementById('modal-root')!
   );
 };

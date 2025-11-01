@@ -137,3 +137,13 @@
 
     }
 }
+
+.itemPremio.item-clicavel {
+  cursor: pointer;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.itemPremio.item-clicavel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
