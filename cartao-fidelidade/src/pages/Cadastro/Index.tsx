@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { IMaskInput } from 'react-imask'; 
 import { useNavigate } from 'react-router-dom';
 import { loginSchema } from '../Cadastro/validador'; 
-import { TelefoneValido } from '../Cadastro/validadorTel'
 
 
 const hasLowercase = (password: string) => /[a-z]/.test(password);
