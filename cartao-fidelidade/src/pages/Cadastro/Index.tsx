@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { IMaskInput } from 'react-imask'; 
 import { useNavigate } from 'react-router-dom';
+import { loginSchema } from '../Cadastro/validador'; 
+import { TelefoneValido } from '../Cadastro/validadorTel'
+
 
 const hasLowercase = (password: string) => /[a-z]/.test(password);
 const hasUppercase = (password: string) => /[A-Z]/.test(password);
@@ -30,12 +33,13 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
   const [reqNumber, setReqNumber] = useState(false);
   const [reqSpecialChar, setReqSpecialChar] = useState(false);
   const [reqMinLength, setReqMinLength] = useState(false);
+  const [erroStep1, setErroStep1] = useState('');
 
-  const mascaraTelefone = { mask: '(00) 00000-0000' };
-  const mascaraDocumento = [
-    { mask: '000.000.000-00' }, 
-    { mask: '00.000.000/0000-00' } 
-  ];
+  const mascaraTelefone = { mask: '(00) 0 0000-0000' };
+  const mascaraCPF={ mask: '000.000.000-00' }; 
+  const mascaraCNPJ=  { mask: '00.000.000/0000-00' } ;
+  const mascaraDocumento = userType === 'cliente' ? mascaraCPF : mascaraCNPJ;
+  const mascaraNome = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s]*$/;
 
   const updatePasswordRequirements = (currentPassword: string) => {
     setReqCase(hasLowercase(currentPassword) && hasUppercase(currentPassword));
@@ -53,8 +57,18 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
     }
   };
 
-  const handleStep1Submit = (event: React.FormEvent) => {
+    const handleStep1Submit = (event: React.FormEvent) => {
     event.preventDefault();
+    setErroStep1('');
+
+    const telefoneSemMascara = telefone.replace(/\D/g, '');
+    const documentoSemMascara = documento.replace(/\D/g, '');
+    const nomeCortado = nome.trim();
+    const { error } = loginSchema.validate({ documento:documentoSemMascara, telefone:telefoneSemMascara, nome: nomeCortado }, {context: { userType: userType }});
+    if(error){
+      setErroStep1(error.details[0].message);
+      return;
+    }
     console.log("Dados Etapa 1:", { nome, telefone, documento, userType });
     setStep(2); 
   };
@@ -79,6 +93,13 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
     navigate('/principal'); 
   };
 
+  const handleUserTypeChange = (novoTipo: 'cliente' | 'empresa') => {
+    if (userType !== novoTipo) {
+      setUserType(novoTipo);
+      setDocumento(''); 
+      setErroStep1(''); 
+    }
+  }; 
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
@@ -91,14 +112,14 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
             <div className="toggle-group">
               <button 
                 className={`toggle-btn ${userType === 'cliente' ? 'active' : ''}`}
-                onClick={() => setUserType('cliente')}
+                onClick={() => handleUserTypeChange('cliente')}
                 type="button"
               >
                 Sou cliente
               </button>
               <button 
                 className={`toggle-btn ${userType === 'empresa' ? 'active' : ''}`}
-                onClick={() => setUserType('empresa')}
+                onClick={() => handleUserTypeChange('empresa')}
                 type="button"
               >
                 Sou empresa
@@ -107,12 +128,13 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
 
             <form onSubmit={handleStep1Submit}>
               <div className="form-group">
-                <input 
+                <IMaskInput 
+                  mask={mascaraNome}      
                   type="text" 
                   placeholder="Digite seu nome" 
                   className="form-input" 
                   value={nome}
-                  onChange={(e) => setNome(e.target.value)}
+                  onAccept={(value: string) => setNome(value)} 
                   required 
                 />
               </div>
@@ -129,7 +151,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
               
               <div className="form-group">
                 <IMaskInput 
-                  mask={mascaraDocumento}
+                  mask={mascaraDocumento.mask}
                   placeholder={userType === 'cliente' ? "Digite seu CPF" : "Digite seu CNPJ"}
                   className="form-input" 
                   value={documento}
@@ -137,6 +159,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
                   required 
                 />
               </div>
+              {erroStep1 && <p style={{ color: 'red', textAlign: 'center', marginBottom: '10px' }}>{erroStep1}</p>}
               
               <div className="form-group">
                 <button type="submit" className="btn btn-primary">Avançar</button>
@@ -164,7 +187,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
                   value={senha}
                   onChange={handlePasswordChange}
                   onFocus={() => setShowPasswordRequirements(true)}
-                  onBlur={() => setShowPasswordRequirements(false)}
+                  onBlur={() => setShowPasswordRequirements(true)}
                   required 
                 />
               </div>
