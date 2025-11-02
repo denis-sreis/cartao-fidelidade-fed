@@ -1,9 +1,9 @@
 
 import { useState } from 'react'
 import './telaPrincipal.css'
-import Cabecalho from '../../../components/Cabecalho/Cabecalho'
+import Cabecalho from '../../../components/CabecalhoADM/CabecalhoADM'
 import CartaoADM from '../../../components/CartaoADM/CartaoADM'
-import Navegacao from '../../../components/Navegacao/Navegacao'
+import Navegacao from '../../../components/NavegacaoADM/NavegacaoADM'
 import MenuLateral from '../../../components/MenuLateral/MenuLateral'
 import AreaADM from '../../../components/AreaADM/AreaADM'
 import ListaPremiosADM from '../../../components/ListaPremios/ListaPremios'
