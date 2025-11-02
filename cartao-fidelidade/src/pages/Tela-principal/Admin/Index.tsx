@@ -10,7 +10,6 @@ import ListaPremiosADM from '../../../components/ListaPremios/ListaPremios'
 import BotaoQR from '../../../components/BotaoQR/BotaoQR'
 
 
-import PerfilCliente from '../../PerfilCliente/Index'
 import CadastrarPremio from '../../CadastrarPremio/Index'
 import MeusClientes from '../../MeusClientes/Index'
 import Pontuacoes from '../../Pontuacoes/Index'
@@ -21,13 +20,11 @@ function TelaPrincipalADM() {
   const abrirMenu = () => setMenuAberto(true);
   const fecharMenu = () => setMenuAberto(false);
 
-  const [perfilAberto, setPerfilAberto] = useState(false);
   const [pontuacoesAberto, setPontuacoesAberto] = useState(false);
   const [cadastrarPremioAberto, setCadastrarPremioAberto] = useState(false);
   const [meusClientesAberto, setMeusClientesAberto] = useState(false);
 
-  const abrirPerfil = () => setPerfilAberto(true);
-  const fecharPerfil = () => setPerfilAberto(false);
+
 
   const abrirPontuacoes = () => setPontuacoesAberto(true);
   const fecharPontuacoes = () => setPontuacoesAberto(false);
@@ -43,9 +40,8 @@ function TelaPrincipalADM() {
       <div className={`telaPrincipal ${menuAberto ? 'menu-aberto' : ''}`}>
         {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
         <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
-        
         <header className='cabecalhoTP'>
-          <Cabecalho onProfileClick={abrirPerfil} onAbrirMenu={abrirMenu} />
+          <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
 
         <main className='principalADMTP'>
@@ -76,13 +72,10 @@ function TelaPrincipalADM() {
         
         </main>
         <footer className='rodapeADMTP'>
-          <Navegacao onProfileClick={abrirPerfil}/>
+          <Navegacao/>
         </footer>
       </div>
       
-      {perfilAberto && (
-        <PerfilCliente onClose={fecharPerfil} />
-      )}
       
       {pontuacoesAberto && (
         <Pontuacoes onClose={fecharPontuacoes} />
