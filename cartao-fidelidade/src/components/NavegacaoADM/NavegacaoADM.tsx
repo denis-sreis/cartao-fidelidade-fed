@@ -1,11 +1,9 @@
 import './navegacaoADM.css';
 import  HomeIcon from './homeSelecionada.png'; 
 
-interface CabecalhoProps {
-  onProfileClick: () => void;
-}
 
-function Navegacao({ onProfileClick }: CabecalhoProps) {
+
+function Navegacao() {
   return (
     <div className={'rodape'}>
         <button className={'botaoHome'}>
