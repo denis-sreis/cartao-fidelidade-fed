@@ -2,14 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IMaskInput } from 'react-imask'; 
 import { loginSchema } from '../Home/validador'; 
-
+import { login } from '../../api/auth'; 
 import Cadastro from '../Cadastro/Index';
-// --- MODIFICAÇÃO INÍCIO ---
 import EsqueciSenha from '../EsqueciSenha/Index';
-// Remove 'SalvarSenha' e 'ValidarCodigo'
-// import SalvarSenha from '../EsqueciSenha/salvarSenha';
-// import ValidarCodigo from '../EsqueciSenha/validarCodigo';
-// --- MODIFICAÇÃO FIM ---
 
 const urlOlhoFechado = 'https://cdn-icons-png.flaticon.com/128/3178/3178377.png';
 const urlOlhoAberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png';
@@ -43,7 +38,7 @@ function Home() {
     }
   };
 
-  const handleLogin = (event: React.FormEvent) => {
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
     setErro('');
 
@@ -53,17 +48,32 @@ function Home() {
       setErro(error.details[0].message);
       return;
     }
-
-    console.log('Prosseguindo com o login...');
-    const docApenasNumeros = documento.replace(/[^\d]/g, '');
-
-    if (docApenasNumeros.length === 11) {
-      navigate('/principalCliente');
-    } else if (docApenasNumeros.length === 14) {
-      navigate('/principalADM');
-    }
     
-    setResetEsqueciSenha(c => c + 1);
+    const docApenasNumeros = documento.replace(/[^\d]/g, ''); 
+
+    try {
+        const response = await login({
+            documento: docApenasNumeros, 
+            senha: senha,
+        });
+
+        console.log('Login bem-sucedido!', response);
+            
+        if (docApenasNumeros.length === 11) {
+          navigate('/principalCliente');
+        } else if (docApenasNumeros.length === 14) {
+          navigate('/principalADM');
+        }
+        
+        setResetEsqueciSenha(c => c + 1);
+
+    } catch (err) {
+        if (err instanceof Error) {
+            setErro(err.message);
+        } else {
+            setErro('Ocorreu um erro desconhecido durante o login.');
+        }
+    }
   };
     
   const mascara = [
@@ -129,7 +139,7 @@ function Home() {
             <div className="form-footer-text">
               <a href="#" className="link" onClick={(e) => {
                 e.preventDefault();
-                setEsqueciSenhaVisible(true); // Apenas abre o modal
+                setEsqueciSenhaVisible(true); 
               }}>
                 Esqueceu sua senha?
               </a>
