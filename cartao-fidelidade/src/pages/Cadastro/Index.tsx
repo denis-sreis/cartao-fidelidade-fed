@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { IMaskInput } from 'react-imask'; 
 import { useNavigate } from 'react-router-dom';
 import { loginSchema } from '../Cadastro/validador'; 
+import { register } from '../../api/cadastro';
 
 
 const hasLowercase = (password: string) => /[a-z]/.test(password);
@@ -80,41 +81,31 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
       setErroSenha('As senhas não coincidem.');
       return;
     }
-
     const allReqsMet = reqCase && reqNumber && reqSpecialChar && reqMinLength;
     if (!allReqsMet) {
       setErroSenha('A senha não atende a todos os requisitos.');
       return;
     }
     
-    const dadosCadastro = {
-      nome: nome,
-      telefone: telefone,
-      documento: documento,
-      senha: senha,
-      tipo: userType 
-    };
     try {
-      const response = await fetch('http://localhost:3000/api/auth/register', { 
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dadosCadastro), 
+      const response = await register({
+        nome: nome,
+        telefone: telefone,
+        documento: documento,
+        senha: senha,
+        tipo: userType 
       });
-      if (response.ok) {
-        console.log('Cadastro realizado com sucesso!');
-        navigate('/principal'); 
-      } else {
-        const errorData = await response.json(); 
-        setErroSenha(errorData.message || 'Erro ao realizar cadastro.');
-      }
 
-    } catch (error) {
-      console.error('Falha na conexão com a API:', error);
-      setErroSenha('Não foi possível conectar ao servidor. Tente mais tarde.');
+      console.log('Cadastro realizado com sucesso!', response);
+      navigate('/principal'); 
+    } catch (err) {
+      if (err instanceof Error) {
+        setErroSenha(err.message); 
+      } else {
+        setErroSenha('Ocorreu um erro desconhecido.');
+      }
     }
-   };
+  };
 
 
   const handleUserTypeChange = (novoTipo: 'cliente' | 'empresa') => {
