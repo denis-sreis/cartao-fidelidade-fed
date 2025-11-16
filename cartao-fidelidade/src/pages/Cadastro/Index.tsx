@@ -72,7 +72,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
     setStep(2); 
   };
 
-  const handleRegister = (event: React.FormEvent) => {
+  const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
     setErroSenha(''); 
 
@@ -87,10 +87,35 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
       return;
     }
     
-    // Aqui você faremos a chamada de API
+    const dadosCadastro = {
+      nome: nome,
+      telefone: telefone,
+      documento: documento,
+      senha: senha,
+      tipo: userType 
+    };
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/register', { 
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dadosCadastro), 
+      });
+      if (response.ok) {
+        console.log('Cadastro realizado com sucesso!');
+        navigate('/principal'); 
+      } else {
+        const errorData = await response.json(); 
+        setErroSenha(errorData.message || 'Erro ao realizar cadastro.');
+      }
 
-    navigate('/principal'); 
-  };
+    } catch (error) {
+      console.error('Falha na conexão com a API:', error);
+      setErroSenha('Não foi possível conectar ao servidor. Tente mais tarde.');
+    }
+   };
+
 
   const handleUserTypeChange = (novoTipo: 'cliente' | 'empresa') => {
     if (userType !== novoTipo) {
