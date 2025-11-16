@@ -16,19 +16,17 @@ const fileToBase64 = (file: File): Promise<string> => {
   });
 };
 export interface PerfilData {
-  id: number; // ID do usuário (necessário para o PUT/PATCH)
+  id: number; 
   nome: string;
   telefone: string;
-  documento: string; // CPF ou CNPJ
+  documento: string; 
   tipo: 'cliente' | 'funcionario';
-  foto_data_url: string | null; // Base64 da foto
-  // Adicione outros campos se o backend retornar
+  foto_data_url: string | null; 
 }
 
 export const getPerfilUsuario = async (): Promise<PerfilData> => {
   try {
-    // É comum usar um endpoint como /auth/perfil ou /usuario/me
-    const response = await api.get('/usuario/me'); // Endpoint sugerido
+    const response = await api.get('/usuario/me'); 
     return response.data;
 
   } catch (error) {
