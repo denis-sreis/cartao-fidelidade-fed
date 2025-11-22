@@ -3,12 +3,10 @@ import type { ChangeEvent, KeyboardEvent } from 'react';
 import ReactDOM from 'react-dom';
 import { IMaskInput } from 'react-imask';
 
-// --- INÍCIO: Lógica de senha copiada do Cadastro.tsx ---
 const hasLowercase = (password: string) => /[a-z]/.test(password);
 const hasUppercase = (password: string) => /[A-Z]/.test(password);
 const hasNumber = (password: string) => /[0-9]/.test(password);
 const hasSpecialChar = (password: string) => /[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?~-]/.test(password);
-// --- FIM: Lógica de senha ---
 
 interface EsqueciSenhaProps {
   estaAberto: boolean;
@@ -22,7 +20,6 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
   
   const [etapa, setEtapa] = useState<Etapa>('telefone');
 
-  // Estados preservados
   const [telefone, setTelefone] = useState('');
   const [codigo, setCodigo] = useState<string[]>(Array(6).fill(''));
   const [senha, setSenha] = useState('');
@@ -31,16 +28,13 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const isMounted = useRef(false);
 
-  // --- INÍCIO: Novos estados para validação de senha ---
   const [erroSenha, setErroSenha] = useState('');
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
   const [reqCase, setReqCase] = useState(false); 
   const [reqNumber, setReqNumber] = useState(false);
   const [reqSpecialChar, setReqSpecialChar] = useState(false);
   const [reqMinLength, setReqMinLength] = useState(false);
-  // --- FIM: Novos estados ---
 
-  // Função de reset interna
   const internalReset = () => {
     console.log("Resetando estado do modal 'Esqueci Senha'...");
     setEtapa('telefone');
@@ -49,17 +43,14 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
     setSenha('');
     setConfirmarSenha('');
     
-    // --- INÍCIO: Resetar estados de senha ---
     setErroSenha('');
     setShowPasswordRequirements(false);
     setReqCase(false);
     setReqNumber(false);
     setReqSpecialChar(false);
     setReqMinLength(false);
-    // --- FIM: Resetar estados de senha ---
   };
 
-  // useEffect que "escuta" o gatilho de reset
   useEffect(() => {
     if (isMounted.current) {
       internalReset();
@@ -69,7 +60,6 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
   }, [resetTrigger]);
 
   
-  // --- INÍCIO: Novas funções para validação de senha ---
   const updatePasswordRequirements = (currentPassword: string) => {
     setReqCase(hasLowercase(currentPassword) && hasUppercase(currentPassword));
     setReqNumber(hasNumber(currentPassword));
@@ -85,21 +75,14 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
       setErroSenha('');
     }
   };
-  // --- FIM: Novas funções ---
-
-
-  // --- Handlers de Submissão ---
-
+  
   const handleEnviarCodigo = (e: React.FormEvent) => {
     e.preventDefault(); 
     
-    // --- INÍCIO: Validação de Telefone ---
-    // A máscara (00) 00000-0000 tem 15 caracteres
     if (telefone.length < 15) {
       alert('Por favor, digite um número de telefone completo.');
       return;
     }
-    // --- FIM: Validação de Telefone ---
 
     console.log('Enviando código para:', telefone);
     setEtapa('validar');
@@ -116,7 +99,6 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
     e.preventDefault();
     setErroSenha('');
 
-    // --- INÍCIO: Validação de Senha ---
     if (senha !== confirmaSenha) {
       setErroSenha('As senhas não coincidem.');
       return;
@@ -127,13 +109,11 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
       setErroSenha('A senha não atende a todos os requisitos.');
       return;
     }
-    // --- FIM: Validação de Senha ---
 
     console.log('Salvando nova senha para o telefone:', telefone);
-    onClose(); // Apenas fecha, não reseta
+    onClose(); 
   };
 
-  // --- Handlers dos Inputs de Código (sem mudança) ---
   const handleCodigoChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = e.target;
     if (/^[0-9]$/.test(value) || value === '') {
@@ -151,8 +131,6 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
       inputRefs.current[index - 1]?.focus();
     }
   };
-
-  // --- Funções de Renderização ---
 
   const renderEtapaTelefone = () => (
     <form onSubmit={handleEnviarCodigo}>
@@ -213,9 +191,7 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
           className="form-input" 
           value={senha}
           onChange={handlePasswordChange}
-          // 1. Mostra ao focar no PRIMEIRO campo
           onFocus={() => setShowPasswordRequirements(true)}
-          // 2. REMOVEMOS o onBlur daqui
           required 
         />
       </div>
@@ -226,16 +202,11 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
           className="form-input" 
           value={confirmaSenha}
           onChange={(e) => setConfirmarSenha(e.target.value)}
-          // 3. Mostra ao focar no SEGUNDO campo também
           onFocus={() => setShowPasswordRequirements(true)}
           required 
         />
       </div>
 
-      {/* Agora, a caixa só aparecerá quando um dos campos for focado
-        e só desaparecerá quando o modal for resetado (após o login na Home).
-        Isso é um comportamento muito mais estável e amigável.
-      */}
       {showPasswordRequirements && (
         <div className="password-requirements-box">
           <ul>
@@ -262,7 +233,6 @@ const EsqueciSenha: React.FC<EsqueciSenhaProps> = ({ estaAberto, onClose, resetT
     </form>
   );
 
-  // --- Renderização Principal ---
 
   return ReactDOM.createPortal(
     <>

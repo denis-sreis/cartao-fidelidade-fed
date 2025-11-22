@@ -1,17 +1,16 @@
-import React, { useState } from 'react'; // 1. Importar useState
+import React, { useState } from 'react'; 
 import ReactDOM from 'react-dom';
-import type { Premio } from '../ListaPremios/produtosTeste'; // Ajuste o caminho
-import ModalConfirmacao from '../ModalConfirmacao/Index'; // 2. Importar o novo modal
+import type { Premio } from '../../api/produto'; 
+import ModalConfirmacao from '../ModalConfirmacao/Index'
 
 interface DetalhesPremioProps {
   onClose: () => void;
   premio: Premio;
-  onEditarClick: (premio: Premio) => void; // 3. Nova prop para solicitar a edição
+  onEditarClick: (premio: Premio) => void; 
 }
 
 const DetalhesPremio: React.FC<DetalhesPremioProps> = ({ onClose, premio, onEditarClick }) => {
   
-  // 4. Estado para controlar o modal de confirmação
   const [isConfirmandoExclusao, setConfirmandoExclusao] = useState(false);
 
   const handleEditar = () => {
@@ -27,10 +26,9 @@ const DetalhesPremio: React.FC<DetalhesPremioProps> = ({ onClose, premio, onEdit
   const handleConfirmarExclusao = () => {
     // 7. Esta é a lógica de exclusão real
     console.warn('CONFIRMADO EXCLUIR:', premio.nome);
-    // TODO: Adicionar lógica da API de exclusão aqui
     
-    setConfirmandoExclusao(false); // Fecha o modal de confirmação
-    onClose(); // Fecha o modal de detalhes
+    setConfirmandoExclusao(false); 
+    onClose(); 
   };
   
   return ReactDOM.createPortal(
@@ -80,7 +78,6 @@ const DetalhesPremio: React.FC<DetalhesPremioProps> = ({ onClose, premio, onEdit
         </div>
       </div>
 
-      {/* 8. Renderiza o modal de confirmação condicionalmente */}
       {isConfirmandoExclusao && (
         <ModalConfirmacao
           title="Confirmar Exclusão"

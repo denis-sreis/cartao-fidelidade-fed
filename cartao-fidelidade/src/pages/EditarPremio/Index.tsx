@@ -1,13 +1,12 @@
 import React, { useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import type { Premio } from '../../components/ListaPremios/produtosTeste'; // Importe seu tipo
+import type { Premio } from '../../components/ListaPremios/produtosTeste'; 
 
 interface EditarPremioProps {
   onClose: () => void;
-  premio: Premio; // Recebe o prêmio atual para preencher os campos
+  premio: Premio; 
 }
 
-// Ícone de Lápis (SVG)
 const PencilIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" fill="#1C1C1E"/>
@@ -16,7 +15,6 @@ const PencilIcon = () => (
 
 const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio }) => {
   
-  // Pré-popula o formulário com os dados do prêmio
   const [formData, setFormData] = useState({
     nomePremio: premio.nome,
     pontos: premio.pontos.toString(),
@@ -49,7 +47,6 @@ const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio }) => {
     if (imagemSelecionada) {
       console.log('Nova Imagem para upload:', imagemSelecionada);
     }
-    // TODO: Adicionar lógica de API para salvar
     onClose();
   };
   
@@ -61,14 +58,13 @@ const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio }) => {
 
         <form onSubmit={handleSubmit}>
         
-        {/* ---- UI de Edição de Foto ---- */}
         <div 
           style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--spacing-lg)', cursor: 'pointer', position: 'relative' }}
           onClick={handleImageClick}
           title="Clique para alterar a foto"
         >
           <img 
-            src={previewUrl || undefined} // Usa a prévia ou a URL original
+            src={previewUrl || undefined} 
             alt="Prévia do prêmio" 
             style={{ 
               width: '120px', 
@@ -78,11 +74,10 @@ const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio }) => {
               border: '2px solid var(--color-border)'
             }} 
           />
-          {/* Ícone de Lápis sobreposto */}
           <div style={{
             position: 'absolute',
             bottom: '5px',
-            right: 'calc(50% - 60px)', // Centraliza o ícone
+            right: 'calc(50% - 60px)', 
             transform: 'translateX(50px)',
             backgroundColor: 'var(--color-surface)',
             borderRadius: '50%',
@@ -101,7 +96,6 @@ const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio }) => {
           onChange={handleImageChange}
           style={{ display: 'none' }} 
         />
-        {/* ---- Fim da UI de Foto ---- */}
 
         <p style={{textAlign: 'left', color: 'var(--color-text-secondary)', marginBottom: 'var(--spacing-sm)'}}>Informações Principais</p>
           

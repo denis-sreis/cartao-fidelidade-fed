@@ -10,7 +10,7 @@ import ListaPremiosADM from '../../../components/ListaPremios/ListaPremios'
 import BotaoQR from '../../../components/BotaoQR/BotaoQR'
 
 import DetalhesPremio from '../../../components/DetalhesPremio/Index'; 
-import type { Premio } from '../../../components/ListaPremios/produtosTeste';
+import type { Premio } from '../../../api/produto';
 import EditarPremio from '../../EditarPremio/Index'; 
 
 import PerfilCliente from '../../PerfilCliente/Index'
@@ -143,4 +143,4 @@ const fecharEditarPremio = () => {
   )
 }
 
-export default TelaPrincipalADM
+export default TelaPrincipalADM;
