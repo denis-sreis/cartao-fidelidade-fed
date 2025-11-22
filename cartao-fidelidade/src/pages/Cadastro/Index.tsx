@@ -97,7 +97,11 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
       });
 
       console.log('Cadastro realizado com sucesso!', response);
-      navigate('/principal'); 
+      if (userType === 'empresa') {
+        navigate('/principalADM'); 
+      } else {
+        navigate('/principalCliente'); 
+      }
     } catch (err) {
       if (err instanceof Error) {
         setErroSenha(err.message); 
