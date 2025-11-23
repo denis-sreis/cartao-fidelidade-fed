@@ -1,11 +1,6 @@
-// src/api/produto.ts
-
 import api from './index'; 
 import axios, { type AxiosResponse } from 'axios'; 
 
-// --- Interfaces de Dados ---
-
-// O que o FRONTEND espera (para renderização)
 export interface Premio {
   id: number;
   nome: string;
@@ -14,13 +9,11 @@ export interface Premio {
   descricao?: string; 
 }
 
-// O que o BACKEND ENVIA (para POST - Payload de Cadastro)
 export interface CadastroPremioPayload {
   nome: string; 
-  pontos: number; // CORRIGIDO: O POST espera 'pontos'
+  pontos: number; 
   expira_em?: string; 
   
-  // VALORES PADRÃO INJETADOS:
   descricao: string; 
   quantidade: number;
   nome_da_promocao: string | null; 
@@ -28,12 +21,11 @@ export interface CadastroPremioPayload {
   imagem_data_url?: string; 
 }
 
-// O que o BACKEND realmente envia (para listagem GET)
 interface PremioBackend {
     id: number;
     nome: string;
     descricao?: string;
-    pontos_necessarios: number; // O GET usa este nome
+    pontos_necessarios: number;
     quantidade: number;
     expira_em: string | null;
     nome_da_promocao: string | null;
@@ -41,12 +33,10 @@ interface PremioBackend {
     url_foto?: string; 
 }
 
-// --- Configurações e Funções Auxiliares ---
 
 const PRODUTOS_ENDPOINT = '/produtos'; 
 const DEFAULT_IMAGE_URL = 'https://cdn-icons-png.flaticon.com/128/70/70972.png'; 
 
-// Função de conversão de File para Base64 (Data URL)
 const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -56,13 +46,11 @@ const fileToBase64 = (file: File): Promise<string> => {
   });
 };
 
-// --- Função de Listagem (GET) ---
 
 export const getPremios = async (): Promise<Premio[]> => {
   try {
     const response: AxiosResponse<PremioBackend[]> = await api.get(PRODUTOS_ENDPOINT);
     
-    // Mapeamento de Backend para Frontend (Mapeia pontos_necessarios para pontos)
     const premiosMapeados: Premio[] = response.data
         .map(premioBackend => ({
             id: premioBackend.id,
@@ -88,12 +76,9 @@ export const getPremios = async (): Promise<Premio[]> => {
 };
 
 
-// --- Função de Cadastro (POST) ---
-
-// Tipagem da entrada simplificada do componente (RECEBENDO A PROPRIEDADE 'pontos' como string do formulário)
 type CadastroInput = Omit<CadastroPremioPayload, 'imagem_data_url' | 'descricao' | 'quantidade' | 'nome_da_promocao' | 'pontos'> & {
     nome: string;
-    pontos: string; // Vem do input do formulário
+    pontos: string; 
     expira_em: string;
 };
 
@@ -102,7 +87,6 @@ export const cadastrarPremio = async (
   imagemFile: File | null
 ): Promise<any> => { 
   
-  // 1. Obter e limpar o valor de pontos (Garantindo que a string vazia seja 0)
   const pontosStr = dadosFormulario.pontos?.toString() || '';
   const pontosValor = pontosStr.trim() === '' ? 0 : Number(pontosStr);
   
@@ -110,25 +94,20 @@ export const cadastrarPremio = async (
       throw new Error("O valor dos pontos não é um número válido.");
   }
   
-  // 2. Montagem do payload final (CORRIGIDO)
   let payload: Partial<CadastroPremioPayload> = { 
     nome: dadosFormulario.nome,
     
-    // CAMPO CRÍTICO: Enviamos como 'pontos'
     pontos: pontosValor, 
     
-    // VALORES PADRÃO INJETADOS PARA SATISFAZER O BACKEND:
     descricao: "Prêmio resgatável no balcão.", 
     quantidade: 1, 
     nome_da_promocao: null,
   };
   
-  // Condicionalmente adicionar expira_em, se não for vazio
   if (dadosFormulario.expira_em && dadosFormulario.expira_em.trim() !== '') {
     payload.expira_em = dadosFormulario.expira_em;
   }
 
-  // 3. Conversão Base64 da imagem (se houver)
   if (imagemFile) {
     try {
       const base64String = await fileToBase64(imagemFile); 
@@ -138,7 +117,6 @@ export const cadastrarPremio = async (
     }
   }
 
-  // 4. Requisição POST
   try {
     const response = await api.post(PRODUTOS_ENDPOINT, payload); 
     return response.data;

@@ -14,17 +14,14 @@ const DetalhesPremio: React.FC<DetalhesPremioProps> = ({ onClose, premio, onEdit
   const [isConfirmandoExclusao, setConfirmandoExclusao] = useState(false);
 
   const handleEditar = () => {
-    // 5. Chama a função do pai (TelaPrincipalADM) para abrir a edição
     onEditarClick(premio);
   };
 
   const handleExcluir = () => {
-    // 6. Apenas abre o modal de confirmação
     setConfirmandoExclusao(true);
   };
 
   const handleConfirmarExclusao = () => {
-    // 7. Esta é a lógica de exclusão real
     console.warn('CONFIRMADO EXCLUIR:', premio.nome);
     
     setConfirmandoExclusao(false); 

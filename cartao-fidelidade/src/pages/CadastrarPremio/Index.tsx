@@ -1,5 +1,3 @@
-// src/pages/CadastrarPremio/Index.tsx
-
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { cadastrarPremio } from '../../api/produto'; 
@@ -9,7 +7,6 @@ interface CadastrarPremioProps {
   onSuccess?: () => void; 
 }
 
-// Definição do limite de tamanho (0.5 MB = 500 KB) para mitigar o 413
 const MAX_IMAGE_SIZE_MB = 0.5; 
 const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024;
 
@@ -41,7 +38,6 @@ const CadastrarPremio: React.FC<CadastrarPremioProps> = ({ onClose, onSuccess })
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
 
-      // Mitigação do 413: Verifica o tamanho do arquivo
       if (file.size > MAX_IMAGE_SIZE_BYTES) {
         alert(`Erro: A imagem excede o tamanho máximo permitido de ${MAX_IMAGE_SIZE_MB} MB. Selecione uma imagem menor.`);
         e.target.value = '';

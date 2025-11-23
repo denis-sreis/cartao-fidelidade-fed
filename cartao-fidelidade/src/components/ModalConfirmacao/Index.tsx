@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 interface ModalConfirmacaoProps {
   title: string;
   message: string;
-  onClose: () => void;      // O que fazer ao clicar em "Cancelar" ou fora
-  onConfirm: () => void;    // O que fazer ao clicar em "Confirmar"
+  onClose: () => void;      
+  onConfirm: () => void;  
   confirmText?: string;
   cancelText?: string;
 }
@@ -21,11 +21,11 @@ const ModalConfirmacao: React.FC<ModalConfirmacaoProps> = ({
 
   const handleConfirmClick = () => {
     onConfirm();
-    onClose(); // Fecha o modal após a confirmação
+    onClose(); 
   };
 
   return ReactDOM.createPortal(
-    <div className="modal-overlay" onClick={onClose} style={{ zIndex: 1002 }}> {/* zIndex maior para ficar sobre outros modais */}
+    <div className="modal-overlay" onClick={onClose} style={{ zIndex: 1002 }}> 
       <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
         <div className="modal-grabber"></div>
         
@@ -43,13 +43,12 @@ const ModalConfirmacao: React.FC<ModalConfirmacaoProps> = ({
           {message}
         </p>
 
-        {/* Botões de Ação */}
         <div className="form-group">
           <button 
             type="button" 
             className="btn btn-primary" 
             onClick={handleConfirmClick} 
-            style={{ backgroundColor: '#D9534F' }} // Vermelho para perigo
+            style={{ backgroundColor: '#D9534F' }} 
           >
             {confirmText}
           </button>
