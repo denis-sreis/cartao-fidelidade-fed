@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IMaskInput } from 'react-imask'; 
 import { loginSchema } from '../Home/validador'; 
-
+import { login } from '../../api/auth'; 
 import Cadastro from '../Cadastro/Index';
 import EsqueciSenha from '../EsqueciSenha/Index';
-import SalvarSenha from '../EsqueciSenha/salvarSenha';
-import ValidarCodigo from '../EsqueciSenha/validarCodigo';
 
 const urlOlhoFechado = 'https://cdn-icons-png.flaticon.com/128/3178/3178377.png';
 const urlOlhoAberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png';
@@ -23,9 +21,9 @@ function Home() {
   const navigate = useNavigate();
   
   const [isCadastroVisible, setCadastroVisible] = useState(false);
+  
   const [isEsqueciSenhaVisible, setEsqueciSenhaVisible] = useState(false);
-  const [isValidarCodigoVisible, setValidarCodigoVisible] = useState(false);
-  const [isSalvarSenhaVisible, setSalvarSenhaVisible] = useState(false);
+  const [resetEsqueciSenha, setResetEsqueciSenha] = useState(0);
 
   const [documento, setDocumento] = useState('');
   const [senha, setSenha] = useState('');
@@ -40,7 +38,7 @@ function Home() {
     }
   };
 
-  const handleLogin = (event: React.FormEvent) => {
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
     setErro('');
 
@@ -50,28 +48,34 @@ function Home() {
       setErro(error.details[0].message);
       return;
     }
+    
+    const docApenasNumeros = documento.replace(/[^\d]/g, ''); 
 
-    console.log('Prosseguindo com o login...');
-    const docApenasNumeros = documento.replace(/[^\d]/g, '');
+    try {
+        const response = await login({
+            documento: docApenasNumeros, 
+            senha: senha,
+        });
 
-    if (docApenasNumeros.length === 11) {
-      navigate('/principalCliente');
-    } else if (docApenasNumeros.length === 14) {
-      navigate('/principalADM');
+        console.log('Login bem-sucedido!', response);
+            
+        if (docApenasNumeros.length === 11) {
+          navigate('/principalCliente');
+        } else if (docApenasNumeros.length === 14) {
+          navigate('/principalADM');
+        }
+        
+        setResetEsqueciSenha(c => c + 1);
+
+    } catch (err) {
+        if (err instanceof Error) {
+            setErro(err.message);
+        } else {
+            setErro('Ocorreu um erro desconhecido durante o login.');
+        }
     }
-    // Aqui adicionar a chamada de API de login real
   };
-  
-  const handleTrocarParaValidarCodigo = () => {
-    setEsqueciSenhaVisible(false);
-    setValidarCodigoVisible(true);
-  };
-
-  const handleTrocarParaSalvarSenha = () => {
-    setValidarCodigoVisible(false);
-    setSalvarSenhaVisible(true);
-  };
-
+    
   const mascara = [
     { mask: '000.000.000-00' },
     { mask: '00.000.000/0000-00' }
@@ -85,7 +89,6 @@ function Home() {
           <h2 className="card__title">Entrar</h2>
           
           <form onSubmit={handleLogin}>
-            
             <div className="form-group">
               <IMaskInput
                 mask={mascara}
@@ -136,7 +139,7 @@ function Home() {
             <div className="form-footer-text">
               <a href="#" className="link" onClick={(e) => {
                 e.preventDefault();
-                setEsqueciSenhaVisible(true);
+                setEsqueciSenhaVisible(true); 
               }}>
                 Esqueceu sua senha?
               </a>
@@ -149,25 +152,11 @@ function Home() {
         <Cadastro onClose={() => setCadastroVisible(false)} />
       )}
       
-      {isEsqueciSenhaVisible && (
-        <EsqueciSenha
-          onClose={() => setEsqueciSenhaVisible(false)}
-          onEnviarCodigoClick={handleTrocarParaValidarCodigo}
-        />
-      )}
-
-      {isValidarCodigoVisible && (
-        <ValidarCodigo
-          onClose={() => setValidarCodigoVisible(false)}
-          onValidadoClick={handleTrocarParaSalvarSenha}
-        />
-      )}
-
-      {isSalvarSenhaVisible && (
-        <SalvarSenha
-          onClose={() => setSalvarSenhaVisible(false)}
-        />
-      )}
+      <EsqueciSenha
+        estaAberto={isEsqueciSenhaVisible}
+        onClose={() => setEsqueciSenhaVisible(false)}
+        resetTrigger={resetEsqueciSenha}
+      />
     </>
   );
 }

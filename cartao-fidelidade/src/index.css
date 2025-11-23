@@ -45,7 +45,7 @@ body {
   font-family: var(--font-family-base);
   font-size: var(--font-size-base);
   background-color: var(--color-background); 
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -434,7 +434,17 @@ p.error-message {
 }
 
 .codigo-inputs {
-          display: flex;
-          justify-content: space-between;
-          gap: 10px;
-        }
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.codigo-input {
+  width: 45px;      
+  height: 50px;
+  text-align: center;
+  font-size: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0;
+}

@@ -5,11 +5,15 @@ interface ItemPremiosProps {
   nome: string;
   pontos: number;
   imagemUrl: string;
+  onClick?: () => void; 
 }
-function ItemPremios({ nome, pontos, imagemUrl }: ItemPremiosProps) {
+function ItemPremios({ nome, pontos, imagemUrl, onClick }: ItemPremiosProps) {
     const pontosFormatados = pontos.toString().padStart(2, '0');
+    
+    const itemClasses = `itemPremio ${onClick ? 'item-clicavel' : ''}`;
+
   return (
-    <div className={'itemPremio'}>
+    <div className={itemClasses} onClick={onClick}> 
         <div className='premio'>
             <img src={Canto} className='canto'/>
             <h1 className='num'>{pontosFormatados}</h1>
