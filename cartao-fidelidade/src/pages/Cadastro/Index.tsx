@@ -18,7 +18,7 @@ interface CadastroProps {
 const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
   const [step, setStep] = useState(1); 
   const navigate = useNavigate();
-  const [userType, setUserType] = useState<'cliente' | 'empresa'>('cliente');
+  const [userType, setUserType] = useState<'cliente' | 'funcionario'>('cliente');
 
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -97,7 +97,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
       });
 
       console.log('Cadastro realizado com sucesso!', response);
-      if (userType === 'empresa') {
+      if (userType === 'funcionario') {
         navigate('/principalADM'); 
       } else {
         navigate('/principalCliente'); 
@@ -112,13 +112,14 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
   };
 
 
-  const handleUserTypeChange = (novoTipo: 'cliente' | 'empresa') => {
+  const handleUserTypeChange = (novoTipo: 'cliente' | 'funcionario') => {
     if (userType !== novoTipo) {
       setUserType(novoTipo);
       setDocumento(''); 
       setErroStep1(''); 
     }
   }; 
+  
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
@@ -137,8 +138,8 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
                 Sou cliente
               </button>
               <button 
-                className={`toggle-btn ${userType === 'empresa' ? 'active' : ''}`}
-                onClick={() => handleUserTypeChange('empresa')}
+                className={`toggle-btn ${userType === 'funcionario' ? 'active' : ''}`}
+                onClick={() => handleUserTypeChange('funcionario')}
                 type="button"
               >
                 Sou empresa

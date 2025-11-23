@@ -4,7 +4,7 @@ import { TelefoneValido } from './validadorTel';
 import { NomeValido } from './validadorNome';
 
 interface ValidationContext {
-  userType: 'cliente' | 'empresa';
+  userType: 'cliente' | 'funcionario';
 }
 
 const validarDocumentoJoi = (value: string, helpers: Joi.CustomHelpers) => {
@@ -21,7 +21,7 @@ const validarDocumentoJoi = (value: string, helpers: Joi.CustomHelpers) => {
     return helpers.error('documento.cpfInvalido'); 
   }
 
-  if (userType === 'empresa') {
+  if (userType === 'funcionario') {
     const isCnpjValido = docApenasNumeros.length === 14 && cnpj.isValid(docApenasNumeros);
     if (isCnpjValido) {
       return value;

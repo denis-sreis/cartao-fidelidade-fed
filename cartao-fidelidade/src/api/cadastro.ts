@@ -6,7 +6,7 @@ export interface RegisterPayload {
   telefone: string;
   documento: string;
   senha: string;
-  tipo: 'cliente' | 'empresa';
+  tipo: 'cliente' | 'funcionario';
 }
 
 
