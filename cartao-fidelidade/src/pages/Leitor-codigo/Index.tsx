@@ -83,7 +83,7 @@ const LeitorCodigo = () => {
         }
 
         setTimeout(() => {
-          navigate('/'); // Redireciona para a home
+          navigate('/principal'); 
         }, 3000);
 
       } catch (error) {
