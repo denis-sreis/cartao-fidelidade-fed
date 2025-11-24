@@ -1,5 +1,3 @@
-// src/pages/Leitor-codigo/Index.tsx
-
 import { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +10,7 @@ import PerfilCliente from '../PerfilCliente/Index';
 const API_USAR_URL = 'http://localhost:3000/api/fidelidade/qrcode/usar';
 
 // --- TOKEN PROVISÓRIO PARA TESTE DO LEITOR ---
-// Este é o token que você me mandou.
+// Utilizar de cliente
 const TEMP_AUTH_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidGlwbyI6ImNsaWVudGUiLCJpYXQiOjE3NjM5NTUzOTQsImV4cCI6MTc2NjU0NzM5NH0.0A6zYVA-GDarqpq4uWcngbzx-J6GkMSWzIivOSVyHe0';
 // ---------------------------------------------
 
@@ -121,7 +119,7 @@ const LeitorCodigo = () => {
   }, [navigate]);
 
   return (
-    // ... (O JSX do return permanece exatamente igual, sem alterações)
+  
     <>
       <div className="leitor-codigo-container">
         <header className="leitor-codigo-header">

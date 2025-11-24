@@ -1,6 +1,3 @@
-/* src/pages/Leitor-codigo/Leitor-codigo.css */
-
-/* --- RESET BÁSICO --- */
 body, html {
     margin: 0;
     padding: 0;
@@ -8,7 +5,6 @@ body, html {
     -webkit-tap-highlight-color: transparent;
 }
   
-/* --- ESTILOS GERAIS DA PÁGINA --- */
 .leitor-codigo-container {
     background-color: #000000;
     min-height: 100vh;
@@ -34,7 +30,7 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Centraliza verticalmente */
+    justify-content: center; 
     text-align: center;
     gap: 2rem;
 }
@@ -46,18 +42,18 @@ body, html {
     margin: 0;
 }
   
-/* Container da Câmera */
+
 .qrcode-camera-container {
     width: 250px;
-    height: 250px; /* Quadrado */
+    height: 250px; 
     border-radius: 14px;
     overflow: hidden;
-    background-color: #2D3748; /* Cor de fundo enquanto carrega */
+    background-color: #2D3748; 
     position: relative;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
-/* --- HACK DA CÂMERA (html5-qrcode) --- */
+
 .qrcode-reader-element {
     width: 100%;
     height: 100%;
@@ -67,7 +63,7 @@ body, html {
 #reader canvas {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover !important; /* Preenche sem distorcer */
+    object-fit: cover !important; 
     position: absolute;
     top: 0;
     left: 0;
@@ -87,7 +83,7 @@ body, html {
     padding-top: 1rem;
 }
 
-/* --- OVERLAY E ANIMAÇÕES (PROCESSANDO, SUCESSO, ERRO) --- */
+
 
 .overlay-container {
     position: fixed;
@@ -95,7 +91,7 @@ body, html {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8); /* Mais escuro */
+    background-color: rgba(0, 0, 0, 0.8); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -109,7 +105,7 @@ body, html {
     flex-direction: column;
     align-items: center;
     color: white;
-    background-color: #1e1e1e; /* Fundo do card */
+    background-color: #1e1e1e; 
     padding: 2.5rem;
     border-radius: 16px;
     text-align: center;
@@ -118,7 +114,7 @@ body, html {
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
-/* Borda vermelha no topo se for erro */
+
 .overlay-container.error .overlay-content {
     border-top: 4px solid #dc3545; 
 }
@@ -130,12 +126,12 @@ body, html {
     word-break: break-word;
 }
   
-/* --- ESTADO: PROCESSANDO (Spinner) --- */
+
 .spinner {
     width: 50px;
     height: 50px;
     border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid #C7541B; /* Laranja do tema */
+    border-top: 4px solid #C7541B; 
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 0.5rem;
@@ -146,14 +142,14 @@ body, html {
     100% { transform: rotate(360deg); }
 }
   
-/* --- ESTADO: SUCESSO (Checkmark) --- */
+
 .success-checkmark {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     display: block;
     stroke-width: 2;
-    stroke: #28a745; /* Verde */
+    stroke: #28a745; 
     stroke-miterlimit: 10;
     box-shadow: inset 0px 0px 0px #28a745;
     animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
@@ -181,7 +177,7 @@ body, html {
 @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
 @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 40px #28a745; } }
 
-/* --- ESTADO: ERRO (X Vermelho) --- */
+
 
 .error-content {
     display: flex;
@@ -191,12 +187,12 @@ body, html {
 }
 
 .error-message {
-    color: #dc3545; /* Vermelho */
-    font-size: 1rem !important; /* Sobrescreve o padrão do overlay */
+    color: #dc3545; 
+    font-size: 1rem !important; 
     margin: 1rem 0 !important;
 }
 
-/* Ícone X animado */
+
 .error-x {
     width: 60px;
     height: 60px;
@@ -223,11 +219,11 @@ body, html {
     to { stroke-dashoffset: 0; }
 }
 
-/* Botão Tentar Novamente */
+
 .retry-button {
     margin-top: 1rem;
     padding: 0.8rem 1.5rem;
-    background-color: #C7541B; /* Laranja do tema */
+    background-color: #C7541B; 
     color: white;
     border: none;
     border-radius: 25px;
@@ -240,5 +236,5 @@ body, html {
 }
 
 .retry-button:hover {
-    background-color: #e67e22; /* Laranja mais claro */
+    background-color: #e67e22; 
 }
