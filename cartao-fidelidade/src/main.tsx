@@ -6,6 +6,7 @@ import Home from './pages/Home/Index';
 import TelaPrincipal from './pages/Tela-principal/Index';
 import EsqueciSenha from './pages/EsqueciSenha/Index';
 import LeitorCodigo from './pages/Leitor-codigo/Index';
+import GeradorCodigo from './pages/Gerador-codigo/Index';
 
 
 import './index.css';
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/principal" element={<TelaPrincipal />} /> 
         <Route path="/esqueci-senha" element={<EsqueciSenha />} /> 
         <Route path="/leitor-qrcode" element={<LeitorCodigo />} />
+        <Route path="/gerar-qrcode" element={<GeradorCodigo />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
