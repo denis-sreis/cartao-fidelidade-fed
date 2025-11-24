@@ -1,3 +1,5 @@
+// src/pages/CadastrarPremio/Index.tsx
+
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { cadastrarPremio } from '../../api/produto'; 
@@ -54,14 +56,15 @@ const CadastrarPremio: React.FC<CadastrarPremioProps> = ({ onClose, onSuccess })
     setApiError(null);
     setLoading(true);
 
-    // Payload enviado diretamente com os nomes do formulário
     const payload = {
       nome: formData.nomePremio,
-      pontos: formData.pontos, // Enviado como string, será convertido na API
+      pontos: formData.pontos, 
       expira_em: formData.duracao,
     };
 
     try {
+        // A função cadastrarPremio agora serializa este payload para Post Data
+        // e anexa o Base64 da imagem.
         await cadastrarPremio(payload, imagemSelecionada);
         
         alert('Prêmio cadastrado com sucesso!'); 
@@ -74,7 +77,6 @@ const CadastrarPremio: React.FC<CadastrarPremioProps> = ({ onClose, onSuccess })
              if (message.includes("413")) {
                  message = "A imagem é muito grande. Tente usar uma imagem com menos de 500 KB.";
              } else if (message.includes("400")) {
-                 // A mensagem de erro específica do backend virá daqui
                  message = "Erro ao cadastrar. " + message;
              }
             setApiError(message);

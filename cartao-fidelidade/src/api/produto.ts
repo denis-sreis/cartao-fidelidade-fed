@@ -1,5 +1,17 @@
+// src/api/produto.ts
+
 import api from './index'; 
-import axios, { type AxiosResponse } from 'axios'; 
+import axios, { type AxiosResponse } from 'axios'; // Corrigido: usando type para AxiosResponse
+import qs from 'qs'; // Módulo qs para serialização (após instalação)
+
+// --- Configurações e URLs (Movidas para o Topo) ---
+
+const PRODUTOS_ENDPOINT = '/produtos'; 
+const BASE_URL_IMAGEM = 'http://localhost:3000/api/imagens'; 
+const DEFAULT_IMAGE_URL = 'https://cdn-icons-png.flaticon.com/128/70/70972.png'; 
+
+// --- Interfaces de Dados ---
+// ... (Interfaces de Premio, CadastroPremioPayload, PremioBackend mantidas) ...
 
 export interface Premio {
   id: number;
@@ -14,11 +26,16 @@ export interface CadastroPremioPayload {
   pontos: number; 
   expira_em?: string; 
   
+  dia_expira?: number;
+  mes_expira?: number;
+  ano_expira?: number;
+  
   descricao: string; 
   quantidade: number;
   nome_da_promocao: string | null; 
   
-  imagem_data_url?: string; 
+  base64Image?: string; 
+  imagem_nome?: string;
 }
 
 interface PremioBackend {
@@ -33,9 +50,7 @@ interface PremioBackend {
     url_foto?: string; 
 }
 
-
-const PRODUTOS_ENDPOINT = '/produtos'; 
-const DEFAULT_IMAGE_URL = 'https://cdn-icons-png.flaticon.com/128/70/70972.png'; 
+// --- Funções Auxiliares ---
 
 const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -46,19 +61,27 @@ const fileToBase64 = (file: File): Promise<string> => {
   });
 };
 
+// --- Função de Listagem (GET) ---
 
 export const getPremios = async (): Promise<Premio[]> => {
   try {
     const response: AxiosResponse<PremioBackend[]> = await api.get(PRODUTOS_ENDPOINT);
     
     const premiosMapeados: Premio[] = response.data
-        .map(premioBackend => ({
-            id: premioBackend.id,
-            nome: premioBackend.nome,
-            descricao: premioBackend.descricao,
-            pontos: premioBackend.pontos_necessarios,
-            imagemUrl: premioBackend.url_foto || DEFAULT_IMAGE_URL,
-        }));
+        .map(premioBackend => {
+            
+            const imagemUrlFinal = premioBackend.imagem_id 
+                ? `${BASE_URL_IMAGEM}/${premioBackend.imagem_id}` 
+                : DEFAULT_IMAGE_URL; 
+            
+            return {
+                id: premioBackend.id,
+                nome: premioBackend.nome,
+                descricao: premioBackend.descricao,
+                pontos: premioBackend.pontos_necessarios,
+                imagemUrl: imagemUrlFinal,
+            };
+        });
         
     return premiosMapeados; 
 
@@ -76,10 +99,12 @@ export const getPremios = async (): Promise<Premio[]> => {
 };
 
 
-type CadastroInput = Omit<CadastroPremioPayload, 'imagem_data_url' | 'descricao' | 'quantidade' | 'nome_da_promocao' | 'pontos'> & {
+// --- Função de Cadastro (POST) ---
+
+type CadastroInput = {
     nome: string;
     pontos: string; 
-    expira_em: string;
+    expira_em: string; 
 };
 
 export const cadastrarPremio = async (
@@ -93,39 +118,66 @@ export const cadastrarPremio = async (
   if (isNaN(pontosValor)) {
       throw new Error("O valor dos pontos não é um número válido.");
   }
-  
-  let payload: Partial<CadastroPremioPayload> = { 
+
+  // Mapeamento da Data de expiração (YYYY-MM-DD -> Campos separados)
+  let dia_expira: number | undefined, mes_expira: number | undefined, ano_expira: number | undefined;
+  if (dadosFormulario.expira_em) {
+      const parts = dadosFormulario.expira_em.split('-'); 
+      if (parts.length === 3) {
+          ano_expira = Number(parts[0]);
+          mes_expira = Number(parts[1]);
+          dia_expira = Number(parts[2]);
+      }
+  }
+
+  // 1. Montar o objeto JavaScript (que será serializado por qs)
+  let payloadObject: Record<string, any> = { 
     nome: dadosFormulario.nome,
+    pontos: pontosValor, // Enviado como número, mas será serializado como string pelo qs
     
-    pontos: pontosValor, 
+    // CAMPOS DE DATA NECESSÁRIOS PELO BACKEND
+    ...(dia_expira !== undefined && { dia_expira }),
+    ...(mes_expira !== undefined && { mes_expira }),
+    ...(ano_expira !== undefined && { ano_expira }),
     
+    // VALORES PADRÃO INJETADOS
     descricao: "Prêmio resgatável no balcão.", 
     quantidade: 1, 
     nome_da_promocao: null,
   };
-  
-  if (dadosFormulario.expira_em && dadosFormulario.expira_em.trim() !== '') {
-    payload.expira_em = dadosFormulario.expira_em;
-  }
 
+  // 2. Conversão Base64 e Adição ao Payload
   if (imagemFile) {
     try {
       const base64String = await fileToBase64(imagemFile); 
-      payload.imagem_data_url = base64String;
+      
+      // CRÍTICO: Base64 e Nome são adicionados diretamente ao objeto
+      payloadObject.base64Image = base64String;
+      payloadObject.imagem_nome = imagemFile.name; 
+      
     } catch (e) {
       throw new Error("Erro ao converter imagem para Base64.");
     }
   }
+  
+  // 3. SERIALIZAÇÃO CRÍTICA: Converter o objeto para a string 'x-www-form-urlencoded'
+  const postData = qs.stringify(payloadObject);
 
+
+  // 4. Requisição POST
   try {
-    const response = await api.post(PRODUTOS_ENDPOINT, payload); 
+    const response = await api.post(PRODUTOS_ENDPOINT, postData, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    }); 
     return response.data;
     
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-        console.error("Erro 400 do Backend:", error.response.data);
+        console.error("Erro 400 do Backend (Post Data):", error.response.data);
         
-        const errorMessage = (error.response?.data as { error?: string })?.error || "Erro ao cadastrar. Verifique se a data e os pontos estão corretos.";
+        const errorMessage = (error.response?.data as { error?: string })?.error || "Erro ao cadastrar. O backend rejeitou os dados Post Data.";
         throw new Error(errorMessage);
     }
     throw new Error('Não foi possível conectar ao servidor para cadastrar o prêmio.');
