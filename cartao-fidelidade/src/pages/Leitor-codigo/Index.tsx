@@ -9,11 +9,6 @@ import PerfilCliente from '../PerfilCliente/Index';
 
 const API_USAR_URL = 'http://localhost:3000/api/fidelidade/qrcode/usar';
 
-// --- TOKEN PROVISÓRIO PARA TESTE DO LEITOR ---
-// Utilizar de cliente
-const TEMP_AUTH_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidGlwbyI6ImNsaWVudGUiLCJpYXQiOjE3NjM5NTUzOTQsImV4cCI6MTc2NjU0NzM5NH0.0A6zYVA-GDarqpq4uWcngbzx-J6GkMSWzIivOSVyHe0';
-// ---------------------------------------------
-
 
 const LeitorCodigo = () => {
   const [scanStatus, setScanStatus] = useState<'scanning' | 'processing' | 'success' | 'error'>('scanning');
@@ -43,19 +38,12 @@ const LeitorCodigo = () => {
       setErrorMessage('');
 
       try {
-        // CÓDIGO TEMPORÁRIO:
-        const authToken = TEMP_AUTH_TOKEN;
-
-        // --- TRUQUE DE DEBUG ---
-        // Abre o console (F12) para ver o que está sendo impresso aqui.
-        console.log("DEBUG: Token fixo que será usado:", authToken);
-
-        // Validação simplificada: verifica se existe e tem um tamanho mínimo de JWT
-        if (!authToken || authToken.length < 50) {
-             console.error("DEBUG: O token parece inválido ou curto demais.");
-             throw new Error('Token de teste está vazio ou inválido no código.');
+        const authToken = localStorage.getItem('authToken');
+        
+        if (!authToken) {
+            
+            throw new Error('Autenticação necessária. Faça login no celular como Cliente.');
         }
-        // -----------------------
 
 
         const response = await fetch(API_USAR_URL, {
@@ -71,7 +59,7 @@ const LeitorCodigo = () => {
 
         if (!response.ok) {
             if (response.status === 401) {
-                throw new Error('Autenticação expirada (Token de teste inválido).');
+                throw new Error('Sessão expirada. Faça login novamente.');
             }
             throw new Error(data.mensagem || data.error || 'Falha ao processar o QR Code.');
         }
@@ -91,10 +79,12 @@ const LeitorCodigo = () => {
         setScanStatus('error');
         setErrorMessage(error instanceof Error ? error.message : 'Ocorreu um erro inesperado.');
         
-        // Se der erro de autenticação com o token fixo, não adianta mandar pro login ainda.
-        // Apenas mostra o erro na tela para você saber que precisa trocar o token no código.
+        if (error instanceof Error && (error.message.includes('Autenticação') || error.message.includes('Sessão'))) {
+             setTimeout(() => navigate('/'), 3000);
+        }
       }
     };
+
 
     if (!qrCodeScannerRef.current) {
       const config = { fps: 10, qrbox: { width: 250, height: 250 } };
@@ -119,7 +109,6 @@ const LeitorCodigo = () => {
   }, [navigate]);
 
   return (
-  
     <>
       <div className="leitor-codigo-container">
         <header className="leitor-codigo-header">

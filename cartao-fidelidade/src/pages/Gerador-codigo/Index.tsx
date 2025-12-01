@@ -8,18 +8,16 @@ import Cabecalho from '../../components/Cabecalho/Cabecalho';
 import Navegacao from '../../components/Navegacao/Navegacao';
 import PerfilCliente from '../PerfilCliente/Index';
 
-// TOKEN DE TESTE HARDCODED (Substitua se expirar)
-const AUTH_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidGlwbyI6ImZ1bmNpb25hcmlvIiwiaWF0IjoxNzYzOTQ3MTU5LCJleHAiOjE3NjY1MzkxNTl9.klkpRg-0zOrYevpKyHnSiExyLIDvJ182fRxD3na0j6M';
 
-// --- PAYLOAD ESTÁTICO FORA DO COMPONENTE ---
+// Payload padrão (fallback) caso não venha da navegação.
+// ISSO SERÁ O PRÓXIMO PASSO A SER REMOVIDO QUANDO INTEGRAR A TELA ANTERIOR.
 const defaultPayload = {
   tipo: "adicionar",
   pontos: 100,
-  titulo: "Compra acima de R$100 (Teste Estático)",
-  descricao: "Pontos bônus por compra (Teste Estático)",
+  titulo: "Compra acima de R$100 (Padrão)",
+  descricao: "Pontos bônus por compra (Padrão)",
   expiraEm: "2025-12-31T23:59:59Z"
 };
-// -------------------------------------------
 
 const GeradorCodigo = () => {
 
@@ -28,20 +26,24 @@ const GeradorCodigo = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
+  
   const payloadRecebidoDaRota = location.state?.payload;
+
 
   const payloadParaGerar = payloadRecebidoDaRota || defaultPayload;
 
   useEffect(() => {
-    // 1. Bandeira para saber se esta execução do efeito ainda é válida
+    
     let isMounted = true;
 
     const fetchQrCodeContent = async () => {
       try {
-        if (!AUTH_TOKEN) {
-            console.error("Erro: Token de autenticação não configurado.");
-            // Só atualiza se ainda for válido
-            if (isMounted) setQrCodeData('ERRO: Token de autenticação não configurado.');
+
+        const authToken = localStorage.getItem('authToken');
+
+        if (!authToken) {
+            console.error("Erro: Usuário não autenticado.");
+            if (isMounted) setQrCodeData('ERRO: Você precisa fazer login como funcionário.');
             return;
         }
 
@@ -51,48 +53,51 @@ const GeradorCodigo = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${AUTH_TOKEN}`,
+            'Authorization': `Bearer ${authToken}`,
           },
           body: JSON.stringify(payloadParaGerar),
         });
 
         if (!response.ok) {
           const errorData = await response.json();
+          if (response.status === 401) {
+            throw new Error('Sessão expirada. Faça login novamente.');
+          }
           throw new Error(errorData.mensagem || `Erro HTTP: ${response.status}`);
         }
 
         const data = await response.json();
         console.log("Resposta do Backend:", data);
 
-        // 2. VERIFICAÇÃO FINAL: Só atualiza o estado se esta for a execução válida
         if (isMounted) {
             if (data.qrcode && data.qrcode.token) {
               setQrCodeData(data.qrcode.token);
             } else if (data.qrcode && data.qrcode.id) {
-                console.warn("Aviso: Usando ID numérico.");
-                setQrCodeData(data.qrcode.id.toString());
+                 console.warn("Aviso: Usando ID numérico.");
+                 setQrCodeData(data.qrcode.id.toString());
             } else {
-                throw new Error('Token/ID não encontrado na resposta.');
+                 throw new Error('Token/ID não encontrado na resposta.');
             }
         }
 
       } catch (error) {
-        // Só atualiza o erro se for válido
         if (isMounted) {
             console.error("Erro ao buscar dados para o QR Code:", error);
             setQrCodeData(`ERRO: ${error instanceof Error ? error.message : "Falha na geração."}`);
+             if (error instanceof Error && error.message.includes('Sessão expirada')) {
+                setTimeout(() => navigate('/'), 3000);
+            }
         }
       }
     };
 
     fetchQrCodeContent();
 
-    
     return () => {
       isMounted = false;
     };
 
-  }, [payloadParaGerar]);
+  }, [payloadParaGerar, navigate]);
 
 
   return (
@@ -115,7 +120,7 @@ const GeradorCodigo = () => {
                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
               />
             ) : (
-              <p>{qrCodeData || 'Aguardando dados para gerar o QR Code...'}</p>
+              <p className="error-text">{qrCodeData || 'Aguardando dados para gerar o QR Code...'}</p>
             )}
           </div>
 
