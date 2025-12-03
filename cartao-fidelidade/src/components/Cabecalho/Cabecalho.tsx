@@ -1,6 +1,6 @@
 import './cabecalho.css';
 import menu from './Menu.png'
-
+import usuario from './user.png'
 interface CabecalhoProps {
   onProfileClick: () => void;
   onAbrirMenu: () => void;
@@ -13,7 +13,7 @@ function Cabecalho({ onProfileClick, onAbrirMenu }: CabecalhoProps) {
             <img src={menu} className="icone" />
         </button>
         <button className={'botaoPerfil'} onClick={onProfileClick}>
-          <img src={"https://thispersondoesnotexist.com/"} className={'fotoPerfil'} />
+          <img src={usuario} className={'fotoPerfil'} />
         </button>
     </div>
   );

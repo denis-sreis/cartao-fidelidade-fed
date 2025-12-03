@@ -1,39 +1,63 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { updateDadosUsuario } from '../../api/usuario'; 
+import { IMaskInput } from 'react-imask';
+import { atualizarMeusDados, atualizarFotoPerfil, type Cliente } from '../../api/cliente';
+import { loginSchema } from '../Cadastro/validador'; 
 
 interface EditarDadosProps {
   onClose: () => void;
-  idUsuario: number; 
-  dadosAtuais: { 
-    nome: string; 
-    telefone: string; 
-    cpf: string; 
-    fotoUrl?: string; 
-  };
+  idUsuario?: number; 
+  dadosAtuais: Cliente; 
 }
 
-const EditarDados: React.FC<EditarDadosProps> = ({ onClose, idUsuario, dadosAtuais }) => {
+const EditarDados: React.FC<EditarDadosProps> = ({ onClose, dadosAtuais }) => {
   
-  const [formData, setFormData] = useState(dadosAtuais);
+  const [formData, setFormData] = useState({
+      nome: '',
+      telefone: '',
+  });
+
   const [imagemSelecionada, setImagemSelecionada] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(dadosAtuais.fotoUrl || null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const mascaraNome = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s]*$/;
+
+  useEffect(() => {
+    if (dadosAtuais) {
+        setFormData({
+            nome: dadosAtuais.nome || '', 
+            telefone: dadosAtuais.telefone || ''
+        });
+
+        if (dadosAtuais.imagem) {
+            setPreviewUrl(dadosAtuais.imagem);
+        }
+    }
+  }, [dadosAtuais]); 
+
+  const handleNameChange = (value: string) => {
+    setFormData(prev => ({ ...prev, nome: value }));
   };
+
+  const handlePhoneChange = (value: string) => {
+    setFormData(prev => ({ ...prev, telefone: value }));
+  };
+
+
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setImagemSelecionada(file);
       setPreviewUrl(URL.createObjectURL(file));
-      if (dadosAtuais.fotoUrl) URL.revokeObjectURL(dadosAtuais.fotoUrl);
+      
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+         URL.revokeObjectURL(previewUrl);
+      }
     }
   };
 
@@ -46,21 +70,41 @@ const EditarDados: React.FC<EditarDadosProps> = ({ onClose, idUsuario, dadosAtua
     setApiError(null);
     setLoading(true);
 
-    const payload = {
-      nome: formData.nome,
-      telefone: formData.telefone,
-    };
-    
+    const telefoneSemMascara = formData.telefone.replace(/\D/g, '');
+    const nomeCortado = formData.nome.trim();
+    const documentoSemMascara = (dadosAtuais.documento || '').replace(/\D/g, '');
+
+    const { error } = loginSchema.validate(
+        { 
+            nome: nomeCortado, 
+            telefone: telefoneSemMascara, 
+            documento: documentoSemMascara 
+        }, 
+        { context: { userType: 'cliente' } }
+    );
+
+    if (error) {
+        setApiError(error.details[0].message);
+        setLoading(false);
+        return; 
+    }
+
     try {
-        const response = await updateDadosUsuario(
-            idUsuario, 
-            payload, 
-            imagemSelecionada
-        );
+        if (formData.nome !== dadosAtuais.nome || formData.telefone !== dadosAtuais.telefone) {
+             
+             await atualizarMeusDados({
+                nome: nomeCortado, 
+                telefone: formData.telefone 
+             });
+        }
+
+        if (imagemSelecionada) {
+            await atualizarFotoPerfil(imagemSelecionada);
+        }
         
-        console.log('Dados atualizados com sucesso!', response);
         alert('Dados salvos com sucesso!'); 
         onClose();
+        window.location.reload(); 
 
     } catch (err) {
         if (err instanceof Error) {
@@ -83,7 +127,7 @@ const EditarDados: React.FC<EditarDadosProps> = ({ onClose, idUsuario, dadosAtua
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
         <div className="modal-grabber"></div>
-        <h2 className="card__title" style={{ marginTop: 0 }}>Dados Pessoais</h2>
+        <h2 className="card__title" style={{ marginTop: 0 }}>Editar Dados</h2>
 
         <form onSubmit={handleSubmit}>
 
@@ -96,7 +140,11 @@ const EditarDados: React.FC<EditarDadosProps> = ({ onClose, idUsuario, dadosAtua
               <img 
                 src={previewUrl} 
                 alt="Prévia do perfil" 
-                style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover' }}
+                style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--color-primary)' }}
+                onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.innerHTML = '<div style="color:red; font-size:0.8rem">Erro ao carregar</div>';
+                }}
               />
             ) : (
               <div style={{
@@ -106,7 +154,7 @@ const EditarDados: React.FC<EditarDadosProps> = ({ onClose, idUsuario, dadosAtua
                 flexDirection: 'column', color: 'var(--color-text-secondary)'
               }}>
                 <PlaceholderIcon />
-                <span style={{ fontSize: '0.8rem', marginTop: '4px' }}>Adicionar</span>
+                <span style={{ fontSize: '0.8rem', marginTop: '4px' }}>Alterar</span>
               </div>
             )}
           </div>
@@ -119,42 +167,43 @@ const EditarDados: React.FC<EditarDadosProps> = ({ onClose, idUsuario, dadosAtua
             style={{ display: 'none' }} 
           />
 
-          {apiError && <p style={{ color: 'red', textAlign: 'center', marginBottom: '10px' }}>{apiError}</p>}
-
+          {apiError && <div style={{ color: '#721c24', textAlign: 'center', marginBottom: '15px', padding: '10px', backgroundColor: '#f8d7da', borderRadius: '8px', fontSize: '0.9rem' }}>{apiError}</div>}
 
           <div className="form-group">
-            <input 
+            <label style={{display: 'block', marginBottom: 5, color: '#666'}}>Nome</label>
+            <IMaskInput 
+              mask={mascaraNome}
               type="text"
-              name="nome"
               value={formData.nome}
-              onChange={handleChange}
+              onAccept={(value: string) => handleNameChange(value)}
               placeholder="Digite seu nome"
               className="form-input"
               disabled={loading}
-            />
-          </div>
-          <div className="form-group">
-            <input 
-              type="text"
-              name="telefone"
-              value={formData.telefone}
-              onChange={handleChange}
-              placeholder="Digite seu telefone"
-              className="form-input"
-              disabled={loading}
+              required 
             />
           </div>
           
           <div className="form-group">
-            <input 
-              type="text"
-              name="cpf"
-              value={formData.cpf}
-              placeholder="CPF/CNPJ (Inalterável)"
+             <label style={{display: 'block', marginBottom: 5, color: '#666'}}>Telefone</label>
+            <IMaskInput
+              mask="(00) 0 0000-0000"
+              value={formData.telefone}
+              onAccept={(value) => handlePhoneChange(value)}
+              placeholder="Digite seu telefone"
+              className="form-input"
+              disabled={loading}
+              required 
+            />
+          </div>
+          <div className="form-group">
+            <label style={{display: 'block', marginBottom: 5, color: '#666'}}>Documento</label>
+            <IMaskInput 
+              mask="000.000.000-00"
+              value={dadosAtuais.documento || ''} 
               className="form-input"
               disabled 
               readOnly 
-              style={{ cursor: 'default', backgroundColor: 'var(--color-input-disabled, #eee)' }}
+              style={{ cursor: 'default', backgroundColor: '#e9ecef', color: '#495057' }}
             />
           </div>
           
@@ -163,8 +212,9 @@ const EditarDados: React.FC<EditarDadosProps> = ({ onClose, idUsuario, dadosAtua
               type="submit" 
               className="btn btn-primary"
               disabled={loading} 
+              style={{ width: '100%', padding: '12px' }}
             >
-              {loading ? 'Salvando...' : 'Salvar dados'}
+              {loading ? 'Salvando...' : 'Salvar Alterações'}
             </button>
           </div>
         </form>
