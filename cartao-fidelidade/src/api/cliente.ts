@@ -21,13 +21,18 @@ const CLIENTE_FOTO_ENDPOINT = '/cliente/me/foto';
 
 const processarImagemUsuario = (data: any): string | null => {
     if (!data) return null;
-    const idImagem = data.imagem_id || data.foto_imagem_id;
 
-    if (idImagem) {
-        return `${BASE_URL_IMAGEM}/${idImagem}`;
+    if (data.foto && data.foto.base64) {
+        const mime = data.foto.mimeType || 'image/jpeg';
+        return `data:${mime};base64,${data.foto.base64}`;
     }
     
-    const img = data.imagem || data.foto || data.url_foto;
+    if (data.imagem_id || data.foto_imagem_id) {
+         return `${BASE_URL_IMAGEM}/${data.imagem_id}`; 
+    }
+    
+    const img = data.imagem || data.url_foto || (typeof data.foto === 'string' ? data.foto : null);
+    
     if (img && typeof img === 'string') {
         if (img.startsWith('http') || img.startsWith('data:')) {
             return img;

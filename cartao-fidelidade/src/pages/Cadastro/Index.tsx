@@ -4,7 +4,7 @@ import { IMaskInput } from 'react-imask';
 import { useNavigate } from 'react-router-dom';
 import { loginSchema } from '../Cadastro/validador'; 
 import { register } from '../../api/cadastro';
-
+import { login } from '../../api/auth';
 
 const hasLowercase = (password: string) => /[a-z]/.test(password);
 const hasUppercase = (password: string) => /[A-Z]/.test(password);
@@ -86,6 +86,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
       setErroSenha('A senha não atende a todos os requisitos.');
       return;
     }
+    const documentoLimpo = documento.replace(/\D/g, '');
     
     try {
       const response = await register({
@@ -97,11 +98,18 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
       });
 
       console.log('Cadastro realizado com sucesso!', response);
+      localStorage.clear(); 
+      await login({
+        documento: documentoLimpo,
+        senha: senha
+      });
+
       if (userType === 'funcionario') {
         navigate('/principalADM'); 
       } else {
         navigate('/principalCliente'); 
       }
+      
     } catch (err) {
       if (err instanceof Error) {
         setErroSenha(err.message); 
