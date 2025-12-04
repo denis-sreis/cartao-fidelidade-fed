@@ -8,10 +8,7 @@ function CartaoPontosDados() {
         {dadosUsuario.map(DadosUsuario => (
           <CartaoPontos
             nome={DadosUsuario.nome}
-            nivel={DadosUsuario.nivel}
-            pontosAtuais={DadosUsuario.pontosAtuais}
-            tempoExpirar={DadosUsuario.tempoExpirar}
-          />
+            pontosAtuais={DadosUsuario.pontosAtuais}/>
         ))}
       </div>
   );

@@ -32,14 +32,14 @@
     position: relative;
 }
 .nome {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
 }
 .cliente{
     font-family: 'Poppins', sans-serif;
-    padding-bottom: 2rem;
-    font-weight:bold;
+    padding-bottom: 0.5rem;
+    /* font-weight:bold; */
 }
 .nivel {
   font-size: 1rem;
@@ -66,8 +66,8 @@
 }
 .textoPontos {
   margin: 0;
-  font-size: 1rem; 
-  font-weight: 700;
+  font-size: 2rem; 
+  /* font-weight: 700; */
 }
 
 .tempoExpirar {
@@ -75,6 +75,7 @@
   font-size: 0.875rem; 
   font-weight: 400;
 }
+
 .logo{
   position: absolute;
   top: 0.875rem;
@@ -84,6 +85,7 @@
   height: auto;
   z-index: 1;
 }
+
 @media (max-width: 400px) {
   .cartao {
     padding: 0.5rem;
@@ -97,7 +99,7 @@
     right: 0.6rem;
 }
   .nome{
-    font-size: 0.9rem;  
+    font-size: 1.2rem;  
   }
   .nivel{
     font-size: 0.7rem
@@ -105,7 +107,7 @@
   .cliente{
     padding-top: 0.5rem;
     padding-left: 0.5rem;
-    padding-bottom: 0.8rem ;
+    padding-bottom: 0.3rem ;
   }
   .ponto {
     font-size: 2.5rem; 
@@ -113,7 +115,7 @@
   
   .textoPontos {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 3rem;
   }
   .tempoExpirar{
     margin: 0;
