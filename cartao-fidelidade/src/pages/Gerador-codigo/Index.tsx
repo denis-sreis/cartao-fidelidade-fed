@@ -8,42 +8,59 @@ import Cabecalho from '../../components/Cabecalho/Cabecalho';
 import Navegacao from '../../components/Navegacao/Navegacao';
 import PerfilCliente from '../PerfilCliente/Index';
 
-
-// Payload padrão (fallback) caso não venha da navegação.
-// ISSO SERÁ O PRÓXIMO PASSO A SER REMOVIDO QUANDO INTEGRAR A TELA ANTERIOR.
-const defaultPayload = {
-  tipo: "adicionar",
-  pontos: 100,
-  titulo: "Compra acima de R$100 (Padrão)",
-  descricao: "Pontos bônus por compra (Padrão)",
-  expiraEm: "2025-12-31T23:59:59Z"
-};
+import type { PayloadGeracao } from '../../types/PayloadGeracao';
 
 const GeradorCodigo = () => {
-
   const [qrCodeData, setQrCodeData] = useState('');
   const [isPerfilVisible, setPerfilVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); 
   const navigate = useNavigate();
-
   const location = useLocation();
   
-  const payloadRecebidoDaRota = location.state?.payload;
+  const payloadParaGerar = location.state?.payload as PayloadGeracao | undefined;
 
 
-  const payloadParaGerar = payloadRecebidoDaRota || defaultPayload;
+  if (!payloadParaGerar) {
+    return (
+      <>
+        <header className="gerador-codigo-header">
+          <Cabecalho onProfileClick={() => setPerfilVisible(true)} />
+        </header>
+        <main className="gerador-codigo-main" style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <h2 style={{ color: 'red' }}>Erro de Navegação</h2>
+          <p className="instruction-text">
+            Não foi possível identificar a pontuação selecionada.
+          </p>
+          <button 
+            onClick={() => navigate('/selecionar-pontuacao')} 
+            style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}
+          >
+            Voltar e Selecionar
+          </button>
+        </main>
+        <footer className="gerador-codigo-footer">
+          <Navegacao onProfileClick={() => setPerfilVisible(true)} />
+        </footer>
+         {isPerfilVisible && <PerfilCliente onClose={() => setPerfilVisible(false)} />}
+      </>
+    );
+  }
 
   useEffect(() => {
-    
     let isMounted = true;
 
     const fetchQrCodeContent = async () => {
-      try {
+      if (isMounted) {
+          setQrCodeData('');
+          setIsLoading(true);
+      }
 
+      try {
         const authToken = localStorage.getItem('authToken');
 
         if (!authToken) {
             console.error("Erro: Usuário não autenticado.");
-            if (isMounted) setQrCodeData('ERRO: Você precisa fazer login como funcionário.');
+            if (isMounted) setQrCodeData('ERRO: Login de funcionário necessário.');
             return;
         }
 
@@ -59,7 +76,7 @@ const GeradorCodigo = () => {
         });
 
         if (!response.ok) {
-          const errorData = await response.json();
+          const errorData = await response.json().catch(() => ({}));
           if (response.status === 401) {
             throw new Error('Sessão expirada. Faça login novamente.');
           }
@@ -82,12 +99,14 @@ const GeradorCodigo = () => {
 
       } catch (error) {
         if (isMounted) {
-            console.error("Erro ao buscar dados para o QR Code:", error);
+            console.error("Erro ao gerar QR Code:", error);
             setQrCodeData(`ERRO: ${error instanceof Error ? error.message : "Falha na geração."}`);
              if (error instanceof Error && error.message.includes('Sessão expirada')) {
                 setTimeout(() => navigate('/'), 3000);
             }
         }
+      } finally {
+        if (isMounted) setIsLoading(false);
       }
     };
 
@@ -111,7 +130,9 @@ const GeradorCodigo = () => {
           <h1 className="main-title">QR Code Pontuação</h1>
 
           <div className="qrcode-display-area">
-            {qrCodeData && !qrCodeData.startsWith('ERRO:') ? (
+            {isLoading ? (
+                 <p>Gerando...</p>
+            ) : qrCodeData && !qrCodeData.startsWith('ERRO:') ? (
               <QRCode
                 value={qrCodeData}
                 size={250}
@@ -120,12 +141,12 @@ const GeradorCodigo = () => {
                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
               />
             ) : (
-              <p className="error-text">{qrCodeData || 'Aguardando dados para gerar o QR Code...'}</p>
+              <p className="error-text">{qrCodeData || 'Aguardando dados...'}</p>
             )}
           </div>
 
           <p className="instruction-text">
-            {payloadParaGerar.titulo || 'Gerando seu QR Code...'}
+            {payloadParaGerar.titulo}
           </p>
         </main>
 
