@@ -9,9 +9,6 @@ import PerfilCliente from '../PerfilCliente/Index';
 
 const API_USAR_URL = 'http://localhost:3000/api/fidelidade/qrcode/usar';
 
-
-
-
 const LeitorCodigo = () => {
   const [menuAberto, setMenuAberto] = useState(false);
   const abrirMenu = () => setMenuAberto(true);
