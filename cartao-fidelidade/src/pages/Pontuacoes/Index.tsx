@@ -2,15 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 
+
+import type { PayloadGeracao } from '../../types/PayloadGeracao';
+
 interface PontuacoesProps {
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const opcoesPontuacao = [
-  { id: 'min50', label: 'Compra mínima de R$ 50,00' },
-  { id: 'acima100', label: 'Compra acima de R$ 100,00' },
-  { id: 'acima200', label: 'Compra acima de R$ 200,00' },
-  { id: 'acima500', label: 'Compra acima de R$ 500,00' },
+  { id: 'min50', label: 'Compra mínima de R$ 50,00', pontos: 50 },
+  { id: 'acima100', label: 'Compra acima de R$ 100,00', pontos: 100 },
+  { id: 'acima200', label: 'Compra acima de R$ 200,00', pontos: 200 },
+  { id: 'acima500', label: 'Compra acima de R$ 500,00', pontos: 500 },
 ];
 
 const Pontuacoes: React.FC<PontuacoesProps> = ({ onClose }) => {
@@ -18,14 +21,25 @@ const Pontuacoes: React.FC<PontuacoesProps> = ({ onClose }) => {
   const navigate = useNavigate();
 
   const handleSelecionarOpcao = (opcao: typeof opcoesPontuacao[0]) => {
-    console.log('Opção selecionada:', opcao.label, 'ID:', opcao.id);
+    console.log('Opção selecionada:', opcao.label, 'Pontos:', opcao.pontos);
 
-    // Vamos navegar para a rota '/leitor-codigo' por enquanto, até o Bruno trazer a tela dele
-    navigate(`/leitor-codigo?tipo=${opcao.id}`);
     
-    onClose(); 
+    if (onClose) {
+        onClose();
+    }
+  
+    const payloadParaEnviar: PayloadGeracao = {
+        tipo: 'adicionar',
+        pontos: opcao.pontos,
+        titulo: opcao.label,
+        descricao: `Gerado via modal: ${opcao.label}`,
+    };
+
+   
+    navigate('/gerar-qrcode', { state: { payload: payloadParaEnviar } });
   };
 
+ 
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
@@ -46,7 +60,7 @@ const Pontuacoes: React.FC<PontuacoesProps> = ({ onClose }) => {
         
       </div>
     </div>,
-    document.getElementById('modal-root')!
+    document.getElementById('modal-root') || document.body
   );
 }
 

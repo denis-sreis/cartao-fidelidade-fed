@@ -1,0 +1,165 @@
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import './Gerador-codigo.css';
+
+import QRCode from 'react-qr-code';
+
+import Cabecalho from '../../components/Cabecalho/Cabecalho';
+import Navegacao from '../../components/Navegacao/Navegacao';
+import PerfilCliente from '../PerfilCliente/Index';
+
+import type { PayloadGeracao } from '../../types/PayloadGeracao';
+
+const GeradorCodigo = () => {
+  const [qrCodeData, setQrCodeData] = useState('');
+  const [isPerfilVisible, setPerfilVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); 
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const payloadParaGerar = location.state?.payload as PayloadGeracao | undefined;
+
+
+  if (!payloadParaGerar) {
+    return (
+      <>
+        <header className="gerador-codigo-header">
+          <Cabecalho onProfileClick={() => setPerfilVisible(true)} />
+        </header>
+        <main className="gerador-codigo-main" style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <h2 style={{ color: 'red' }}>Erro de Navegação</h2>
+          <p className="instruction-text">
+            Não foi possível identificar a pontuação selecionada.
+          </p>
+          <button 
+            onClick={() => navigate('/selecionar-pontuacao')} 
+            style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}
+          >
+            Voltar e Selecionar
+          </button>
+        </main>
+        <footer className="gerador-codigo-footer">
+          <Navegacao onProfileClick={() => setPerfilVisible(true)} />
+        </footer>
+         {isPerfilVisible && <PerfilCliente onClose={() => setPerfilVisible(false)} />}
+      </>
+    );
+  }
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchQrCodeContent = async () => {
+      if (isMounted) {
+          setQrCodeData('');
+          setIsLoading(true);
+      }
+
+      try {
+        const authToken = localStorage.getItem('authToken');
+
+        if (!authToken) {
+            console.error("Erro: Usuário não autenticado.");
+            if (isMounted) setQrCodeData('ERRO: Login de funcionário necessário.');
+            return;
+        }
+
+        const API_URL = 'http://localhost:3000/api/fidelidade/qrcode/gerar';
+
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(payloadParaGerar),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          if (response.status === 401) {
+            throw new Error('Sessão expirada. Faça login novamente.');
+          }
+          throw new Error(errorData.mensagem || `Erro HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Resposta do Backend:", data);
+
+        if (isMounted) {
+            if (data.qrcode && data.qrcode.token) {
+              setQrCodeData(data.qrcode.token);
+            } else if (data.qrcode && data.qrcode.id) {
+                 console.warn("Aviso: Usando ID numérico.");
+                 setQrCodeData(data.qrcode.id.toString());
+            } else {
+                 throw new Error('Token/ID não encontrado na resposta.');
+            }
+        }
+
+      } catch (error) {
+        if (isMounted) {
+            console.error("Erro ao gerar QR Code:", error);
+            setQrCodeData(`ERRO: ${error instanceof Error ? error.message : "Falha na geração."}`);
+             if (error instanceof Error && error.message.includes('Sessão expirada')) {
+                setTimeout(() => navigate('/'), 3000);
+            }
+        }
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    };
+
+    fetchQrCodeContent();
+
+    return () => {
+      isMounted = false;
+    };
+
+  }, [payloadParaGerar, navigate]);
+
+
+  return (
+    <>
+      <div className="gerador-codigo-container">
+        <header className="gerador-codigo-header">
+          <Cabecalho onProfileClick={() => setPerfilVisible(true)} />
+        </header>
+
+        <main className="gerador-codigo-main">
+          <h1 className="main-title">QR Code Pontuação</h1>
+
+          <div className="qrcode-display-area">
+            {isLoading ? (
+                 <p>Gerando...</p>
+            ) : qrCodeData && !qrCodeData.startsWith('ERRO:') ? (
+              <QRCode
+                value={qrCodeData}
+                size={250}
+                fgColor="#000000"
+                bgColor="transparent"
+                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+              />
+            ) : (
+              <p className="error-text">{qrCodeData || 'Aguardando dados...'}</p>
+            )}
+          </div>
+
+          <p className="instruction-text">
+            {payloadParaGerar.titulo}
+          </p>
+        </main>
+
+        <footer className="gerador-codigo-footer">
+          <Navegacao onProfileClick={() => setPerfilVisible(true)} />
+        </footer>
+      </div>
+
+      {isPerfilVisible && (
+        <PerfilCliente onClose={() => setPerfilVisible(false)} />
+      )}
+    </>
+  );
+};
+
+export default GeradorCodigo;
