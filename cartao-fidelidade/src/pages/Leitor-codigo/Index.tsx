@@ -21,7 +21,6 @@ const LeitorCodigo = () => {
   const [scanStatus, setScanStatus] = useState<'scanning' | 'processing' | 'success' | 'error'>('scanning');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('Leitura Concluída!');
-  // const [isPerfilVisible, setPerfilVisible] = useState(false);
   const navigate = useNavigate();
 
   const qrCodeScannerRef = useRef<Html5Qrcode | null>(null);

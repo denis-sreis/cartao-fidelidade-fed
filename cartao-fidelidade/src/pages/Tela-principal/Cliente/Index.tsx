@@ -1,5 +1,4 @@
 import PerfilCliente from '../../PerfilCliente/Index'
-
 import { useState } from 'react'
 import './telaPrincipal.css'
 import Cabecalho from '../../../components/Cabecalho/Cabecalho'
@@ -21,9 +20,14 @@ function TelaPrincipal() {
   return (
     <>
       <div className={`telaPrincipal ${menuAberto ? 'menu-aberto' : ''}`}>
+
+        {/* Overlay do menu */}
         {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
+
+        {/* Menu lateral */}
         <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
 
+        {/* Header */}
         <header className='cabecalhoTP'>
           <Cabecalho onProfileClick={abrirPerfil} onAbrirMenu={abrirMenu} />
         </header>
@@ -47,9 +51,11 @@ function TelaPrincipal() {
         </main>
         <footer className='rodapeTP'>
           <Navegacao onProfileClick={abrirPerfil} />
+          <Navegacao onProfileClick={abrirPerfil} />
         </footer>
       </div>
 
+      {/* Tela de perfil */}
       {perfilAberto && (
         <PerfilCliente onClose={fecharPerfil} />
       )}
@@ -58,8 +64,3 @@ function TelaPrincipal() {
 }
 
 export default TelaPrincipal
-
-
-
-
-

@@ -4,7 +4,7 @@ import './Gerador-codigo.css';
 
 import QRCode from 'react-qr-code';
 
-import Cabecalho from '../../components/Cabecalho/Cabecalho';
+import Cabecalho from '../../components/CabecalhoADM/CabecalhoADM';
 import Navegacao from '../../components/Navegacao/Navegacao';
 import PerfilCliente from '../PerfilCliente/Index';
 
@@ -12,19 +12,28 @@ import type { PayloadGeracao } from '../../types/PayloadGeracao';
 
 const GeradorCodigo = () => {
   const [qrCodeData, setQrCodeData] = useState('');
-  const [isPerfilVisible, setPerfilVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false); 
   const navigate = useNavigate();
   const location = useLocation();
   
+  // Estado para controlar a visibilidade do menu de navegação lateral (se houver)
+  const [menuAberto, setMenuAberto] = useState(false);
+  const abrirMenu = () => setMenuAberto(true);
+  const fecharMenu = () => setMenuAberto(false);
+
+  // Estado CORRIGIDO e ÚNICO para a visibilidade do PerfilCliente
+  const [perfilAberto, setPerfilAberto] = useState(false);
+
+
   const payloadParaGerar = location.state?.payload as PayloadGeracao | undefined;
 
 
+  // --- BLOCo DE ERRO: Payload não encontrado ---
   if (!payloadParaGerar) {
     return (
       <>
         <header className="gerador-codigo-header">
-          <Cabecalho onProfileClick={() => setPerfilVisible(true)} />
+          <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
         <main className="gerador-codigo-main" style={{ justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <h2 style={{ color: 'red' }}>Erro de Navegação</h2>
@@ -39,13 +48,16 @@ const GeradorCodigo = () => {
           </button>
         </main>
         <footer className="gerador-codigo-footer">
-          <Navegacao onProfileClick={() => setPerfilVisible(true)} />
+          {/* CORRIGIDO: Usando setPerfilAberto */}
+          <Navegacao onProfileClick={() => setPerfilAberto(true)} />
         </footer>
-         {isPerfilVisible && <PerfilCliente onClose={() => setPerfilVisible(false)} />}
+         {/* CORRIGIDO: Usando perfilAberto */}
+         {perfilAberto && <PerfilCliente onClose={() => setPerfilAberto(false)} />}
       </>
     );
   }
 
+  // --- LÓGICA DE GERAÇÃO DO QR CODE ---
   useEffect(() => {
     let isMounted = true;
 
@@ -106,7 +118,8 @@ const GeradorCodigo = () => {
             }
         }
       } finally {
-        if (isMounted) setIsLoading(false);
+        // Melhoria: Simplificado, não precisa checar 'isMounted' no finally
+        setIsLoading(false);
       }
     };
 
@@ -119,11 +132,12 @@ const GeradorCodigo = () => {
   }, [payloadParaGerar, navigate]);
 
 
+  // --- RENDERIZAÇÃO PRINCIPAL ---
   return (
     <>
       <div className="gerador-codigo-container">
         <header className="gerador-codigo-header">
-          <Cabecalho onProfileClick={() => setPerfilVisible(true)} />
+          <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
 
         <main className="gerador-codigo-main">
@@ -146,17 +160,20 @@ const GeradorCodigo = () => {
           </div>
 
           <p className="instruction-text">
-            {payloadParaGerar.titulo}
+            {/* Melhoria: Uso de Optional Chaining para garantir que 'titulo' exista */}
+            {payloadParaGerar?.titulo}
           </p>
         </main>
 
         <footer className="gerador-codigo-footer">
-          <Navegacao onProfileClick={() => setPerfilVisible(true)} />
+           {/* CORRIGIDO: Usando setPerfilAberto */}
+          <Navegacao onProfileClick={() => setPerfilAberto(true)} />
         </footer>
       </div>
 
-      {isPerfilVisible && (
-        <PerfilCliente onClose={() => setPerfilVisible(false)} />
+       {/* CORRIGIDO: Usando perfilAberto */}
+      {perfilAberto && (
+        <PerfilCliente onClose={() => setPerfilAberto(false)} />
       )}
     </>
   );

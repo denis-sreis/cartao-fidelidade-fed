@@ -1,16 +1,55 @@
 .premiosGrid {
   display: flex;          
-  flex-direction: row;   
-  gap: 2rem;              
-  overflow-x: auto;       
+  flex-direction: row;  
+  gap: 1rem;
+  overflow-x: auto;      
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 1.5rem; /* Garante que o último card apareça completo */
+  padding-bottom: 0.5rem; /* Espaço para sombras dos cards */
 }
+
 .premiosGrid::-webkit-scrollbar {
   display: none;
 }
-@media (max-width: 768px) {
-  .premiosGrid{
-    gap:1rem;
-  }   
+
+/* MOBILE PEQUENO (até 374px) */
+@media (max-width: 374px) {
+  .premiosGrid {
+    gap: 0.75rem;
+    padding-right: 1rem;
+  }
+}
+
+/* MOBILE PADRÃO (375px - 499px) */
+@media (min-width: 375px) and (max-width: 499px) {
+  .premiosGrid {
+    gap: 1rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* MOBILE GRANDE (500px - 767px) */
+@media (min-width: 500px) and (max-width: 767px) {
+  .premiosGrid {
+    gap: 1.25rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* TABLET (768px - 1023px) */
+@media (min-width: 768px) {
+  .premiosGrid {
+    gap: 1.5rem;
+    padding-right: 2rem;
+  }
+}
+
+/* DESKTOP (1024px+) */
+@media (min-width: 1024px) {
+  .premiosGrid {
+    gap: 2rem;
+    padding-right: 2rem;
+  }
 }
