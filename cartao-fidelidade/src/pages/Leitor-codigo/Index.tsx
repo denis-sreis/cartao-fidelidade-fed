@@ -9,15 +9,18 @@ import PerfilCliente from '../PerfilCliente/Index';
 
 const API_USAR_URL = 'http://localhost:3000/api/fidelidade/qrcode/usar';
 
-  const [menuAberto, setMenuAberto]=useState(false);
-  const abrirMenu = () => setMenuAberto(true);
-  const fecharMenu = () => setMenuAberto(false);
-  
-  const [perfilAberto, setPerfilAberto]=useState(false);
-  const abrirPerfil = () => setPerfilAberto(true);
-  const fecharPerfil = () => setPerfilAberto(false); 
+
+
 
 const LeitorCodigo = () => {
+  const [menuAberto, setMenuAberto] = useState(false);
+  const abrirMenu = () => setMenuAberto(true);
+  const fecharMenu = () => setMenuAberto(false);
+
+  const [perfilAberto, setPerfilAberto] = useState(false);
+  const abrirPerfil = () => setPerfilAberto(true);
+  const fecharPerfil = () => setPerfilAberto(false);
+
   const [scanStatus, setScanStatus] = useState<'scanning' | 'processing' | 'success' | 'error'>('scanning');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('Leitura Concluída!');
@@ -46,48 +49,48 @@ const LeitorCodigo = () => {
 
       try {
         const authToken = localStorage.getItem('authToken');
-        
+
         if (!authToken) {
-            
-            throw new Error('Autenticação necessária. Faça login no celular como Cliente.');
+
+          throw new Error('Autenticação necessária. Faça login no celular como Cliente.');
         }
 
 
         const response = await fetch(API_USAR_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            },
-            body: JSON.stringify({ token: decodedText })
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          },
+          body: JSON.stringify({ token: decodedText })
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-            if (response.status === 401) {
-                throw new Error('Sessão expirada. Faça login novamente.');
-            }
-            throw new Error(data.mensagem || data.error || 'Falha ao processar o QR Code.');
+          if (response.status === 401) {
+            throw new Error('Sessão expirada. Faça login novamente.');
+          }
+          throw new Error(data.mensagem || data.error || 'Falha ao processar o QR Code.');
         }
 
         console.log("Sucesso no processamento:", data);
         setScanStatus('success');
         if (data.mensagem) {
-            setSuccessMessage(data.mensagem);
+          setSuccessMessage(data.mensagem);
         }
 
         setTimeout(() => {
-          navigate('/principal'); 
+          navigate('/principal');
         }, 3000);
 
       } catch (error) {
         console.error("Erro durante o processamento:", error);
         setScanStatus('error');
         setErrorMessage(error instanceof Error ? error.message : 'Ocorreu um erro inesperado.');
-        
+
         if (error instanceof Error && (error.message.includes('Autenticação') || error.message.includes('Sessão'))) {
-             setTimeout(() => navigate('/'), 3000);
+          setTimeout(() => navigate('/'), 3000);
         }
       }
     };
@@ -118,10 +121,10 @@ const LeitorCodigo = () => {
   return (
     <>
       <div className={`leitor-codigo-container ${menuAberto ? 'menu-aberto' : ''}`}>
-      {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
+        {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
         <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
 
-      {/* <div className="leitor-codigo-container"> */}
+        {/* <div className="leitor-codigo-container"> */}
         <header className="leitor-codigo-header">
           <Cabecalho onProfileClick={abrirPerfil} onAbrirMenu={abrirMenu} />
         </header>
@@ -146,7 +149,7 @@ const LeitorCodigo = () => {
       {scanStatus !== 'scanning' && (
         <div className={`overlay-container ${scanStatus}`}>
           <div className="overlay-content">
-            
+
             {scanStatus === 'processing' && (
               <>
                 <div className="spinner"></div>
@@ -181,7 +184,7 @@ const LeitorCodigo = () => {
         </div>
       )}
 
-       {perfilAberto && (
+      {perfilAberto && (
         <PerfilCliente onClose={fecharPerfil} />
       )}
     </>
