@@ -51,7 +51,6 @@ function TelaPrincipal() {
         </main>
         <footer className='rodapeTP'>
           <Navegacao onProfileClick={abrirPerfil} />
-          <Navegacao onProfileClick={abrirPerfil} />
         </footer>
       </div>
 

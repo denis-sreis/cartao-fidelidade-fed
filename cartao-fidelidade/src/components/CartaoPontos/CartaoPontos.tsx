@@ -13,12 +13,10 @@ function CartaoPontos({ nome, nivel, pontosAtuais, tempoExpirar }: DadosUsuario)
   return (
     <>
       <div className={'cartao'}>
-        {/* INÍCIO: CARTÃO INTERNO (LARANJA) - ESSA CLASSE ESTAVA FALTANDO */}
         <div className={'cartao-inner'}>
           <img src={ellipse} className={'elipse'} />
           <img src={logo} className={'logo'} />
 
-          {/* INÍCIO: CONTEÚDO - ESSA CLASSE GARANTE O PADDING À DIREITA */}
           <div className={'conteudo'}>
             <div className={'cliente'}>
               <h1 className={'nome'}>{nome}</h1>

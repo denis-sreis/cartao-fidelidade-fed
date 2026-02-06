@@ -7,15 +7,15 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    flex-shrink: 0; /* Importante: impede que os cards encolham */
+    flex-shrink: 0; 
 }
 
 .premio {
     position: relative;
     background-color: wheat;
     color: white;
-    width: 11rem; /* REDUZIDO de 14rem para mobile */
-    height: 9rem; /* REDUZIDO de 11rem */
+    width: 11rem; 
+    height: 9rem; 
     border-radius: 1.5rem;
     padding: 1rem;
     display: flex;
@@ -29,7 +29,7 @@
     position: absolute;
     top: -1rem;
     right: -1rem;
-    width: 6rem; /* REDUZIDO de 7rem */
+    width: 6rem; 
     height: auto;
     z-index: 0;
 }
@@ -37,7 +37,7 @@
 .nomeProduto {
     color: white;
     text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    font-size: 0.875rem; /* REDUZIDO de 1rem */
+    font-size: 0.875rem;
     margin: 0;
     text-align: center;
     max-width: 11rem;

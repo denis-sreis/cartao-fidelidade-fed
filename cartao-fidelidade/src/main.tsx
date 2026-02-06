@@ -22,7 +22,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/principalCliente" element={<TelaPrincipalCliente />} />
         <Route path="/principalADM" element={<TelaPrincipalADM />} />
         <Route path="/leitor-codigo" element={<LeitorCodigo />} />
-        {/* <Route path="/principal" element={<TelaPrincipal />} />  */}
         {/* <Route path="/esqueci-senha" element={<EsqueciSenha />} />  */}
         <Route path="/leitor-qrcode" element={<LeitorCodigo />} />
         <Route path="/gerar-qrcode" element={<GeradorCodigo />} />
