@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './Gerador-codigo.css';
 
 import QRCode from 'react-qr-code';
-
+import MenuLateral from '../../components/MenuLateral/MenuLateral';
 import Cabecalho from '../../components/CabecalhoADM/CabecalhoADM';
 import Navegacao from '../../components/Navegacao/Navegacao';
 import PerfilCliente from '../PerfilCliente/Index';
@@ -17,7 +17,7 @@ const GeradorCodigo = () => {
   const location = useLocation();
   
   // Estado para controlar a visibilidade do menu de navegação lateral (se houver)
-  const [menuAberto, setMenuAberto] = useState(false);
+  const [menuAberto, setMenuAberto]=useState(false);
   const abrirMenu = () => setMenuAberto(true);
   const fecharMenu = () => setMenuAberto(false);
 
@@ -32,6 +32,8 @@ const GeradorCodigo = () => {
   if (!payloadParaGerar) {
     return (
       <>
+      {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
+        <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
         <header className="gerador-codigo-header">
           <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
@@ -135,7 +137,10 @@ const GeradorCodigo = () => {
   // --- RENDERIZAÇÃO PRINCIPAL ---
   return (
     <>
+    
       <div className="gerador-codigo-container">
+        {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
+        <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
         <header className="gerador-codigo-header">
           <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
