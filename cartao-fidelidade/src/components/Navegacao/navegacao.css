@@ -1,0 +1,41 @@
+.rodape{
+    margin: 0 auto;
+    width: 100%;
+    max-width: 75rem;
+    height: 9.375rem;
+    background-color: black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-sizing: border-box;
+}
+.botaoHome,.botaoUsuario{
+    width: 3.25rem;
+    height: 3.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:none;
+    padding: 0.625rem;
+    border: none;
+}
+.botaoHome{
+    border-bottom: 0.3125rem solid #C7541B;
+}
+.iconeHome,.iconeUsuario {
+    width: 3.25rem;
+    height: 3.25rem;
+}
+@media (max-width: 320px){
+  .rodape {
+    height: 3.5rem; 
+  }
+  .botaoHome,.botaoUsuario{
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  .iconeHome,.iconeUsuario{
+    width: 1.5rem; 
+    height: 1.5rem;
+}
+}

@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+.itemPremio {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0; 
+}
+
+.premio {
+    position: relative;
+    background-color: wheat;
+    color: white;
+    width: 11rem; 
+    height: 9rem; 
+    border-radius: 1.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+.canto {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    width: 6rem; 
+    height: auto;
+    z-index: 0;
+}
+
+.nomeProduto {
+    color: white;
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    font-size: 0.875rem;
+    margin: 0;
+    text-align: center;
+    max-width: 11rem;
+}
+
+.num {
+    position: absolute;
+    top: -0.5rem; /* AJUSTADO de -0.75rem */
+    right: 0.75rem;
+    z-index: 1;
+    font-size: 1.5rem; /* REDUZIDO de 1.75rem */
+    font-weight: 700;
+}
+
+.pontosLabel {
+    position: absolute;
+    top: 1.5rem; /* AJUSTADO de 2rem */
+    right: 0.5rem;
+    z-index: 1;
+    font-size: 0.65rem; /* REDUZIDO de 0.75rem */
+    font-weight: 700;
+}
+
+.comida {
+    position: absolute;
+    bottom: 0;
+    left: 0.5rem;
+    width: 10rem; /* REDUZIDO de 12rem */
+    height: auto;
+    z-index: 1;
+    max-height: 8rem; /* Limita altura da imagem */
+    object-fit: contain;
+}
+
+/* MOBILE MUITO PEQUENO (até 320px) */
+@media (max-width: 320px) {
+    .premio {
+        width: 9rem;
+        height: 7.5rem;
+        padding: 0.75rem;
+    }
+
+    .canto {
+        width: 5rem;
+    }
+
+    .nomeProduto {
+        font-size: 0.75rem;
+    }
+
+    .num {
+        font-size: 1.25rem;
+        top: -0.4rem;
+        right: 0.5rem;
+    }
+
+    .pontosLabel {
+        font-size: 0.55rem;
+        top: 1.2rem;
+        right: 0.35rem;
+    }
+
+    .comida {
+        width: 8rem;
+        max-height: 6.5rem;
+        left: 0.25rem;
+    }
+}
+
+/* MOBILE PEQUENO (321px - 374px) */
+@media (min-width: 321px) and (max-width: 374px) {
+    .premio {
+        width: 10rem;
+        height: 8.5rem;
+    }
+
+    .canto {
+        width: 5.5rem;
+    }
+
+    .comida {
+        width: 9rem;
+        max-height: 7.5rem;
+    }
+}
+
+/* MOBILE PADRÃO (375px - 499px) */
+@media (min-width: 375px) and (max-width: 499px) {
+    .premio {
+        width: 11rem;
+        height: 9rem;
+    }
+
+    .nomeProduto {
+        font-size: 0.875rem;
+    }
+}
+
+/* MOBILE GRANDE (500px - 767px) */
+@media (min-width: 500px) and (max-width: 767px) {
+    .premio {
+        width: 13rem;
+        height: 10.5rem;
+        padding: 1.25rem;
+    }
+
+    .canto {
+        width: 7rem;
+    }
+
+    .nomeProduto {
+        font-size: 1rem;
+        max-width: 13rem;
+    }
+
+    .num {
+        font-size: 1.75rem;
+        top: -0.6rem;
+    }
+
+    .pontosLabel {
+        font-size: 0.75rem;
+        top: 1.75rem;
+    }
+
+    .comida {
+        width: 11rem;
+        max-height: 9.5rem;
+    }
+}
+
+/* TABLET (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .premio {
+        width: 15rem;
+        height: 12rem;
+        padding: 1.5rem;
+    }
+
+    .canto {
+        width: 8rem;
+    }
+
+    .nomeProduto {
+        font-size: 1.125rem;
+        max-width: 15rem;
+    }
+
+    .num {
+        font-size: 2rem;
+        top: -0.75rem;
+        right: 0.75rem;
+    }
+
+    .pontosLabel {
+        font-size: 0.875rem;
+        top: 2rem;
+        right: 0.5rem;
+    }
+
+    .comida {
+        width: 13rem;
+        max-height: 11rem;
+    }
+}
+
+/* DESKTOP (1024px+) */
+@media (min-width: 1024px) {
+    .premio {
+        width: 18rem;
+        height: 14rem;
+        padding: 1.5rem;
+    }
+
+    .canto {
+        width: 9rem;
+    }
+
+    .nomeProduto {
+        font-size: 1.25rem;
+        max-width: 18rem;
+    }
+
+    .num {
+        font-size: 2.5rem;
+        top: -1rem;
+        right: 1rem;
+    }
+
+    .pontosLabel {
+        font-size: 1rem;
+        top: 2.5rem;
+        right: 0.75rem;
+    }
+
+    .comida {
+        width: 15rem;
+        max-height: 13rem;
+        left: 0.75rem;
+    }
+}
+
+/* Efeitos de hover/clique */
+.itemPremio.item-clicavel {
+    cursor: pointer;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.itemPremio.item-clicavel:hover .premio {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.itemPremio.item-clicavel:active .premio {
+    transform: translateY(-2px);
+}

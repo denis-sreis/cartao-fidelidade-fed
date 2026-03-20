@@ -1,0 +1,39 @@
+.cabecalho{
+    margin: 0 auto;
+    width: 100%;
+    max-width: 75rem;
+    height: 7.375rem;
+    padding: 0 1.5rem 0;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+.icone,.botaoMenu {
+    width: 6.25rem;
+    height: 6.25rem;
+}
+.botaoMenu,.botaoPerfil{
+    background: none;
+    border: none;
+    padding: 0;
+
+}
+.fotoPerfil{
+    margin: 0.625rem;
+    width: 6.25rem;
+    height: 6.25rem;
+    border-radius: 50%;
+}
+@media (max-width: 700px){
+  .cabecalho {
+    height: 4.25rem; 
+    padding: 0.25rem 0.25rem 0; 
+  }
+
+  .icone, .fotoPerfil {
+    width: 3.125rem; 
+    height: 3.125rem;
+}
+}

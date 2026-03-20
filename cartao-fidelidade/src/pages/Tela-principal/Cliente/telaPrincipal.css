@@ -1,0 +1,218 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Safety container */
+.telaPrincipal {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    background-color: black;
+    overflow-x: hidden;
+    padding-left: clamp(0.75rem, 4vw, 2rem);
+    padding-right: clamp(0.75rem, 4vw, 2rem);
+}
+
+/* cabeçalho/rodapé */
+.cabecalhoTP,
+.rodapeTP {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Nenhum filho pode ultrapassar a largura */
+.telaPrincipal * {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ★ ADICIONADO — segurança universal */
+.telaPrincipal *,
+.telaPrincipal *::before,
+.telaPrincipal *::after {
+    box-sizing: border-box;
+}
+
+/* --- CONTEÚDO --- */
+.principalTP {
+    flex-grow: 1;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    box-sizing: border-box;
+}
+
+.textoPontoTP {
+    font-size: clamp(1rem, 4.5vw, 1.5rem);
+    color: white;
+    margin: 0 0 0.5rem 0;
+}
+
+/* CARTÃO */
+.cartaoPontosTP {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin-bottom: 0.5rem;
+    display: block;
+    overflow: hidden;
+}
+
+/* ★ ADICIONADO — impede curvas decorativas de estourar */
+.cartaoPontosTP * {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* BOTÃO REGISTRAR */
+.botaoRegistrarTP {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.botaoRegistrarTP>* {
+    width: min(100%, 420px);
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* LISTA PRÊMIOS */
+.listaPremios {
+    padding: 0;
+    margin-top: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    gap: 1rem;
+    box-sizing: border-box;
+}
+
+.listaPremios>* {
+    flex: 0 0 auto;
+    max-width: calc(100% - 2rem);
+}
+
+/* esconder scrollbar */
+.listaPremios::-webkit-scrollbar {
+    display: none;
+}
+
+.listaPremios {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+}
+
+.telaPrincipal.menu-aberto .principalTP,
+.telaPrincipal.menu-aberto .rodapeTP {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* imagens/ícones */
+.telaPrincipal img,
+.telaPrincipal svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Tipografia */
+.headerPremios,
+.textoPontoTP,
+.premiosTP h1,
+.premiosTP h2 {
+    line-height: 1.1;
+    overflow-wrap: break-word;
+}
+
+/* ★ ADICIONADO — conserta elementos absolutos, o maior culpado do overflow */
+.telaPrincipal [class*="circle"],
+.telaPrincipal [class*="decor"],
+.telaPrincipal [class*="shape"],
+.telaPrincipal [class*="abs"],
+.telaPrincipal [class*="bg"] {
+    position: absolute;
+    right: 0 !important;
+    left: auto !important;
+    transform: translateX(0) !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+/* --- MEDIA QUERIES --- */
+@media (max-width: 374px) {
+    .telaPrincipal {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .botaoRegistrarTP>* {
+        width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (min-width: 375px) and (max-width: 499px) {
+    .telaPrincipal {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 767px) {
+    .telaPrincipal {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .listaPremios {
+        gap: 1rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .telaPrincipal {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .botaoRegistrarTP>* {
+        width: 320px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .botaoRegistrarTP>* {
+        width: 380px;
+    }
+}

@@ -1,0 +1,240 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+  
+.leitor-codigo-container {
+    background-color: #000000;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    color: #FFFFFF;
+}
+  
+.leitor-codigo-header {
+    width: 100%;
+    padding: 1rem 0.5rem;
+}
+  
+.leitor-codigo-main {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    text-align: center;
+    gap: 2rem;
+}
+  
+.main-title {
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #f9ecec;
+    margin: 0;
+}
+  
+
+.qrcode-camera-container {
+    width: 250px;
+    height: 250px; 
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: #2D3748; 
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+
+.qrcode-reader-element {
+    width: 100%;
+    height: 100%;
+}
+  
+#reader video,
+#reader canvas {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; 
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+  
+.instruction-text {
+    max-width: 300px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #BCC1CD;
+    line-height: 1.5;
+}
+  
+.leitor-codigo-footer {
+    width: 100%;
+    padding-top: 1rem;
+}
+
+
+
+.overlay-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+  
+.overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    background-color: #1e1e1e; 
+    padding: 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+
+.overlay-container.error .overlay-content {
+    border-top: 4px solid #dc3545; 
+}
+  
+.overlay-content p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0 0;
+    word-break: break-word;
+}
+  
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #C7541B; 
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 0.5rem;
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+  
+
+.success-checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #28a745; 
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px #28a745;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+  
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #28a745;
+    fill: none;
+    animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+  
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke-width: 3;
+    animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
+}
+  
+@keyframes stroke { 100% { stroke-dashoffset: 0; } }
+@keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+@keyframes fill { 100% { box-shadow: inset 0px 0px 0px 40px #28a745; } }
+
+
+
+.error-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.error-message {
+    color: #dc3545; 
+    font-size: 1rem !important; 
+    margin: 1rem 0 !important;
+}
+
+
+.error-x {
+    width: 60px;
+    height: 60px;
+}
+
+.error-circle {
+    stroke: #dc3545;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    fill: none;
+}
+
+.error-line {
+    stroke: #dc3545;
+    stroke-width: 3;
+    stroke-linecap: round;
+    fill: none;
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+    animation: drawError 0.3s forwards ease-in-out 0.2s;
+}
+
+@keyframes drawError {
+    to { stroke-dashoffset: 0; }
+}
+
+
+.retry-button {
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #C7541B; 
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.retry-button:hover {
+    background-color: #e67e22; 
+}

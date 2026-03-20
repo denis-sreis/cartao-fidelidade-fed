@@ -1,0 +1,108 @@
+.telaPrincipal{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    background-color: black;
+}
+.cabecalhoTP{
+    width: 100%;
+    margin: 0;
+    padding-bottom: 1.5rem;
+}
+.principalADMTP{
+  flex-grow: 1; 
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.ADMTP{
+    padding-left: 1.5rem;
+    margin: 0;
+}
+.ADMTP h1{
+    color: white;
+    margin: 0;
+    font-size: 1.5em;
+    padding-left: 0.5rem;
+}
+.ADMTP h2{
+    color:#BCC1CD;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.rodapeADMTP{
+  width: 100%;
+}
+
+.textoPontoADMTP{
+    padding-left: 1.5rem;
+    font-size: 2rem;;
+    color: white;
+    align-self: flex-start;
+    margin:0;
+}
+.cartaoADMTP{
+    align-self: center;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    cursor: pointer;
+}
+.botaoQRADMTP{
+    padding-right: 1.5rem;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.telaPrincipal.menu-aberto .principalADMTP, .telaPrincipal.menu-aberto .rodapeADMTP {
+    pointer-events: none;
+    user-select: none;
+}
+.premiosADMTP{
+    padding-left: 1.5rem;
+    margin: 0;
+}
+.premiosADMTP h1{
+    color: white;
+    margin: 0;
+    font-size: 1.5em;
+    padding-left: 0.5rem;
+}
+.premiosADMTP h2{
+    color:#BCC1CD;
+    margin: 0;
+    font-size: 1rem;
+}
+
+@media (max-width: 320px){
+    .textoTituloTP{
+        font-size: 0.5rem;
+    }
+    .ADMTP h1{
+    font-size: 1.5rem;
+    padding-left: 0.5rem;
+    }
+    .ADMTP h2{
+        font-size: 1rem;
+    }
+}
+@media(min-width:768px){
+    .ADMTP h1{
+        font-size: 3rem;
+    }
+    .ADMTP h2{
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,40 @@
+/* ---------------------------------------------------------
+    PONTOS — CORREÇÃO DEFINITIVA
+--------------------------------------------------------- */
+.pontos {
+    display: flex;
+    align-items: flex-start;  /* impede o número de descer */
+    gap: clamp(0.5rem, 2.5vw, 0.8rem);
+    flex-wrap: nowrap;        /* mantém número + texto lado a lado */
+}
+
+.ponto {
+    white-space: nowrap;
+    font-size: clamp(2.2rem, 10vw, 3.2rem);
+    font-weight: 300;
+    margin: 0;
+    line-height: 1.1;
+
+    flex: 0 0 auto;           /* impede encolhimento → impede sumir */
+    width: auto;              /* largura natural → não empurra o texto */
+    text-align: right;
+}
+
+.pontoInfo {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;           /* texto pode expandir e quebrar */
+    min-width: 0;             /* ESSENCIAL para quebra */
+    overflow: visible;        /* garante que nada corte */
+}
+
+.textoPontos {
+    font-size: clamp(0.75rem, 3vw, 0.9rem);
+    font-weight: 700;
+    margin: 0 0 0.1rem 0;
+    line-height: 1.2;
+
+    white-space: normal;       /* permite quebra */
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
