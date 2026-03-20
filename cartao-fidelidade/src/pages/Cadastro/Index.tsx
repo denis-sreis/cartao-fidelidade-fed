@@ -6,6 +6,10 @@ import { loginSchema } from '../Cadastro/validador';
 import { register } from '../../api/cadastro';
 import { login } from '../../api/auth';
 
+// Constantes dos ícones (as mesmas do seu Home)
+const urlOlhoFechado = 'https://cdn-icons-png.flaticon.com/128/3178/3178377.png';
+const urlOlhoAberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png';
+
 const hasLowercase = (password: string) => /[a-z]/.test(password);
 const hasUppercase = (password: string) => /[A-Z]/.test(password);
 const hasNumber = (password: string) => /[0-9]/.test(password);
@@ -27,6 +31,9 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [erroSenha, setErroSenha] = useState('');
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
   const [reqCase, setReqCase] = useState(false); 
@@ -57,7 +64,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
     }
   };
 
-    const handleStep1Submit = (event: React.FormEvent) => {
+  const handleStep1Submit = (event: React.FormEvent) => {
     event.preventDefault();
     setErroStep1('');
 
@@ -69,7 +76,6 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
       setErroStep1(error.details[0].message);
       return;
     }
-    console.log("Dados Etapa 1:", { nome, telefone, documento, userType });
     setStep(2); 
   };
 
@@ -97,12 +103,8 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
         tipo: userType 
       });
 
-      console.log('Cadastro realizado com sucesso!', response);
       localStorage.clear(); 
-      await login({
-        documento: documentoLimpo,
-        senha: senha
-      });
+      await login({ documento: documentoLimpo, senha: senha });
 
       if (userType === 'funcionario') {
         navigate('/principalADM'); 
@@ -111,14 +113,9 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
       }
       
     } catch (err) {
-      if (err instanceof Error) {
-        setErroSenha(err.message); 
-      } else {
-        setErroSenha('Ocorreu um erro desconhecido.');
-      }
+      setErroSenha(err instanceof Error ? err.message : 'Ocorreu um erro desconhecido.');
     }
   };
-
 
   const handleUserTypeChange = (novoTipo: 'cliente' | 'funcionario') => {
     if (userType !== novoTipo) {
@@ -136,7 +133,6 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
         {step === 1 && (
           <>
             <h2 className="card__title" style={{ marginTop: 0 }}>Cadastre-se</h2>
-            
             <div className="toggle-group">
               <button 
                 className={`toggle-btn ${userType === 'cliente' ? 'active' : ''}`}
@@ -176,7 +172,6 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
                   required 
                 />
               </div>
-              
               <div className="form-group">
                 <IMaskInput 
                   mask={mascaraDocumento.mask}
@@ -188,15 +183,8 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
                 />
               </div>
               {erroStep1 && <p style={{ color: 'red', textAlign: 'center', marginBottom: '10px' }}>{erroStep1}</p>}
-              
               <div className="form-group">
                 <button type="submit" className="btn btn-primary">Avançar</button>
-              </div>
-              <div className="form-footer-text">
-                <span>Já tem uma conta? </span>
-                <a href="#" className="link" onClick={(e) => { e.preventDefault(); onClose(); }}>
-                  Faça login
-                </a>
               </div>
             </form>
           </>
@@ -205,46 +193,60 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
         {step === 2 && (
           <>
             <h2 className="card__title" style={{ marginTop: 0 }}>Crie sua senha</h2>
-
             <form onSubmit={handleRegister}>
-              <div className="form-group">
+              
+              {/* CAMPO SENHA IGUAL AO HOME */}
+              <div className="form-group password-group">
                 <input 
-                  type="password" 
+                  type={showPassword ? "text" : "password"} 
                   placeholder="Crie sua senha" 
                   className="form-input" 
                   value={senha}
                   onChange={handlePasswordChange}
                   onFocus={() => setShowPasswordRequirements(true)}
-                  onBlur={() => setShowPasswordRequirements(true)}
                   required 
                 />
+                <span
+                  className="password-toggle-icon"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <img
+                    src={showPassword ? urlOlhoAberto : urlOlhoFechado}
+                    alt="Mostrar/Ocultar Senha"
+                    className="eye-icon"
+                  />
+                </span>
               </div>
-              <div className="form-group">
+
+              {/* CAMPO CONFIRMAR SENHA IGUAL AO HOME */}
+              <div className="form-group password-group">
                 <input 
-                  type="password" 
+                  type={showConfirmPassword ? "text" : "password"} 
                   placeholder="Confirme sua senha" 
                   className="form-input" 
                   value={confirmarSenha}
                   onChange={(e) => setConfirmarSenha(e.target.value)}
                   required 
                 />
+                <span
+                  className="password-toggle-icon"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  <img
+                    src={showConfirmPassword ? urlOlhoAberto : urlOlhoFechado}
+                    alt="Mostrar/Ocultar Senha"
+                    className="eye-icon"
+                  />
+                </span>
               </div>
 
               {showPasswordRequirements && (
                 <div className="password-requirements-box">
                   <ul>
-                    <li className={reqCase ? 'checked' : ''}>
-                      {reqCase ? '✅' : '❌'} Letras minúsculas e maiúsculas
-                    </li>
-                    <li className={reqNumber ? 'checked' : ''}>
-                      {reqNumber ? '✅' : '❌'} Um número (0-9)
-                    </li>
-                    <li className={reqSpecialChar ? 'checked' : ''}>
-                      {reqSpecialChar ? '✅' : '❌'} Um caractere especial (!@#$)
-                    </li>
-                    <li className={reqMinLength ? 'checked' : ''}>
-                      {reqMinLength ? '✅' : '❌'} Pelo menos 8 caracteres
-                    </li>
+                    <li className={reqCase ? 'checked' : ''}>{reqCase ? '✅' : '❌'} Maiúsculas e minúsculas</li>
+                    <li className={reqNumber ? 'checked' : ''}>{reqNumber ? '✅' : '❌'} Um número (0-9)</li>
+                    <li className={reqSpecialChar ? 'checked' : ''}>{reqSpecialChar ? '✅' : '❌'} Caractere especial</li>
+                    <li className={reqMinLength ? 'checked' : ''}>{reqMinLength ? '✅' : '❌'} Mínimo 8 caracteres</li>
                   </ul>
                 </div>
               )}
@@ -255,14 +257,11 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
                 <button type="submit" className="btn btn-primary">Criar conta</button>
               </div>
               <div className="form-footer-text">
-                <a href="#" className="link" onClick={(e) => { e.preventDefault(); setStep(1); }}>
-                  Voltar
-                </a>
+                <a href="#" className="link" onClick={(e) => { e.preventDefault(); setStep(1); }}>Voltar</a>
               </div>
             </form>
           </>
         )}
-
       </div>
     </div>,
     document.getElementById('modal-root')!
