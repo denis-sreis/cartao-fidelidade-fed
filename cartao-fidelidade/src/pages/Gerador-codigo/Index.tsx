@@ -5,7 +5,7 @@ import './Gerador-codigo.css';
 import QRCode from 'react-qr-code';
 
 import Cabecalho from '../../components/CabecalhoADM/CabecalhoADM';
-import Navegacao from '../../components/Navegacao/Navegacao';
+import Navegacao from '../../components/NavegacaoADM/NavegacaoADM';
 import PerfilCliente from '../PerfilCliente/Index';
 
 import type { PayloadGeracao } from '../../types/PayloadGeracao';
@@ -49,7 +49,9 @@ const GeradorCodigo = () => {
         </main>
         <footer className="gerador-codigo-footer">
           {/* CORRIGIDO: Usando setPerfilAberto */}
-          <Navegacao onProfileClick={() => setPerfilAberto(true)} />
+          <Navegacao 
+            
+            onHomeClick={() => navigate(-1)} />
         </footer>
          {/* CORRIGIDO: Usando perfilAberto */}
          {perfilAberto && <PerfilCliente onClose={() => setPerfilAberto(false)} />}
@@ -167,7 +169,9 @@ const GeradorCodigo = () => {
 
         <footer className="gerador-codigo-footer">
            {/* CORRIGIDO: Usando setPerfilAberto */}
-          <Navegacao onProfileClick={() => setPerfilAberto(true)} />
+          <Navegacao 
+            
+            onHomeClick={() => navigate(-1)} />
         </footer>
       </div>
 
