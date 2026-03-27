@@ -73,33 +73,42 @@ const fecharEditarPremio = () => {
           <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
 
-        <main className='principalADMTP'>
-          <h1 className='textoPontoADMTP'>GORDUCHINHOS II</h1>
-          <div className='cartaoADMTP'>
-              <CartaoADM/>
-          </div>
-          <div className='botaoQRADMTP'>
-            <BotaoQR onClick={abrirPontuacoes} />
-          </div>
-          <div className='premiosADMTP'>
-            <h1 className='headerPremios'>Prêmios</h1>
-            <h2 className='headerPremios'>Todos os Prêmios</h2>
-          </div>
-          <div className='listaPremiosADM'>
-              <ListaPremiosADM onPremioClick={abrirDetalhesPremio} />          
-          </div>
-          <div className='ADMTP'>
-            <h1 className='headerADM'>Administração</h1>
-            <h2 className='headerADM'>Opções do Administrador</h2>
-          </div>
-          <div className='AreaADMTP'>
-              <AreaADM
-                onCadastrarPremioClick={abrirCadastrarPremio}
-                onConsultarClientesClick={abrirMeusClientes}
-              />
-          </div>
-        
-        </main>
+        <main className="principalADMTP">
+  <div className="app-container">
+
+    <h1 className="textoPontoADMTP">GORDUCHINHOS II</h1>
+
+    <div className="cartaoADMTP">
+      <CartaoADM />
+    </div>
+
+    <div className="botaoQRADMTP">
+      <BotaoQR onClick={abrirPontuacoes} />
+    </div>
+
+    <section className="premiosADMTP">
+      <h1 className="headerPremios">Prêmios</h1>
+      <h2 className="subHeaderPremios">Todos os Prêmios</h2>
+    </section>
+
+    <div className="listaPremiosADM">
+      <ListaPremiosADM onPremioClick={abrirDetalhesPremio} />
+    </div>
+
+    <section className="ADMTP">
+      <h1 className="headerADM">Administração</h1>
+      <h2 className="subHeaderADM">Opções do Administrador</h2>
+    </section>
+
+    <div className="AreaADMTP">
+      <AreaADM
+        onCadastrarPremioClick={abrirCadastrarPremio}
+        onConsultarClientesClick={abrirMeusClientes}
+      />
+    </div>
+
+  </div>
+</main>
         <footer className='rodapeADMTP'>
           <Navegacao/>
         </footer>

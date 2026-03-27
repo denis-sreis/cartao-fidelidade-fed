@@ -1,0 +1,18 @@
+<svg width="180" height="50" viewBox="0 0 180 50" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="180" height="50" rx="20" fill="#F96922"></rect>
+
+  <!-- Ícone QR -->
+  <g transform="translate(15,12)">
+    <rect width="10" height="10" fill="white"></rect>
+    <rect x="14" width="10" height="10" fill="white"></rect>
+    <rect y="14" width="10" height="10" fill="white"></rect>
+    <rect x="14" y="14" width="5" height="5" fill="white"></rect>
+    <rect x="22" y="14" width="5" height="5" fill="white"></rect>
+    <rect x="14" y="22" width="5" height="5" fill="white"></rect>
+  </g>
+
+  <!-- Texto -->
+  <text x="55" y="30" fill="white" font-family="Poppins, sans-serif" font-size="14" font-weight="700">
+    Gerar QR Code
+  </text>
+</svg>

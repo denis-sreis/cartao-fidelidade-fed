@@ -6,11 +6,13 @@
     min-height: 100vh;
     background-color: black;
 }
+
 .cabecalhoTP{
     width: 100%;
     margin: 0;
     padding-bottom: 1.5rem;
 }
+
 .principalADMTP{
   flex-grow: 1; 
   padding: 0;
@@ -18,16 +20,59 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+/* 🔥 TEXTO CORRIGIDO */
+.textoPontoADMTP{
+    padding-left: 1.5rem;
+    color: white;
+    align-self: flex-start;
+    margin: 0;
+
+    font-size: clamp(2rem, 6.5vw, 4rem);
+    white-space: nowrap;
+}
+
+.cartaoADMTP{
+    align-self: center;
+}
+
+.botaoQRADMTP{
+    padding-right: 1.5rem;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.premiosADMTP{
+    padding-left: 1.5rem;
+    margin: 0;
+}
+
+.premiosADMTP h1{
+    color: white;
+    margin: 0;
+    font-size: 1.5em;
+    padding-left: 0.5rem;
+}
+
+.premiosADMTP h2{
+    color:#BCC1CD;
+    margin: 0;
+    font-size: 1rem;
+}
+
 .ADMTP{
     padding-left: 1.5rem;
     margin: 0;
 }
+
 .ADMTP h1{
     color: white;
     margin: 0;
     font-size: 1.5em;
     padding-left: 0.5rem;
 }
+
 .ADMTP h2{
     color:#BCC1CD;
     margin: 0;
@@ -38,17 +83,7 @@
   width: 100%;
 }
 
-.textoPontoADMTP{
-    padding-left: 1.5rem;
-    font-size: 2rem;;
-    color: white;
-    align-self: flex-start;
-    margin:0;
-}
-.cartaoADMTP{
-    align-self: center;
-}
-
+/* OVERLAY MENU */
 .overlay {
     position: fixed;
     top: 0;
@@ -59,50 +94,47 @@
     z-index: 100;
     cursor: pointer;
 }
-.botaoQRADMTP{
-    padding-right: 1.5rem;
-    margin: 0;
-    display: flex;
-    justify-content: flex-end;
-}
 
-.telaPrincipal.menu-aberto .principalADMTP, .telaPrincipal.menu-aberto .rodapeADMTP {
+.telaPrincipal.menu-aberto .principalADMTP,
+.telaPrincipal.menu-aberto .rodapeADMTP {
     pointer-events: none;
     user-select: none;
 }
-.premiosADMTP{
-    padding-left: 1.5rem;
-    margin: 0;
-}
-.premiosADMTP h1{
-    color: white;
-    margin: 0;
-    font-size: 1.5em;
-    padding-left: 0.5rem;
-}
-.premiosADMTP h2{
-    color:#BCC1CD;
-    margin: 0;
-    font-size: 1rem;
+
+/* ================= MOBILE ================= */
+@media (max-width: 480px){
+    .textoPontoADMTP{
+        padding-left: 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    .ADMTP h1{
+        font-size: 1.3rem;
+    }
+
+    .ADMTP h2{
+        font-size: 0.9rem;
+    }
 }
 
-@media (max-width: 320px){
-    .textoTituloTP{
-        font-size: 0.5rem;
-    }
-    .ADMTP h1{
-    font-size: 1.5rem;
-    padding-left: 0.5rem;
-    }
-    .ADMTP h2{
-        font-size: 1rem;
-    }
-}
+/* ================= TABLET ================= */
 @media(min-width:768px){
     .ADMTP h1{
-        font-size: 3rem;
+        font-size: 2.2rem;
     }
+
     .ADMTP h2{
-        font-size: 2rem;
+        font-size: 1.3rem;
+    }
+}
+@media (max-width: 320px){
+    .textoPontoADMTP{
+        font-size: clamp(1.4rem, 7vw, 2rem);
+    }
+}
+@media (max-width: 170px){
+    .textoPontoADMTP{
+        font-size: clamp(1rem, 8vw, 1.4rem);
     }
 }

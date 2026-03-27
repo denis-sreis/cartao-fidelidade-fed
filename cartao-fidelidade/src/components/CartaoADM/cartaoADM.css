@@ -1,91 +1,92 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 
-/* Estilos Padrão (Desktop ou Telas Maiores) */
+/* ================= DESKTOP ================= */
 .cartao {
     position: relative;
     background-color: #F96922;
     color: white;
-    max-width: 30rem;
-    min-width: 24rem;
+
+    max-width: 32rem;
+    min-width: 26rem;
+
     margin: 0;
-    max-height: 13.75rem;
     border-radius: 1.5rem;
-    /* AJUSTE para evitar sobreposição da logo */
-    padding: 1.5rem 6.5rem 1.5rem 1.5rem; 
+
+    padding: 1.5rem 6.5rem 1.5rem 1.5rem;
+    min-height: 10rem;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
+
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    font-size: xx-small;
     box-sizing: border-box;
 }
 
-.elipse{
+/* ELEMENTOS */
+.elipse {
     position: absolute;
     top: 0.6rem; 
     right: 0.9rem;
     width: 4.25rem;
-    height:auto;
     z-index: 0;
 }
-.textoPrincipal {
-    z-index: 1;
-    position: relative;
-    font-size: 1.55rem;
-    font-weight: 800;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    font-weight:bold;
-    /* Adicionado para limitar a largura e garantir o desvio da logo */
-    max-width: 65%; 
-}
 
-.logo{
+.logo {
     position: absolute;
     top: 1.25rem;
     right: 1.5rem;
     width: 2rem;
-    height: auto;
     z-index: 1;
 }
 
-/* ----------------------------------------------------------------- */
-/* 📱 Media Query para Telas Médias (e.g., Tablets em modo retrato) */
+/* TEXTO PRINCIPAL (AJUSTE CRÍTICO) */
+.textoPrincipal {
+    z-index: 1;
+    position: relative;
+
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1.6rem;
+
+    line-height: 1.2;
+
+    /* ESSENCIAL */
+    word-break: keep-all;
+    white-space: normal;
+
+    max-width: 100%;
+}
+
+/* ================= TABLET ================= */
 @media (max-width: 992px) {
     .cartao {
-        max-width: 20rem;
-        min-width: 18rem;
-        /* AJUSTE para telas médias */
-        padding: 1.25rem 5.5rem 1.25rem 1.25rem; 
+        max-width: 24rem;
+        min-width: 20rem;
+        padding: 1.25rem 5.5rem 1.25rem 1.25rem;
     }
 
     .textoPrincipal {
-        font-size: 1.35rem;
-        max-width: 65%;
+        font-size: 1.3rem;
     }
 
     .elipse {
         width: 3.5rem;
-        right: 0.7rem;
     }
 }
 
-/* ----------------------------------------------------------------- */
-/* 📱 Media Query para Telas Pequenas (e.g., Smartphones) */
+/* ================= MOBILE ================= */
 @media (max-width: 576px) {
     .cartao {
         max-width: 100%;
         min-width: unset;
-        max-height: 8rem;
-        /* AJUSTE para telas pequenas */
-        padding: 1rem 4.5rem 1rem 1rem; 
+        padding: 1rem 4.5rem 1rem 1rem;
         border-radius: 1rem;
     }
 
     .textoPrincipal {
-        font-size: 1.15rem;
-        max-width: 65%;
+        font-size: 1.1rem;
     }
 
     .elipse {
