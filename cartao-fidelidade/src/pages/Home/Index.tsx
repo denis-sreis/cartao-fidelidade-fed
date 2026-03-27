@@ -148,9 +148,10 @@ function Home() {
         </div>
       </div>
 
-      {isCadastroVisible && (
-        <Cadastro onClose={() => setCadastroVisible(false)} />
-      )}
+      <Cadastro
+        estaAberto={isCadastroVisible}
+        onClose={() => setCadastroVisible(false)}
+      />
       
       <EsqueciSenha
         estaAberto={isEsqueciSenhaVisible}

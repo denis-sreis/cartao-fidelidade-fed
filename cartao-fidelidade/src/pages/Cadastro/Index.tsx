@@ -17,9 +17,10 @@ const hasSpecialChar = (password: string) => /[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?
 
 interface CadastroProps {
   onClose: () => void;
+  estaAberto: boolean;
 }
 
-const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
+const Cadastro: React.FC<CadastroProps> = ({ onClose, estaAberto }) => {
   const [step, setStep] = useState(1); 
   const navigate = useNavigate();
   const [userType, setUserType] = useState<'cliente' | 'funcionario'>('cliente');
@@ -105,6 +106,12 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
 
       localStorage.clear(); 
       await login({ documento: documentoLimpo, senha: senha });
+      setNome('');
+      setTelefone('');
+      setDocumento('');
+      setSenha('');
+      setConfirmarSenha('');
+      setStep(1);
 
       if (userType === 'funcionario') {
         navigate('/principalADM'); 
@@ -126,7 +133,11 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose }) => {
   }; 
   
   return ReactDOM.createPortal(
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      className="modal-overlay"   
+      style={{display: estaAberto ? 'flex' : 'none'}}
+      onClick={onClose}
+    >
       <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
         <div className="modal-grabber"></div>
 
