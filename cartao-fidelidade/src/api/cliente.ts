@@ -9,6 +9,7 @@ export interface Cliente {
   telefone: string;
   documento: string;
   tipo: string;
+  pontos: number;
   imagem?: string | null; 
   imagem_id?: number | null; 
   email?: string;
@@ -18,6 +19,7 @@ const CLIENTE_ENDPOINT = '/cliente';
 const AUTH_ME_ENDPOINT = '/auth/me'; 
 const CLIENTE_ME_ENDPOINT = '/cliente/me';
 const CLIENTE_FOTO_ENDPOINT = '/cliente/me/foto';
+
 
 const processarImagemUsuario = (data: any): string | null => {
     if (!data) return null;
