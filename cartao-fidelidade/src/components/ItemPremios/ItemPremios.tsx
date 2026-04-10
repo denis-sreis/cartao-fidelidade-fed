@@ -12,21 +12,24 @@ interface ItemPremiosProps {
 function ItemPremios({ nome, pontos, imagemUrl, onClick }: ItemPremiosProps) {
     const pontosFormatados = pontos.toString().padStart(2, '0');
     
-    // 1. Verificamos se a imagem é a padrão (aquela do flaticon)
-    // Se for a padrão, não extraímos ID e nem chamamos o hook
-    const isDefaultImage = imagemUrl.includes('flaticon.com');
+    // 1. Extração garantida: pegamos o último pedaço da URL e limpamos qualquer coisa que não seja número
+    const partes = imagemUrl.split('/');
+    const ultimoPedaco = partes[partes.length - 1];
+    
+    // Filtra apenas os números (isso evita que o ".png" ou outros textos quebrem o parseInt)
+    const idApenasNumeros = ultimoPedaco.replace(/\D/g, ''); 
+    const imageId = idApenasNumeros ? parseInt(idApenasNumeros, 10) : 0;
 
-    // 2. Só tentamos extrair o ID se NÃO for a imagem padrão
-    const idExtraidoString = !isDefaultImage ? imagemUrl.split('/').pop() || "" : "";
-    const imageId = !isNaN(Number(idExtraidoString)) && idExtraidoString !== "" ? Number(idExtraidoString) : 0;
+    // 2. Só chama o hook se for um ID de produto real (maior que 0)
+    // E ignoramos o ID 70972 que é o do ícone padrão
+    const deveChamarHook = imageId > 0 && imageId !== 70972;
+    const imagemBase64 = useImageBase64(deveChamarHook ? imageId : 0); 
 
-    // 3. Só chamamos o hook se tivermos um ID válido e não for imagem padrão
-    // Se for 0, o hook não deve disparar a requisição (verifique isso no useImageBase64)
-    const imagemBase64 = useImageBase64(imageId > 0 ? imageId : 0); 
+    // 3. Define qual imagem mostrar
+    const srcFinal = (deveChamarHook && imagemBase64) ? imagemBase64 : imagemUrl;
 
-    // 4. Lógica de exibição final
-    // Se tiver base64, usa. Se não, usa a imagemUrl original (que pode ser a do flaticon)
-    const srcFinal = (imagemBase64 && imageId > 0) ? imagemBase64 : imagemUrl;
+    // Log de Debug atualizado
+    console.log(`Produto: ${nome} | URL Original: ${imagemUrl} | ID Extraído: ${imageId} | Usando Base64: ${!!imagemBase64}`);
 
     return (
         <div className={`itemPremio ${onClick ? 'item-clicavel' : ''}`} onClick={onClick}> 

@@ -11,6 +11,7 @@ export interface Cliente {
   tipo: string;
   imagem?: string | null; 
   imagem_id?: number | null; 
+  foto_data_url?: string | null;
   email?: string;
 }
 

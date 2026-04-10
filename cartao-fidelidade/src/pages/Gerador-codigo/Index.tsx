@@ -4,6 +4,7 @@ import './Gerador-codigo.css';
 
 import QRCode from 'react-qr-code';
 
+import api from '../../api/index';
 import Cabecalho from '../../components/CabecalhoADM/CabecalhoADM';
 import Navegacao from '../../components/Navegacao/Navegacao';
 import PerfilCliente from '../PerfilCliente/Index';
@@ -17,9 +18,7 @@ const GeradorCodigo = () => {
   const location = useLocation();
   
   // Estado para controlar a visibilidade do menu de navegação lateral (se houver)
-  const [menuAberto, setMenuAberto] = useState(false);
-  const abrirMenu = () => setMenuAberto(true);
-  const fecharMenu = () => setMenuAberto(false);
+  const abrirMenu = () => {};
 
   // Estado CORRIGIDO e ÚNICO para a visibilidade do PerfilCliente
   const [perfilAberto, setPerfilAberto] = useState(false);
@@ -76,26 +75,8 @@ const GeradorCodigo = () => {
             return;
         }
 
-        const API_URL = 'http://localhost:3000/api/fidelidade/qrcode/gerar';
-
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`,
-          },
-          body: JSON.stringify(payloadParaGerar),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          if (response.status === 401) {
-            throw new Error('Sessão expirada. Faça login novamente.');
-          }
-          throw new Error(errorData.mensagem || `Erro HTTP: ${response.status}`);
-        }
-
-        const data = await response.json();
+        const response = await api.post('/fidelidade/qrcode/gerar', payloadParaGerar);
+        const data = response.data;
         console.log("Resposta do Backend:", data);
 
         if (isMounted) {
