@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 
-/* CONTAINER DO BOTÃO */
+/* CONTAINER */
 .botaoQRADMTP{
+    margin-top: 20px;
+    margin-bottom: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: center;   /* horizontal */
+    align-items: center;       /* vertical (se tiver altura) */
     width: 100%;
 }
 
@@ -28,10 +31,9 @@
 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
-    margin: 1rem auto;
+    margin: 0; /* 🔥 remove conflito */
 }
-
-/* ================= TELAS MÉDIAS (≈538px REFERÊNCIA) ================= */
+/* TELAS MÉDIAS */
 @media (max-width: 600px) {
     .botao {
         width: auto;
@@ -40,20 +42,24 @@
     }
 }
 
-/* ================= MOBILE ================= */
+/* MOBILE */
 @media (max-width: 480px) {
     .botao {
-        width: 100%;
-        font-size: 0.85rem;
-        padding: 0.6rem 1rem;
-        border-radius: 1.25rem;
+        width: auto;
+        font-size: 0.9rem;
+        padding: 0.6rem 1.4rem;
+    }
+
+    .botaoQRADMTP{
+                width: auto;
+        font-size: 0.9rem;
+        padding: 0.6rem 1.4rem;
     }
 }
 
-/* ================= TELAS MUITO PEQUENAS ================= */
+/* MUITO PEQUENAS */
 @media (max-width: 320px) {
     .botao {
         font-size: 0.75rem;
-        padding: 0.5rem 0.8rem;
     }
 }

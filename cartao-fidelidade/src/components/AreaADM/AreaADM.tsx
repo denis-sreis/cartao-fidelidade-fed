@@ -13,7 +13,7 @@ function AreaADM({ onCadastrarPremioClick, onConsultarClientesClick }: AreaADMPr
             </div>
 
             <div className={'bConsultaCliente'} onClick={onConsultarClientesClick}>
-                Meus<br />Clientes
+               <span>Meus<br />Clientes</span>
             </div>
 
         </div>
