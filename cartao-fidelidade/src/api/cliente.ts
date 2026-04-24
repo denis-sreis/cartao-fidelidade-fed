@@ -11,6 +11,7 @@ export interface Cliente {
   telefone: string;
   documento: string;
   tipo: string;
+  pontos: number;
   imagem?: string | null; 
   imagem_id?: number | null; 
   foto_data_url?: string | null;

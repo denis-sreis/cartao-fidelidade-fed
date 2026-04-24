@@ -31,6 +31,8 @@ const GeradorCodigo = () => {
   if (!payloadParaGerar) {
     return (
       <>
+      {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
+        <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
         <header className="gerador-codigo-header">
           <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
@@ -118,7 +120,10 @@ const GeradorCodigo = () => {
   // --- RENDERIZAÇÃO PRINCIPAL ---
   return (
     <>
+    
       <div className="gerador-codigo-container">
+        {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
+        <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
         <header className="gerador-codigo-header">
           <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
