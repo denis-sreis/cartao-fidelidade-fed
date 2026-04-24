@@ -1,4 +1,4 @@
-.cabecalho{
+.cabecalho {
     margin: 0 auto;
     width: 100%;
     max-width: 75rem;
@@ -9,26 +9,60 @@
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
+    gap: 1rem;
 }
-.icone,.botaoMenu {
+
+.icone,
+.botaoMenu {
     width: 6.25rem;
     height: 6.25rem;
 }
-.botaoMenu,.botaoPerfil{
+
+.botaoMenu,
+.botaoPerfil {
     background: none;
     border: none;
     padding: 0;
-
 }
 
-@media (max-width: 700px){
-  .cabecalho {
-    height: 4.25rem; 
-    padding: 0.25rem 0.25rem 0; 
-  }
-
-  .icone {
-    width: 3.125rem; 
-    height: 3.125rem;
+/* Evita quebra do texto do botão */
+.botaoPerfil {
+    white-space: nowrap;
+    font-size: 1rem;
 }
+
+/* Tablet (resolve 712x1138) */
+@media (max-width: 768px) {
+    .cabecalho {
+        height: 4.25rem;
+        padding: 0.25rem 0.5rem 0;
+    }
+
+    .icone,
+    .botaoMenu {
+        width: 3.125rem;
+        height: 3.125rem;
+    }
+
+    .botaoPerfil {
+        font-size: 0.75rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .cabecalho {
+        height: 3.75rem;
+        padding: 0.25rem 0.25rem 0;
+    }
+
+    .icone,
+    .botaoMenu {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .botaoPerfil {
+        font-size: 0.7rem;
+    }
 }

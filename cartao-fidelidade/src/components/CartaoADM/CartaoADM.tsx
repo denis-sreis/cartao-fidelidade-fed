@@ -4,14 +4,17 @@ import ellipse from './Ellipse.png'
 
 function CartaoADM() {
   return (
-    <>
-    <div className={'cartao'}>
-    <img src={ellipse} className={'elipse'}/>
-    <img src={logo} className={'logo'} />
-    <div className={'administrador'}>
-        <h1 className={'textoPrincipal'}>Área do Administrador</h1>
+    <div className="cartao">
+      <img src={ellipse} className="elipse" />
+      <img src={logo} className="logo" />
+
+      <div className="administrador">
+        <h1 className="textoPrincipal">
+          Área do <br /> Administrador
+        </h1>
+      </div>
     </div>
-    </div></>
   );
 }
-export default CartaoADM
+
+export default CartaoADM;

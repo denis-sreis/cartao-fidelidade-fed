@@ -16,6 +16,7 @@ const getClientPhotoUrl = (dataUrl: string | null | undefined) => {
     }
     return dataUrl;
 };
+
 const MeusClientes: React.FC<MeusClientesProps> = ({ onClose }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -39,6 +40,7 @@ const MeusClientes: React.FC<MeusClientesProps> = ({ onClose }) => {
       }
     };
     fetchClientes();
+  }, []);
   }, []);
 
   const filteredClientes = clientes.filter(

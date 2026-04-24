@@ -6,8 +6,6 @@ import Home from './pages/Home/Index';
 import TelaPrincipalCliente from './pages/Tela-principal/Cliente/Index'
 import TelaPrincipalADM from './pages/Tela-principal/Admin/Index'
 import LeitorCodigo from './pages/Leitor-codigo/Index';
-// import TelaPrincipal from './pages/Tela-principal/Index';
-// import EsqueciSenha from './pages/EsqueciSenha/Index';
 import GeradorCodigo from './pages/Gerador-codigo/Index';
 import Pontuacoes from './pages/Pontuacoes/Index';
 
