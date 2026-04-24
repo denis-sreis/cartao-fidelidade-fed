@@ -10,6 +10,7 @@ import LeitorCodigo from './pages/Leitor-codigo/Index';
 // import EsqueciSenha from './pages/EsqueciSenha/Index';
 import GeradorCodigo from './pages/Gerador-codigo/Index';
 import Pontuacoes from './pages/Pontuacoes/Index';
+import CadastroGoogle from './pages/CadastroGoogle/index';
 
 
 import './index.css';
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/leitor-qrcode" element={<LeitorCodigo />} />
         <Route path="/gerar-qrcode" element={<GeradorCodigo />} />
         <Route path="/selecionar-pontuacao" element={<Pontuacoes />} />
+        <Route path="/CadastroGoogle" element={<CadastroGoogle />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
