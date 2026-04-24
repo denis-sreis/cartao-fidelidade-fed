@@ -41,7 +41,6 @@ const MeusClientes: React.FC<MeusClientesProps> = ({ onClose }) => {
     };
     fetchClientes();
   }, []);
-  }, []);
 
   const filteredClientes = clientes.filter(
     (cliente) =>
