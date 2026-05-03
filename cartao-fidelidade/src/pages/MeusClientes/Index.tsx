@@ -8,7 +8,7 @@ interface MeusClientesProps {
 
 const DEFAULT_PHOTO_URL = 'https://cdn-icons-png.flaticon.com/128/3135/3135715.png';
 
-const getClientPhotoUrl = (dataUrl: string | null) => {
+const getClientPhotoUrl = (dataUrl: string | null | undefined) => {
     if (!dataUrl || dataUrl.trim() === '' || dataUrl.length < 50) { 
         return DEFAULT_PHOTO_URL;
     }

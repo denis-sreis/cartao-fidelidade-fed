@@ -2,12 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { useNavigate } from 'react-router-dom';
 import './Leitor-codigo.css';
+import api from '../../api/index';
 import MenuLateral from '../../components/MenuLateral/MenuLateral';
 import Cabecalho from '../../components/Cabecalho/Cabecalho';
 import Navegacao from '../../components/Navegacao/Navegacao';
 import PerfilCliente from '../PerfilCliente/Index';
-
-const API_USAR_URL = 'http://localhost:3000/api/fidelidade/qrcode/usar';
 
 const LeitorCodigo = () => {
   const [menuAberto, setMenuAberto] = useState(false);
@@ -47,27 +46,14 @@ const LeitorCodigo = () => {
         const authToken = localStorage.getItem('authToken');
 
         if (!authToken) {
-
           throw new Error('Autenticação necessária. Faça login no celular como Cliente.');
         }
 
+        const response = await api.post('/fidelidade/qrcode/usar', { token: decodedText });
+        const data = response.data;
 
-        const response = await fetch(API_USAR_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
-          },
-          body: JSON.stringify({ token: decodedText })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          if (response.status === 401) {
-            throw new Error('Sessão expirada. Faça login novamente.');
-          }
-          throw new Error(data.mensagem || data.error || 'Falha ao processar o QR Code.');
+        if (response.status === 401) {
+          throw new Error('Sessão expirada. Faça login novamente.');
         }
 
         console.log("Sucesso no processamento:", data);

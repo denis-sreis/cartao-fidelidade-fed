@@ -13,7 +13,7 @@ function MenuLateral({ ativo, fecharMenu }: MenuLateralProps) {
         <img src={fechar} className="icone" />
       </button>
       <ul>
-        <li><a><Link to="/">Sair</Link></a></li>
+        <li><Link to="/">Sair</Link></li>
       </ul>
       <footer>Versão @{version}</footer>
     </nav>
