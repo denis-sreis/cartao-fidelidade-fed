@@ -17,7 +17,7 @@ const hasSpecialChar = (password: string) => /[!@#$%^&*()_+=\[\]{};':"\\|,.<>\/?
 
 interface CadastroProps {
   onClose: () => void;
-  estaAberto: boolean;
+  estaAberto: boolean; 
 }
 
 const Cadastro: React.FC<CadastroProps> = ({ onClose, estaAberto }) => {

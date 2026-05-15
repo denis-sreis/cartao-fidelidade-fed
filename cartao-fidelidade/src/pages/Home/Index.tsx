@@ -1,13 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { IMaskInput } from 'react-imask'; 
-import { loginSchema } from '../Home/validador'; 
-import { login } from '../../api/auth'; 
-import Cadastro from '../Cadastro/Index';
-import EsqueciSenha from '../EsqueciSenha/Index';
-
-const urlOlhoFechado = 'https://cdn-icons-png.flaticon.com/128/3178/3178377.png';
-const urlOlhoAberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png';
+import React from 'react';
+import '../../index.css';
 
 const Logo = () => (
   <img
@@ -18,147 +10,47 @@ const Logo = () => (
 );
 
 function Home() {
-  const navigate = useNavigate();
-  
-  const [isCadastroVisible, setCadastroVisible] = useState(false);
-  
-  const [isEsqueciSenhaVisible, setEsqueciSenhaVisible] = useState(false);
-  const [resetEsqueciSenha, setResetEsqueciSenha] = useState(0);
-
-  const [documento, setDocumento] = useState('');
-  const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value;
-    setSenha(newPassword);
-    if (erro && newPassword.length > 0) {
-      setErro('');
-    }
+  const handleGoogleLogin = () => {
+    // Aqui o navegador redireciona para a rota do Backend que inicia o Google Auth
+    window.location.href = 'http://localhost:3000/auth/google';
   };
-
-  const handleLogin = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setErro('');
-
-    const { error } = loginSchema.validate({ documento });
-
-    if (error) {
-      setErro(error.details[0].message);
-      return;
-    }
-    
-    const docApenasNumeros = documento.replace(/[^\d]/g, ''); 
-
-    try {
-        const response = await login({
-            documento: docApenasNumeros, 
-            senha: senha,
-        });
-
-        console.log('Login bem-sucedido!', response);
-            
-        if (docApenasNumeros.length === 11) {
-          navigate('/principalCliente');
-        } else if (docApenasNumeros.length === 14) {
-          navigate('/principalADM');
-        }
-        
-        setResetEsqueciSenha(c => c + 1);
-
-    } catch (err) {
-        if (err instanceof Error) {
-            setErro(err.message);
-        } else {
-            setErro('Ocorreu um erro desconhecido durante o login.');
-        }
-    }
-  };
-    
-  const mascara = [
-    { mask: '000.000.000-00' },
-    { mask: '00.000.000/0000-00' }
-  ];
 
   return (
-    <>
-      <div className="container">
-        <Logo /> 
-        <div className="card">
-          <h2 className="card__title">Entrar</h2>
-          
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
-              <IMaskInput
-                mask={mascara}
-                value={documento}
-                onAccept={(value: string) => setDocumento(value)}
-                placeholder="Entre com seu CPF ou CNPJ"
-                className="form-input"
-                required
-              />
-            </div>
-            
-            <div className="form-group password-group">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Senha"
-                className="form-input"
-                value={senha}
-                onChange={handlePasswordChange}
-                required
-              />
-              <span
-                className="password-toggle-icon"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                <img
-                  src={showPassword ? urlOlhoAberto : urlOlhoFechado}
-                  alt="Mostrar/Ocultar Senha"
-                  className="eye-icon"
-                />
-              </span>
-            </div>
+    <div className="container">
+      <Logo />
+      <div className="card">
+        <h2 className="card__title">Bem-vindo</h2>
+        
+        <p style={{ 
+          color: 'var(--color-text-secondary)', 
+          marginBottom: 'var(--spacing-lg)',
+          fontSize: '1rem' 
+        }}>
+          Para acessar sua conta com segurança, utilize o botão abaixo.
+        </p>
 
-            {erro && <p style={{ color: 'red', textAlign: 'center', marginBottom: '10px' }}>{erro}</p>}
+        <div className="form-group">
+          <button 
+            type="button" 
+            className="btn btn-primary" 
+            onClick={handleGoogleLogin}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+          >
+            {/* Ícone simples do Google (pode trocar pela URL de um ícone real) */}
+            <img 
+              src="https://cdn-icons-png.flaticon.com/128/300/300221.png" 
+              alt="Google" 
+              style={{ width: '20px', height: '20px', filter: 'brightness(0) invert(1)' }} 
+            />
+            Entrar com Google
+          </button>
+        </div>
 
-            <div className="form-group">
-              <button type="submit" className="btn btn-primary">Entrar</button>
-            </div>
-            
-            <div className="form-footer-text">
-              <span>Primeira vez aqui? </span>
-              <a href="#" className="link" onClick={(e) => {
-                e.preventDefault();
-                setCadastroVisible(true);
-              }}>
-                Cadastre-se
-              </a>
-            </div>
-            <div className="form-footer-text">
-              <a href="#" className="link" onClick={(e) => {
-                e.preventDefault();
-                setEsqueciSenhaVisible(true); 
-              }}>
-                Esqueceu sua senha?
-              </a>
-            </div>
-          </form>
+        <div className="form-footer-text">
+          <span>Ao entrar, você concorda com nossos termos.</span>
         </div>
       </div>
-
-      <Cadastro
-        estaAberto={isCadastroVisible}
-        onClose={() => setCadastroVisible(false)}
-      />
-      
-      <EsqueciSenha
-        estaAberto={isEsqueciSenhaVisible}
-        onClose={() => setEsqueciSenhaVisible(false)}
-        resetTrigger={resetEsqueciSenha}
-      />
-    </>
+    </div>
   );
 }
 
