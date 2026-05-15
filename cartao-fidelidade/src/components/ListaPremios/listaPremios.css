@@ -7,7 +7,7 @@
   -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
   padding-right: 1.5rem; /* Garante que o último card apareça completo */
-  padding-bottom: 0.5rem; /* Espaço para sombras dos cards */
+  padding-bottom: 0.5rem; /* Espaço para sombras dos cards */       
 }
 
 .premiosGrid::-webkit-scrollbar {

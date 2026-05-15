@@ -4,8 +4,9 @@ import './Gerador-codigo.css';
 
 import QRCode from 'react-qr-code';
 
+import api from '../../api/index';
 import Cabecalho from '../../components/CabecalhoADM/CabecalhoADM';
-import Navegacao from '../../components/Navegacao/Navegacao';
+import Navegacao from '../../components/NavegacaoADM/NavegacaoADM';
 import PerfilCliente from '../PerfilCliente/Index';
 
 import type { PayloadGeracao } from '../../types/PayloadGeracao';
@@ -17,9 +18,7 @@ const GeradorCodigo = () => {
   const location = useLocation();
   
   // Estado para controlar a visibilidade do menu de navegação lateral (se houver)
-  const [menuAberto, setMenuAberto] = useState(false);
-  const abrirMenu = () => setMenuAberto(true);
-  const fecharMenu = () => setMenuAberto(false);
+  const abrirMenu = () => {};
 
   // Estado CORRIGIDO e ÚNICO para a visibilidade do PerfilCliente
   const [perfilAberto, setPerfilAberto] = useState(false);
@@ -32,6 +31,8 @@ const GeradorCodigo = () => {
   if (!payloadParaGerar) {
     return (
       <>
+      {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
+        <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
         <header className="gerador-codigo-header">
           <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
@@ -49,7 +50,9 @@ const GeradorCodigo = () => {
         </main>
         <footer className="gerador-codigo-footer">
           {/* CORRIGIDO: Usando setPerfilAberto */}
-          <Navegacao onProfileClick={() => setPerfilAberto(true)} />
+          <Navegacao 
+            
+            onHomeClick={() => navigate(-1)} />
         </footer>
          {/* CORRIGIDO: Usando perfilAberto */}
          {perfilAberto && <PerfilCliente onClose={() => setPerfilAberto(false)} />}
@@ -76,26 +79,8 @@ const GeradorCodigo = () => {
             return;
         }
 
-        const API_URL = 'http://localhost:3000/api/fidelidade/qrcode/gerar';
-
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`,
-          },
-          body: JSON.stringify(payloadParaGerar),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          if (response.status === 401) {
-            throw new Error('Sessão expirada. Faça login novamente.');
-          }
-          throw new Error(errorData.mensagem || `Erro HTTP: ${response.status}`);
-        }
-
-        const data = await response.json();
+        const response = await api.post('/fidelidade/qrcode/gerar', payloadParaGerar);
+        const data = response.data;
         console.log("Resposta do Backend:", data);
 
         if (isMounted) {
@@ -135,7 +120,10 @@ const GeradorCodigo = () => {
   // --- RENDERIZAÇÃO PRINCIPAL ---
   return (
     <>
+    
       <div className="gerador-codigo-container">
+        {menuAberto && <div className="overlay" onClick={fecharMenu}></div>}
+        <MenuLateral ativo={menuAberto} fecharMenu={fecharMenu} />
         <header className="gerador-codigo-header">
           <Cabecalho onAbrirMenu={abrirMenu} />
         </header>
@@ -167,7 +155,9 @@ const GeradorCodigo = () => {
 
         <footer className="gerador-codigo-footer">
            {/* CORRIGIDO: Usando setPerfilAberto */}
-          <Navegacao onProfileClick={() => setPerfilAberto(true)} />
+          <Navegacao 
+            
+            onHomeClick={() => navigate(-1)} />
         </footer>
       </div>
 

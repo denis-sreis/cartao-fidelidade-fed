@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { getPremios, type Premio } from '../../api/produto'; 
 import ItemPremio from '../ItemPremios/ItemPremios';
 import './listaPremios.css';
