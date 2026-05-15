@@ -1,50 +1,42 @@
-import { useState } from 'react'; // Removi o 'React' não utilizado
+import React, { useState } from 'react';
 import { IMaskInput } from 'react-imask';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-interface DadosGoogle {
-  nome: string;
-  email: string;
-}
-
-interface ConcluirCadastroProps {
-  dadosGoogle: DadosGoogle;
-}
-
-const ConcluirCadastro: React.FC<ConcluirCadastroProps> = ({ dadosGoogle }) => {
+const ConcluirCadastro: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Recupera dados passados pela Home (ou define padrões para não quebrar)
+  const dadosGoogle = location.state || { nome: "", email: "" };
+
   const [cpf, setCpf] = useState('');
   const [telefone, setTelefone] = useState('');
   const [loading, setLoading] = useState(false);
-  const [erro, setErro] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setErro('');
 
     const payload = {
-      email: dadosGoogle.email,
       nome: dadosGoogle.nome,
+      email: dadosGoogle.email,
       cpf: cpf.replace(/\D/g, ''),
       telefone: telefone.replace(/\D/g, '')
     };
 
-    try {
-      console.log("Enviando dados finais:", payload);
-      // await api.post('/auth/concluir-cadastro', payload);
-      navigate('/principalCliente');
-    } catch (err) {
-      setErro("Falha ao salvar dados. Verifique a conexão.");
-    } finally {
+    console.log("Dados finais para o backend:", payload);
+
+    // Simulação de redirecionamento após salvar
+    setTimeout(() => {
       setLoading(false);
-    }
+      navigate('/principalCliente');
+    }, 1000);
   };
 
   return (
     <div className="container">
       <div className="card">
-        <h2 className="card__title">Quase lá!</h2>
+        <h2 className="card__title">Concluir Cadastro</h2>
         
         <p style={{ 
           textAlign: 'left', 
@@ -53,7 +45,7 @@ const ConcluirCadastro: React.FC<ConcluirCadastroProps> = ({ dadosGoogle }) => {
           fontSize: '0.9rem' 
         }}>
           Olá, <strong>{dadosGoogle.nome}</strong>. <br />
-          Para completar seu perfil fidelidade, informe:
+          Preencha os dados abaixo para ativar seu cartão:
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -83,13 +75,11 @@ const ConcluirCadastro: React.FC<ConcluirCadastroProps> = ({ dadosGoogle }) => {
               mask="(00) 0 0000-0000"
               value={telefone}
               onAccept={(value: string) => setTelefone(value)}
-              placeholder="WhatsApp"
+              placeholder="Seu Telefone/WhatsApp"
               className="form-input"
               required
             />
           </div>
-
-          {erro && <p style={{ color: 'red', fontSize: '0.8rem', marginBottom: '10px' }}>{erro}</p>}
 
           <div className="form-group" style={{ marginTop: 'var(--spacing-lg)' }}>
             <button 
