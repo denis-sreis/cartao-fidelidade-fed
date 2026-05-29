@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { IMaskInput } from 'react-imask'; 
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { loginSchema } from '../Cadastro/validador';
 import { register } from '../../api/cadastro';
 import { login } from '../../api/auth';
 
-// Constantes dos ícones (as mesmas do seu Home)
+Constantes dos ícones (as mesmas do seu Home)
 const urlOlhoFechado = 'https://cdn-icons-png.flaticon.com/128/3178/3178377.png';
 const urlOlhoAberto = 'https://cdn-icons-png.flaticon.com/128/158/158746.png';
 
@@ -204,9 +204,9 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose, estaAberto }) => {
         {step === 2 && (
           <>
             <h2 className="card__title" style={{ marginTop: 0 }}>Crie sua senha</h2>
-            <form onSubmit={handleRegister}>
+            <form onSubmit={handleRegister}>*/
               
-              {/* CAMPO SENHA IGUAL AO HOME */}
+             /* {/* CAMPO SENHA IGUAL AO HOME }*//*
               <div className="form-group password-group">
                 <input 
                   type={showPassword ? "text" : "password"} 
@@ -229,7 +229,7 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose, estaAberto }) => {
                 </span>
               </div>
 
-              {/* CAMPO CONFIRMAR SENHA IGUAL AO HOME */}
+             /*  {/* CAMPO CONFIRMAR SENHA IGUAL AO HOME */ /* }*//* 
               <div className="form-group password-group">
                 <input 
                   type={showConfirmPassword ? "text" : "password"} 
@@ -279,4 +279,4 @@ const Cadastro: React.FC<CadastroProps> = ({ onClose, estaAberto }) => {
   );
 }
 
-export default Cadastro;
+export default Cadastro;*/

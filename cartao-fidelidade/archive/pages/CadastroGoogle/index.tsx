@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import {jwtDecode} from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin} from '@react-oauth/google';
-import './decoracao.css';
+//import './decoracao.css';
 
 
 const Criacao = () => {
@@ -24,7 +24,7 @@ const Criacao = () => {
                     >
                         <GoogleLogin 
                         onSuccess={(sucessoLogin) => {
-                            console.log(jwtDecode(sucessoLogin.credential));
+                            //console.log(jwtDecode(sucessoLogin.credential));
 
                             navigate("/");
                         }}
