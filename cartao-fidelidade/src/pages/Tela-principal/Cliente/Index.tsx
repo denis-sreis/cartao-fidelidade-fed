@@ -1,6 +1,7 @@
 import PerfilCliente from '../../PerfilCliente/Index'
 import { useState } from 'react'
 import './telaPrincipal.css'
+import CartaoPontos from '../../../components/CartaoPontos/CartaoPontos'
 import Cabecalho from '../../../components/Cabecalho/Cabecalho'
 import BotaoRegistrar from '../../../components/BotaoRegistrar/BotaoRegistrar'
 import Navegacao from '../../../components/Navegacao/Navegacao'
