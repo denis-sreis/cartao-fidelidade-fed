@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
-
+import api from '../../api/index';
 const Logo = () => (
   <img
     src="src/assets/Logo - Gorducinhos.jpg"
@@ -13,19 +13,36 @@ const Logo = () => (
 function Home() {
   const navigate = useNavigate();
 
-  const handleSucesso = (credentialResponse: any) => {
+
+
+  const handleSucesso = async (credentialResponse: any) => {
     try {
       const decoded: any = jwtDecode(credentialResponse.credential);
       console.log("Usuário Google:", decoded);
 
-      // Lógica de navegação: 
-      // Se for um novo usuário, levamos para concluir o cadastro passando os dados
-      // Se já for cadastrado, o seu backend deve validar isso no futuro.
-      navigate("/concluir-cadastro", { 
-        state: { nome: decoded.name, email: decoded.email } 
+      // 1. Envia os dados para o seu backend Node.js
+      const resposta = await api.post('/auth/google', {
+          googleId: decoded.sub,
+          email: decoded.email,
+          nome: decoded.name,
+          fotoUrl: decoded.picture
       });
+
+      // 2. Salva o token REAL gerado pelo seu sistema
+      localStorage.setItem('token', resposta.data.token);
+
+      // 3. Verifica se precisa de mais dados ou se vai direto para a Home
+      if (resposta.data.precisaCompletarCadastro) {
+        navigate("/concluir-cadastro", { 
+          state: { nome: decoded.name, email: decoded.email } 
+        });
+      } else {
+        navigate("/principalCliente"); // Ou a tela Home apropriada
+      }
+
     } catch (error) {
-      console.error("Erro ao decodificar token:", error);
+      console.error("Erro ao fazer login com o Google:", error);
+      alert("Falha na comunicação com o servidor.");
     }
   };
 

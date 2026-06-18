@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { cadastrarPremio } from '../../api/produto'; 
+import api from '../../api/index';
 
 interface CadastrarPremioProps {
   onClose: () => void;
@@ -51,42 +52,48 @@ const CadastrarPremio: React.FC<CadastrarPremioProps> = ({ onClose, onSuccess })
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setApiError(null);
-    setLoading(true);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  setApiError(null);
 
-    const payload = {
-      nome: formData.nomePremio,
-      pontos: formData.pontos, 
-      expira_em: formData.duracao,
-    };
-
-    try {
-        // A função cadastrarPremio agora serializa este payload para Post Data
-        // e anexa o Base64 da imagem.
-        await cadastrarPremio(payload, imagemSelecionada);
-        
-        alert('Prêmio cadastrado com sucesso!'); 
-        if (onSuccess) onSuccess(); 
-        onClose();
-
-    } catch (err) {
-        if (err instanceof Error) {
-             let message = err.message;
-             if (message.includes("413")) {
-                 message = "A imagem é muito grande. Tente usar uma imagem com menos de 500 KB.";
-             } else if (message.includes("400")) {
-                 message = "Erro ao cadastrar. " + message;
-             }
-            setApiError(message);
-        } else {
-            setApiError('Ocorreu um erro desconhecido ao cadastrar o prêmio.');
-        }
-    } finally {
-        setLoading(false);
+  try {
+    // 1. Cria a estrutura que o Multer do backend entende
+    const formDataEnvio = new FormData();
+    formDataEnvio.append('nome', formData.nomePremio);
+    formDataEnvio.append('pontos', formData.pontos);
+    
+    // Tratamento da data
+    if (formData.duracao) {
+      const [ano, mes, dia] = formData.duracao.split('-');
+      formDataEnvio.append('dia_expira', dia);
+      formDataEnvio.append('mes_expira', mes);
+      formDataEnvio.append('ano_expira', ano);
     }
-  };
+
+    // 2. Anexa a imagem SE ela foi selecionada
+    if (imagemSelecionada) {
+      formDataEnvio.append('imagem', imagemSelecionada);
+    }
+
+    // 3. Faz a requisição dizendo que é multipart
+    await api.post('/produtos', formDataEnvio, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    alert("Prêmio criado com sucesso!");
+    if (onSuccess) onSuccess();
+    onClose();
+
+  } catch (error: any) {
+    console.error(error);
+    setApiError(error.response?.data?.error || "Erro ao cadastrar o prêmio");
+  } finally {
+    setLoading(false);
+  }
+};
   
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
