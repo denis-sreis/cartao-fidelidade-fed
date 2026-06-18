@@ -1,46 +1,62 @@
 .cabecalho {
-.cabecalho {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 75rem;
-    height: 7.375rem;
-    padding: 0 1.5rem 0;
-    background-color: black;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 75rem;
+  height: 7.375rem;
+  padding: 0 1.5rem 0;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-.cabecalho .icone, 
-.cabecalho .botaoMenu {
-    width: 6.25rem;
-    height: 6.25rem;
+.icone,
+.botaoMenu {
+  width: 6.25rem;
+  height: 6.25rem;
 }
 
-.cabecalho .botaoMenu, 
-.cabecalho .botaoPerfil {
-    background: none;
-    border: none;
-    padding: 0;
+.botaoMenu,
+.botaoPerfil {
+  background: none;
+  border: none;
+  padding: 0;
 }
 
-.cabecalho .fotoPerfil {
-    margin: 0.625rem;
-    width: 6.25rem;
-    height: 6.25rem;
-    border-radius: 50%;
+.fotoPerfil {
+  margin: 0.625rem;
+  width: 6.25rem;
+  height: 6.25rem;
+  border-radius: 50%;
 }
 
-@media (max-width: 700px){
-    .cabecalho {
-        height: 4.25rem; 
-        padding: 0.25rem 0.25rem 0; 
-    }
+/* Tablet */
+@media (max-width: 700px) {
+  .cabecalho {
+    height: 4.25rem;
+    padding: 0.25rem 0.75rem 0;
+  }
 
-    .cabecalho .icone, 
-    .cabecalho .fotoPerfil {
-        width: 3.125rem; 
-        height: 3.125rem;
-    }
+  .icone,
+  .botaoMenu,
+  .fotoPerfil {
+    width: 3.125rem;
+    height: 3.125rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .cabecalho {
+    height: 3.75rem;
+    padding: 0.25rem 0.5rem 0;
+  }
+
+  .icone,
+  .botaoMenu,
+  .fotoPerfil {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 }
