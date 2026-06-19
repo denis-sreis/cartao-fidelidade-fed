@@ -1,10 +1,13 @@
 import React, { useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import type { Premio } from '../../components/ListaPremios/produtosTeste'; 
+import type { Premio } from '../../api/produto'; // Ajustado para o caminho correto da sua API
+// IMPORTANTE: Importe a função que faz o update na API!
+import { editarPremio } from '../../api/produto'; 
 
 interface EditarPremioProps {
   onClose: () => void;
   premio: Premio; 
+  onEditSuccess?: () => void; // Para avisar a tela principal que a lista mudou
 }
 
 const PencilIcon = () => (
@@ -13,7 +16,7 @@ const PencilIcon = () => (
   </svg>
 );
 
-const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio }) => {
+const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio, onEditSuccess }) => {
   
   const [formData, setFormData] = useState({
     nomePremio: premio.nome,
@@ -21,8 +24,9 @@ const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio }) => {
   });
 
   const [imagemSelecionada, setImagemSelecionada] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(premio.imagemUrl);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(premio.imagemUrl || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isSalvando, setIsSalvando] = useState(false); // Para mostrar status de carregamento no botão
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,13 +45,35 @@ const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio }) => {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Aqui é onde a magia acontece! Transformamos em async
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Dados Editados:', formData);
-    if (imagemSelecionada) {
-      console.log('Nova Imagem para upload:', imagemSelecionada);
+    
+    try {
+      setIsSalvando(true);
+      
+      // Chamando a sua API com os parâmetros na ordem certa!
+      await editarPremio(
+        premio.id, 
+        formData.nomePremio, 
+        formData.pontos, 
+        imagemSelecionada
+      );
+
+      onClose();
+      
+      if (onEditSuccess) {
+        onEditSuccess();
+      } else {
+        window.location.reload();
+      }
+
+    } catch (error) {
+      console.error("Erro ao salvar a edição do prêmio:", error);
+      alert("Erro ao salvar as alterações. Tente novamente.");
+    } finally {
+      setIsSalvando(false);
     }
-    onClose();
   };
   
   return ReactDOM.createPortal(
@@ -108,8 +134,8 @@ const EditarPremio: React.FC<EditarPremioProps> = ({ onClose, premio }) => {
           </div>
 
           <div className="form-group" style={{ marginTop: 'var(--spacing-lg)' }}>
-            <button type="submit" className="btn btn-primary">
-              Salvar Alterações
+            <button type="submit" className="btn btn-primary" disabled={isSalvando}>
+              {isSalvando ? 'Salvando...' : 'Salvar Alterações'}
             </button>
           </div>
         </form>

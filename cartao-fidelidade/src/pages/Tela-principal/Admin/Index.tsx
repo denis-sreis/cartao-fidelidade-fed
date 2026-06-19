@@ -20,6 +20,11 @@ import Pontuacoes from '../../Pontuacoes/Index'
 
 function TelaPrincipalADM() {
 
+    // Adicione este estado dentro da function TelaPrincipalADM
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // Adicione esta função para forçar o refresh
+  const forcarAtualizacao = () => setRefreshKey(prev => prev + 1);
   const [detalhesPremioAberto, setDetalhesPremioAberto] = useState(false);
   const [premioSelecionado, setPremioSelecionado] = useState<Premio | null>(null);
   const [editarPremioAberto, setEditarPremioAberto] = useState(false);

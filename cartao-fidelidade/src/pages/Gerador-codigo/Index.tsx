@@ -8,6 +8,9 @@ import api from '../../api/index';
 import Cabecalho from '../../components/CabecalhoADM/CabecalhoADM';
 import Navegacao from '../../components/NavegacaoADM/NavegacaoADM';
 import PerfilCliente from '../PerfilCliente/Index';
+// AQUI ESTÁ A CORREÇÃO: Importação do MenuLateral adicionada. 
+// Verifique se o caminho do diretório está correto para o seu projeto!
+import MenuLateral from '../../components/MenuLateral/MenuLateral'; 
 
 import type { PayloadGeracao } from '../../types/PayloadGeracao';
 
@@ -17,10 +20,18 @@ const GeradorCodigo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Estado para controlar a visibilidade do menu de navegação lateral (se houver)
-  const abrirMenu = () => {};
+  // --- AQUI ESTÁ A CORREÇÃO! Adicionamos o estado do menuLateral ---
+  const [menuAberto, setMenuAberto] = useState(false);
+  
+  const abrirMenu = () => {
+      setMenuAberto(true);
+  };
 
-  // Estado CORRIGIDO e ÚNICO para a visibilidade do PerfilCliente
+  const fecharMenu = () => {
+      setMenuAberto(false);
+  };
+
+  // Estado para a visibilidade do PerfilCliente
   const [perfilAberto, setPerfilAberto] = useState(false);
 
 
@@ -68,10 +79,12 @@ const GeradorCodigo = () => {
       if (isMounted) {
           setQrCodeData('');
           setIsLoading(true);
+          
       }
 
       try {
-        const authToken = localStorage.getItem('authToken');
+        const authToken = localStorage.getItem('token');
+        console.log("Token sendo enviado:", authToken);
 
         if (!authToken) {
             console.error("Erro: Usuário não autenticado.");

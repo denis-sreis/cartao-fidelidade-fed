@@ -71,13 +71,13 @@ const PerfilCliente: React.FC<PerfilProps> = ({ onClose }) => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
-                {cliente.imagem ? (
-                    <img 
-                        src={cliente.imagem} 
-                        alt="Foto de perfil" 
-                        style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #eee' }}
-                    />
-                ) : (
+                {cliente.foto_data_url ? (
+                          <img 
+                              src={cliente.foto_data_url} 
+                              alt="Foto de perfil" 
+                              style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #eee' }}
+                          />
+                      ) : (
                     <div style={{ width: '100px', height: '100px', borderRadius: '50%', background: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <span style={{ fontSize: '2rem', color: '#999' }}>{cliente.nome?.charAt(0).toUpperCase()}</span>
                     </div>

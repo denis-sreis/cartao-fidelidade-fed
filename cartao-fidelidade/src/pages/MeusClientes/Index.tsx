@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import { getClientes, type Cliente } from "../../api/cliente";
 import DetalhesCliente from "./DetalhesCliente";
@@ -24,23 +24,28 @@ const MeusClientes: React.FC<MeusClientesProps> = ({ onClose }) => {
   const [error, setError] = useState<string | null>(null);
   const [selectedClientId, setSelectedClientId] = useState<number | null>(null);
 
-  useEffect(() => {
-    const fetchClientes = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await getClientes();
-        setClientes(data);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Erro ao carregar clientes.",
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchClientes();
+  // Função fetch com useCallback para estabilizar o efeito
+  const fetchClientes = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await getClientes();
+      setClientes(data);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Erro ao carregar clientes.",
+      );
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  // Efeito para buscar dados e escutar o foco do navegador
+  useEffect(() => {
+    fetchClientes();
+    window.addEventListener('focus', fetchClientes);
+    return () => window.removeEventListener('focus', fetchClientes);
+  }, [fetchClientes]);
 
   const filteredClientes = clientes.filter(
     (cliente) =>
@@ -110,7 +115,7 @@ const MeusClientes: React.FC<MeusClientesProps> = ({ onClose }) => {
             </div>
           </div>
         </div>,
-        document.getElementById("modal-root")!,
+        document.getElementById("modal-root")!
       )}
 
       {selectedClientId !== null && (

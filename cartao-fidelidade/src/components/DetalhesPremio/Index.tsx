@@ -1,17 +1,21 @@
 import React, { useState } from 'react'; 
 import ReactDOM from 'react-dom';
-import type { Premio } from '../../api/produto'; 
+// IMPORTANTE: Importe a função de deletar da sua API. 
+// Pode ser que se chame deleteProduto, excluirPremio, etc. Ajuste se necessário!
+import { excluirPremio, type Premio } from '../../api/produto'; 
 import ModalConfirmacao from '../ModalConfirmacao/Index'
 
 interface DetalhesPremioProps {
   onClose: () => void;
   premio: Premio;
   onEditarClick: (premio: Premio) => void; 
+  onExcluirSuccess?: () => void; // Prop opcional para recarregar a lista sem dar F5
 }
 
-const DetalhesPremio: React.FC<DetalhesPremioProps> = ({ onClose, premio, onEditarClick }) => {
+const DetalhesPremio: React.FC<DetalhesPremioProps> = ({ onClose, premio, onEditarClick, onExcluirSuccess }) => {
   
   const [isConfirmandoExclusao, setConfirmandoExclusao] = useState(false);
+  const [isExcluindo, setIsExcluindo] = useState(false); // Evita duplo clique
 
   const handleEditar = () => {
     onEditarClick(premio);
@@ -21,16 +25,36 @@ const DetalhesPremio: React.FC<DetalhesPremioProps> = ({ onClose, premio, onEdit
     setConfirmandoExclusao(true);
   };
 
-  const handleConfirmarExclusao = () => {
-    console.warn('CONFIRMADO EXCLUIR:', premio.nome);
-    
-    setConfirmandoExclusao(false); 
-    onClose(); 
+  // Transformamos a função em 'async' para poder esperar a API responder
+  const handleConfirmarExclusao = async () => {
+    try {
+      setIsExcluindo(true);
+      
+      // 1. Chama o Back-end de verdade! 
+      // (Se a sua função no api/produto.ts tiver outro nome, mude aqui)
+      await excluirPremio(premio.id); 
+      
+      setConfirmandoExclusao(false); 
+      onClose(); 
+
+      // 2. Avisa a tela principal para recarregar a lista ou força um F5
+      if (onExcluirSuccess) {
+        onExcluirSuccess();
+      } else {
+        window.location.reload(); 
+      }
+
+    } catch (error) {
+      console.error("Erro ao excluir o prêmio:", error);
+      alert("Erro ao excluir o prêmio. Tente novamente.");
+    } finally {
+      setIsExcluindo(false);
+    }
   };
   
   return ReactDOM.createPortal(
     <>
-      <div className="modal-overlay" onClick={onClose} style={{ zIndex: 1001 }}> {/* zIndex base */}
+      <div className="modal-overlay" onClick={onClose} style={{ zIndex: 1001 }}>
         <div className="modal-sheet" onClick={(e) => e.stopPropagation()}>
           <div className="modal-grabber"></div>
           
@@ -67,8 +91,14 @@ const DetalhesPremio: React.FC<DetalhesPremioProps> = ({ onClose, premio, onEdit
             </button>
           </div>
           <div className="form-group">
-            <button type="button" className="btn btn-secondary" onClick={handleExcluir} style={{ backgroundColor: '#D9534F' }}>
-              Excluir Prêmio
+            <button 
+              type="button" 
+              className="btn btn-secondary" 
+              onClick={handleExcluir} 
+              style={{ backgroundColor: '#D9534F' }}
+              disabled={isExcluindo}
+            >
+              {isExcluindo ? 'Excluindo...' : 'Excluir Prêmio'}
             </button>
           </div>
 

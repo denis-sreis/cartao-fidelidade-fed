@@ -43,7 +43,7 @@ const LeitorCodigo = () => {
       setErrorMessage('');
 
       try {
-        const authToken = localStorage.getItem('authToken');
+        const authToken = localStorage.getItem('token');
 
         if (!authToken) {
           throw new Error('Autenticação necessária. Faça login no celular como Cliente.');
@@ -63,7 +63,7 @@ const LeitorCodigo = () => {
         }
 
         setTimeout(() => {
-          navigate('/principal');
+          navigate('/principalCliente');
         }, 3000);
 
       } catch (error) {

@@ -12,21 +12,22 @@ interface CabecalhoProps {
 function Cabecalho({ onProfileClick, onAbrirMenu }: CabecalhoProps) {
   const [fotoAtual, setFotoAtual] = useState<string>(usuarioPlaceholder);
 
-  useEffect(() => {
-    const carregarFoto = async () => {
-      try {
-        const dados = await getUsuarioLogado();
-        
-        if (dados.imagem) {
-            setFotoAtual(dados.imagem);
-        }
-      } catch (error) {
-        console.error("Erro ao carregar foto do cabeçalho:", error);
-      }
-    };
+    useEffect(() => {
+        const carregarFoto = async () => {
+          try {
+            const dados = await getUsuarioLogado();
+            
+            // CORREÇÃO 1: Mudar de 'imagem' para 'foto_data_url'
+            if (dados.foto_data_url) {
+                setFotoAtual(dados.foto_data_url);
+            }
+          } catch (error) {
+            console.error("Erro ao carregar foto do cabeçalho:", error);
+          }
+        };
 
-    carregarFoto();
-  },); 
+        carregarFoto();
+      }, []); // CORREÇÃO 2: Faltavam estes colchetes vazios aqui! Sem eles, a API é chamada infinitamente.
 
   return (
     <div className={'cabecalho'}>

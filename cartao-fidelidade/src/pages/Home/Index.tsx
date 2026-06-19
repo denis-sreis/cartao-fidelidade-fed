@@ -30,14 +30,25 @@ function Home() {
 
       // 2. Salva o token REAL gerado pelo seu sistema
       localStorage.setItem('token', resposta.data.token);
-
+      
       // 3. Verifica se precisa de mais dados ou se vai direto para a Home
+
+      // --- NOVA LÓGICA DE REDIRECIONAMENTO ---
       if (resposta.data.precisaCompletarCadastro) {
         navigate("/concluir-cadastro", { 
           state: { nome: decoded.name, email: decoded.email } 
         });
       } else {
-        navigate("/principalCliente"); // Ou a tela Home apropriada
+        // Lemos o token gerado pelo SEU backend para ver o cargo
+        const tokenDoBackend: any = jwtDecode(resposta.data.token);
+        
+        if (tokenDoBackend.tipo === 'admin' || tokenDoBackend.tipo === 'funcionario') {
+           // MUDE ISTO AQUI para o nome da rota da sua tela de admin!
+           // (ex: "/admin", "/painel", "/principal-adm", etc)
+           navigate("/principalADM"); 
+        } else {
+           navigate("/principalCliente"); 
+        }
       }
 
     } catch (error) {
