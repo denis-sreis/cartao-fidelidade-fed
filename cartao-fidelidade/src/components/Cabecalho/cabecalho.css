@@ -31,7 +31,6 @@
   border-radius: 50%;
 }
 
-/* Tablet */
 @media (max-width: 700px) {
   .cabecalho {
     height: 4.25rem;
@@ -46,7 +45,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   .cabecalho {
     height: 3.75rem;
